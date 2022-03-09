@@ -1,5 +1,5 @@
-const productResolvers = require('./products');
-const usersResolvers = require('./users');
+const productResolvers = require("./products");
+const usersResolvers = require("./users");
 
 module.exports = {
   Query: {
@@ -8,5 +8,6 @@ module.exports = {
 
   Mutation: {
     ...usersResolvers.Mutation,
+    ...productResolvers.Mutation,
   },
 };

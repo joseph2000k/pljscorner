@@ -32,10 +32,18 @@ module.exports = gql`
     email: String!
   }
 
+  input ProductInput {
+    name: String
+    price: Float
+    description: String
+    sku: String
+  }
+
   type Query {
     getProducts: [Product]
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
+    addProduct(productInput: ProductInput): Product!
   }
 `;

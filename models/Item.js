@@ -11,6 +11,9 @@ const ItemSchema = new mongoose.Schema({
   supplier: {
     type: String,
   },
+  batchprice: {
+    type: Number,
+  },
   batchdate: {
     type: Date,
   },
