@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server');
+const { gql } = require("apollo-server");
 
 module.exports = gql`
   type Product {
@@ -6,6 +6,16 @@ module.exports = gql`
     name: String
     price: Float
     description: String
+    sku: String
+    user: User
+  }
+
+  type Item {
+    _id: ID!
+    productId: Product
+    quantity: Int
+    supplier: String
+    batchdate: String
   }
 
   type User {
