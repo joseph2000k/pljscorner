@@ -10,10 +10,11 @@ const server = new ApolloServer({
 });
 
 //connect to Database
+const port = 5000
 connectDB()
   .then(() => {
-    return server.listen({ port: 5000 });
+    return server.listen({ port });
   })
-  .then((res) => {
-    console.log(`Server is running on port ${res.url}`);
+  .then(() => {
+    console.log(`Server is running on port http://localhost:${port}/`);
   });
