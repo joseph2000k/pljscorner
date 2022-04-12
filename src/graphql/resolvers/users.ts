@@ -2,14 +2,14 @@ const User = require('../../models/User');
 const bcyrpt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-import { User as RegisterType} from "../../models/User";
+import { User as UserType} from "../../models/User";
 
 
 module.exports = {
   Mutation: {
     async register(
       _: void,
-      args: { registerInput:RegisterType},
+      args: { registerInput:UserType},
     ) {
 
       const password = await bcyrpt.hash(args.registerInput.password, 12);
