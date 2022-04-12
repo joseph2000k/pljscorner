@@ -1,12 +1,6 @@
 const Product = require("../../models/Product");
+import {Product as ProductType} from "../../models/Product";
 
-interface productInput {
-  name: string;
-  price: number;
-  description: string;
-  sku: string;
-}
-  
 
 module.exports = {
   Query: {
@@ -20,12 +14,13 @@ module.exports = {
     },
   },
   Mutation: {
-    addProduct: async (_: void, args: productInput) => {
+    async addProduct (_: void, args: {productInput: ProductType})  {
+      console.log(args);
       const newProduct = new Product({
-        name: args.name,
-        price: args.price,
-        description: args.description,
-        sku: args.sku,
+        name: args.productInput.name,
+        price: args.productInput.price,
+        description: args.productInput.description,
+        sku: args.productInput.sku,
       });
       const result = await newProduct.save();
       return result;
