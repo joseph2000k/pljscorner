@@ -1,13 +1,13 @@
 import {Schema, model} from "mongoose";
 
-export interface RegisterInput {
+export interface User {
   username: string;
   password: string;
   email: string;
   createdAt: string;
 }
 
-const UserSchema = new Schema<RegisterInput>({
+const UserSchema = new Schema<User>({
   username: {
     type: String,
   },
