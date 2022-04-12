@@ -15,7 +15,6 @@ module.exports = {
   },
   Mutation: {
     async addProduct (_: void, args: {productInput: ProductType})  {
-      console.log(args);
       const newProduct = new Product({
         name: args.productInput.name,
         price: args.productInput.price,
