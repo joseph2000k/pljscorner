@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const { ApolloServer } = require('apollo-server');
 const connectDB = require('./config/db');
 const typeDefs = require('./graphql/typeDefs');
