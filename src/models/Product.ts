@@ -1,5 +1,5 @@
 import {Schema, model} from 'mongoose';
-import {User} from './User';
+import {IUser} from './User';
 
 export interface Product {
     name: string;
@@ -7,7 +7,7 @@ export interface Product {
     sku: string;
     price: number;
     image: string;
-    user: User;
+    user: IUser;
 
 }
 

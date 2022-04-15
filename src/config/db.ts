@@ -1,8 +1,8 @@
 import config from 'config';
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 const db: string = config.get("mongoURI");
 
-const connectDB = async () => {
+export const connectDB = async () => {
   try {
     await mongoose.connect(db);
     console.log('MongoDB Connected...');
@@ -12,4 +12,3 @@ const connectDB = async () => {
   }
 };
 
-module.exports = connectDB;

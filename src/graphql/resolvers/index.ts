@@ -1,7 +1,18 @@
-const productResolvers = require("./products");
-const usersResolvers = require("./users");
+import { productResolvers } from "./products";
+import { usersResolvers } from "./users";
 
-module.exports = {
+export interface IResolvers {
+  [key: string]: {
+    [key: string]: (
+      parent: any,
+      args: any,
+      context: any,
+      info: any
+    ) => any;
+  };
+}
+
+export const resolvers: IResolvers = {
   Query: {
     ...productResolvers.Query,
   },

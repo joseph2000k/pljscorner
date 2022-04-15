@@ -2,7 +2,7 @@ const Product = require("../../models/Product");
 import {Product as ProductType} from "../../models/Product";
 
 
-module.exports = {
+export const productResolvers = {
   Query: {
     getProducts: async () => {
       try {

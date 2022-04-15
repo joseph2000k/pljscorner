@@ -2,10 +2,10 @@ const User = require('../../models/User');
 const bcyrpt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-import { User as UserType} from "../../models/User";
+import { IUser as UserType} from "../../models/User";
 
 
-module.exports = {
+export const usersResolvers = {
   Mutation: {
     async register(
       _: void,
