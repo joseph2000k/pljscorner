@@ -1,5 +1,8 @@
 import {gql} from 'apollo-server';
 
+//at least one upper case letter, one lower case letter, one digit, one special character, and min 8 characters
+//let re = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+
 export const typeDefs = gql`
   type Product {
     _id: ID!
