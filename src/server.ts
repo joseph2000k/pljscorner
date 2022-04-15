@@ -9,15 +9,24 @@ import {typeDefs} from './graphql/typeDefs';
 import {resolvers, IResolvers} from './graphql/resolvers';
 import { DocumentNode } from 'graphql';
 
+import {makeExecutableSchema} from '@graphql-tools/schema';
+import { constraintDirectiveTypeDefs, constraintDirective } from 'graphql-constraint-directive';
 
 
 
-async function startApolloServer(typeDefs: DocumentNode, resolvers: IResolvers) {
+
+async function startApolloServer(constraintDirectiveTypeDefs: string, typeDefs: DocumentNode, resolvers: IResolvers) {
+
+  let schema = makeExecutableSchema({
+    typeDefs: [constraintDirectiveTypeDefs, typeDefs],
+    resolvers,
+  })
+  schema = constraintDirective()(schema);
+
   const app = express();
   const httpServer = http.createServer(app);
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema,
   plugins: [ApolloServerPluginDrainHttpServer({httpServer})]
 });
 
@@ -34,4 +43,4 @@ connectDB()
   });
 }
 
-startApolloServer(typeDefs, resolvers);
+startApolloServer(constraintDirectiveTypeDefs, typeDefs, resolvers);

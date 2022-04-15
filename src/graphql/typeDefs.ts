@@ -28,8 +28,8 @@ export const typeDefs = gql`
 
   input RegisterInput {
     username: String!
-    password: String!
-    email: String!
+    password: String! @constraint(minLength: 6)
+    email: String! @constraint(minLength: 5, format: "email")
   }
 
   input ProductInput {
