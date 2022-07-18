@@ -12,6 +12,14 @@ module.exports = {
       args: { registerInput:UserType},
     ) {
 
+      const userExists = await User.findOne({
+        email: args.registerInput.email,
+      });
+
+      if (userExists) {
+        throw new Error('User already exists');
+      }
+
       const password = await bcyrpt.hash(args.registerInput.password, 12);
 
       const newUser = new User({
