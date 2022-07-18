@@ -8,7 +8,19 @@ module.exports = gql`
 
   type Item {
     _id: ID!
+    name: String
     category: Category
+    price: Float
+    cost: Float
+    sku: String
+    barcode: String
+    stock: Int
+    image: String
+  }
+
+  input ItemInput {
+    category: String
+    name: String
     price: Float
     cost: Float
     sku: String
@@ -37,9 +49,11 @@ module.exports = gql`
 
   type Query {
     getCategory: [Category]
+    getItem: [Item]
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
     addCategory(categoryInput: CategoryInput): Category!
+    addItem(itemInput: ItemInput): Item!
   }
 `;
