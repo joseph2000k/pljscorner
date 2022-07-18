@@ -1,21 +1,20 @@
 const { gql } = require("apollo-server");
 
 module.exports = gql`
-  type Product {
+  type Category {
     _id: ID!
     name: String
-    price: Float
-    description: String
-    sku: String
-    user: User
   }
 
   type Item {
     _id: ID!
-    productId: Product
-    quantity: Int
-    supplier: String
-    batchdate: String
+    category: Category
+    price: Float
+    cost: Float
+    sku: String
+    barcode: String
+    stock: Int
+    image: String
   }
 
   type User {
@@ -32,18 +31,15 @@ module.exports = gql`
     email: String!
   }
 
-  input ProductInput {
+  input CategoryInput {
     name: String
-    price: Float
-    description: String
-    sku: String
   }
 
   type Query {
-    getProducts: [Product]
+    getCategory: [Category]
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
-    addProduct(productInput: ProductInput): Product!
+    addCategory(categoryInput: CategoryInput): Category!
   }
 `;

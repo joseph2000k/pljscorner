@@ -1,13 +1,13 @@
-const productResolvers = require("./products");
+const categoryResolvers = require("./category");
 const usersResolvers = require("./users");
 
 module.exports = {
   Query: {
-    ...productResolvers.Query,
+    ...categoryResolvers.Query,
   },
 
   Mutation: {
     ...usersResolvers.Mutation,
-    ...productResolvers.Mutation,
+    ...categoryResolvers.Mutation,
   },
 };
