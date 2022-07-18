@@ -1,32 +1,46 @@
 import {Schema, model} from 'mongoose';
-import {Product} from './Product';
+import {Category} from './Category';
 
 export interface Item {
-  productId: Product;
-  quantity: number;
-  supplier: string;
-  batchprice: Number;
-  batchdate: Date;
+  category: Category;
+  name: string;
+  price: number;
+  cost: number;
+  sku: string;
+  barcode: string;
+  stock: number;
+  image: string;
 }
 
 
 const ItemSchema = new Schema<Item>({
-  productId: {
+  category: {
     type: Schema.Types.ObjectId,
-    ref: "Product",
+    ref: "Category",
   },
-  quantity: {
-    type: Number,
-  },
-  supplier: {
+  name: {
     type: String,
   },
-  batchprice: {
+  price: {
     type: Number,
   },
-  batchdate: {
-    type: Date,
+  cost: {
+    type: Number,
   },
+  sku: {
+    type: String,
+  },
+  barcode: {
+    type: String,
+  },
+  stock: {
+    type: Number,
+    default: 0,
+  },
+  image: {
+    type: String,
+    default: "",
+  }
 });
 
 const Item = model('Item', ItemSchema);
