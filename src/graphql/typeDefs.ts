@@ -18,6 +18,11 @@ module.exports = gql`
     image: String
   }
 
+  input LoginInput {
+    email: String
+    password: String
+  }
+
   input ItemInput {
     category: String
     name: String
@@ -56,5 +61,6 @@ module.exports = gql`
     register(registerInput: RegisterInput): User!
     addCategory(categoryInput: CategoryInput): Category!
     addItem(itemInput: ItemInput): Item!
+    login(loginInput: LoginInput): User
   }
 `;

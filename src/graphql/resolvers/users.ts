@@ -57,5 +57,37 @@ module.exports = {
         token,
       };
     },
+    async login(_: void, args: { loginInput: { email: string; password: string } }) {
+      const user = await User.findOne({ email: args.loginInput.email });
+
+      if (!user) {
+        throw new Error('User does not exist');
+      }
+
+      const isEqual = await bcyrpt.compare(
+        args.loginInput.password,
+        user.password,
+      );
+
+      if (!isEqual) {
+        throw new Error('Password is incorrect');
+      }
+
+      const token = jwt.sign(
+        {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+        },
+        config.get('jwtSecret'),
+        { expiresIn: '1h' }
+      );
+
+      return {
+        ...user._doc,
+        id: user._id,
+        token,
+      };
+    }
   },
 };
