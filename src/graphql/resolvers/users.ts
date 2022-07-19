@@ -6,6 +6,16 @@ import { User as UserType} from "../../models/User";
 
 
 module.exports = {
+    Query: {
+        user: async (_: void, args:{id: string}) => {
+            try {
+                const user = await User.findById(args.id);
+                return user;
+            } catch (err) {
+                throw err;
+            }
+        }
+    },
   Mutation: {
     async register(
       _: void,
