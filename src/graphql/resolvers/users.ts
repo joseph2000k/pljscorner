@@ -14,6 +14,14 @@ module.exports = {
             } catch (err) {
                 throw err;
             }
+        },
+        viewer: async (_:void, args: void, {user}:any) => {
+            try {
+              const currentUser = await User.findById(user.id);
+            return currentUser;
+            } catch (error) {
+              throw error;
+            }
         }
     },
   Mutation: {
@@ -80,7 +88,7 @@ module.exports = {
           email: user.email,
         },
         config.get('jwtSecret'),
-        { expiresIn: '1h' }
+        {algorithm: 'HS256', expiresIn: '1h' }
       );
 
       return {

@@ -56,6 +56,7 @@ module.exports = gql`
     getCategory: [Category]
     getItem: [Item]
     user(id: ID!): User
+    viewer: User!
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
