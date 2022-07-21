@@ -2,7 +2,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import express from 'express';
 import http from 'http';
-import { expressjwt } from 'express-jwt';
+import { expressjwt, Request as JWtRequest } from 'express-jwt';
 
 const config = require('config');
 const connectDB = require('./config/db');
@@ -24,7 +24,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     }
   ))
 
-  app.use(function (err: any, req: any, res: any, next: any) {
+  app.use(function (err: any, req: JWtRequest, res: any, next: Function) {
   if (err.name === "UnauthorizedError") {
     throw new Error("Unauthorized");
   } else {
