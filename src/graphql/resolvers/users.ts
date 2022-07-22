@@ -7,10 +7,13 @@ import { User as UserType} from "../../models/User";
 
 module.exports = {
     Query: {
-        user: async (_: void, args:{id: string}) => {
+        user: async (_: void, args:{id: string}, {user}: any) => {
             try {
-                const user = await User.findById(args.id);
-                return user;
+                const currentUser = await User.findById(args.id).select('-password');
+                if(currentUser.id !== user.id) {
+                    return new Error('Not Authorized!!!');
+                }
+                return currentUser;
             } catch (err) {
                 throw err;
             }
@@ -27,7 +30,7 @@ module.exports = {
   Mutation: {
     async register(
       _: void,
-      args: { registerInput:UserType},
+      args: { registerInput:UserType}
     ) {
 
       const userExists = await User.findOne({
@@ -56,7 +59,7 @@ module.exports = {
           email: res.email,
         },
         config.get('jwtSecret'),
-        { expiresIn: '1h' }
+        { expiresIn: '24h' }
       );
 
       return {

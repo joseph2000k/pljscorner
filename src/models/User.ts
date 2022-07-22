@@ -4,6 +4,7 @@ export interface User {
   username: string;
   password: string;
   email: string;
+  role: string;
   createdAt: string;
 }
 
@@ -16,6 +17,10 @@ const UserSchema = new Schema<User>({
   },
   email: {
     type: String,
+  },
+  role: {
+    type: String,
+    default: "user",
   },
   createdAt: {
     type: String,

@@ -1,8 +1,11 @@
 import { ApolloServer } from 'apollo-server-express';
+import { applyMiddleware } from 'graphql-middleware';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import express from 'express';
 import http from 'http';
 import { expressjwt, Request as JWtRequest } from 'express-jwt';
+import {permissions} from './permissions';
 
 const config = require('config');
 const connectDB = require('./config/db');
@@ -24,20 +27,19 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     }
   ))
 
-  app.use(function (err: any, req: JWtRequest, res: any, next: Function) {
+  /* app.use(function (err: any, req: JWtRequest, res: any, next: Function) {
   if (err.name === "UnauthorizedError") {
     throw new Error("Unauthorized");
   } else {
     next(err);
   }
-});
+}); */
 
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema: applyMiddleware(makeExecutableSchema({ typeDefs, resolvers }), permissions),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     context: ({ req }: any) => {
-      const user = req.auth || null;
+      const user = req.auth || null
       return { user };
     }
   });
