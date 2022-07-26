@@ -3,6 +3,7 @@ import {Schema, model} from 'mongoose';
 export interface PaymentMethod {
     name: string;
     image: string;
+    qr: string;
 }
 
 const PaymentMethodSchema = new Schema<PaymentMethod>({
@@ -12,7 +13,9 @@ const PaymentMethodSchema = new Schema<PaymentMethod>({
     },
     image: {
         type: String,
-        required: true,
+    },
+    qr: {
+        type: String,
     }
 }
 );

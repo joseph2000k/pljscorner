@@ -6,6 +6,11 @@ module.exports = gql`
     name: String
   }
 
+  type PaymentMethod {
+    _id: ID
+    name: String
+  }
+
   type Item {
     _id: ID!
     name: String
@@ -53,16 +58,23 @@ module.exports = gql`
     name: String
   }
 
+  input PaymentMethodInput {
+    name: String
+    image: String
+  }
+
   type Query {
     getCategory: [Category]
     getItem: [Item]
     user(id: ID!): User
     viewer: User!
+    paymentMethods: [PaymentMethod]
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
     addCategory(categoryInput: CategoryInput): Category!
     addItem(itemInput: ItemInput): Item!
     login(loginInput: LoginInput): User
+    addPaymentMethod(paymentMethodInput: PaymentMethodInput): PaymentMethod
   }
 `;

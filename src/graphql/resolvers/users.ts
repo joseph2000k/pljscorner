@@ -10,8 +10,8 @@ module.exports = {
         user: async (_: void, args:{id: string}, {user}: any) => {
             try {
                 const currentUser = await User.findById(args.id).select('-password');
-                if(currentUser.id !== user.id) {
-                    return new Error('Not Authorized!!!');
+                if(!currentUser) {
+                    return new Error('User Not Found');
                 }
                 return currentUser;
             } catch (err) {
@@ -91,7 +91,7 @@ module.exports = {
           email: user.email,
         },
         config.get('jwtSecret'),
-        {algorithm: 'HS256', expiresIn: '1h' }
+        {algorithm: 'HS256', expiresIn: '24h' }
       );
 
       return {

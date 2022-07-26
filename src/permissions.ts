@@ -18,10 +18,12 @@ const isUser = rule({cache: 'contextual'})(async(parent, args, ctx, info) => {
 export const permissions = shield({
     Query: {
         viewer: or(isAdmin, isUser),
+        paymentMethods: or(isAdmin, isUser),
         user: isAdmin,
     },
     Mutation: {
-        register: allow
+        register: allow,
+        addPaymentMethod: isAdmin,
     }
 },
 );
