@@ -58,12 +58,10 @@ const ReceiptSchema = new Schema<Receipt>({
     tax: {
         type: Schema.Types.ObjectId,
         ref: 'Tax',
-        required: true,
     },
     discount: {
         type: Schema.Types.ObjectId,
         ref: 'Discount',
-        required: true,
     },
     paymentmethod: {
         type: Schema.Types.String,
