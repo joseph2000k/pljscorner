@@ -11,6 +11,12 @@ module.exports = gql`
     name: String
   }
 
+  type Cart {
+    _id: ID
+    user: User
+    items: [Item]
+  }
+
   type Item {
     _id: ID!
     name: String
@@ -43,6 +49,7 @@ module.exports = gql`
     _id: ID!
     username: String!
     email: String!
+    cart: Cart
     token: String!
     role: String
     createdAt: String!

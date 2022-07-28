@@ -1,9 +1,11 @@
 import {Schema, model} from "mongoose";
+import { Cart } from "./Cart";
 
 export interface User {
   username: string;
   password: string;
   email: string;
+  cart: Cart;
   role: string;
   createdAt: string;
 }
@@ -17,6 +19,10 @@ const UserSchema = new Schema<User>({
   },
   email: {
     type: String,
+  },
+  cart: {
+    type: Schema.Types.ObjectId,
+    ref: 'Cart',
   },
   role: {
     type: String,

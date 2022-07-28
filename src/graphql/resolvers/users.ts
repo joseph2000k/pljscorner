@@ -1,4 +1,5 @@
 const User = require('../../models/User');
+const Cart = require('../../models/Cart');
 const bcyrpt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
@@ -52,6 +53,18 @@ module.exports = {
 
       const res = await newUser.save();
 
+      const newCart = new Cart({
+        user: res._id,
+      });
+
+      await newCart.save();
+
+      //add cart to user
+      await User.findByIdAndUpdate(res._id, {
+        cart: newCart._id,
+      });
+
+
       const token = jwt.sign(
         {
           id: res._id,
@@ -69,7 +82,7 @@ module.exports = {
       };
     },
     async login(_: void, args: { loginInput: { email: string; password: string } }) {
-      const user = await User.findOne({ email: args.loginInput.email });
+      const user = await User.findOne({ email: args.loginInput.email })//.populate({path: 'cart', populate: {path: 'user'}});
 
       if (!user) {
         throw new Error('User does not exist');
