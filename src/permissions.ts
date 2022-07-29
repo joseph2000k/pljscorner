@@ -20,10 +20,12 @@ export const permissions = shield({
         viewer: or(isAdmin, isUser),
         paymentMethods: or(isAdmin, isUser),
         user: isAdmin,
+        shops: or(isAdmin, isUser),
     },
     Mutation: {
         register: allow,
         addPaymentMethod: isAdmin,
+        addShop: isAdmin,
     }
 },
 );

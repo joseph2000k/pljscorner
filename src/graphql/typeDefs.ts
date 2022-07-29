@@ -17,6 +17,12 @@ module.exports = gql`
     items: [Item]
   }
 
+  type Shop {
+    _id: ID
+    name: String
+    address: String
+  }
+
   type Item {
     _id: ID!
     name: String
@@ -65,6 +71,11 @@ module.exports = gql`
     name: String
   }
 
+  input ShopInput {
+    name: String
+    address: String
+  }
+
   input PaymentMethodInput {
     name: String
     image: String
@@ -76,6 +87,7 @@ module.exports = gql`
     user(id: ID!): User
     viewer: User!
     paymentMethods: [PaymentMethod]
+    shops: [Shop]
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
@@ -83,5 +95,6 @@ module.exports = gql`
     addItem(itemInput: ItemInput): Item!
     login(loginInput: LoginInput): User
     addPaymentMethod(paymentMethodInput: PaymentMethodInput): PaymentMethod
+    addShop(shopInput: ShopInput): Shop
   }
 `;

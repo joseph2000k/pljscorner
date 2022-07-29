@@ -4,6 +4,7 @@ import { User } from './User';
 import { Discount } from './Discount';
 import { Tax } from './Tax';
 import { PaymentMethod } from './PaymentMethod';
+import { Shop } from './Shop';
 
 export interface Receipt {
     cashier: User;
@@ -12,6 +13,7 @@ export interface Receipt {
     cash: number;
     change: number;
     receiptnumber: number;
+    shop: Shop;
     date: Date;
     time: Date;
     tax: Tax;
@@ -45,6 +47,11 @@ const ReceiptSchema = new Schema<Receipt>({
     },
     receiptnumber: {
         type: Number,
+        required: true,
+    },
+    shop: {
+        type: Schema.Types.ObjectId,
+        ref: 'Shop',
         required: true,
     },
     date: {
