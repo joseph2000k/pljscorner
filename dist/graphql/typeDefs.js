@@ -1,6 +1,6 @@
+"use strict";
 const { gql } = require("apollo-server");
-
-module.exports = gql`
+module.exports = gql `
   type Product {
     _id: ID!
     name: String
