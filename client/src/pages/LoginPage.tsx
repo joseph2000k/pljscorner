@@ -1,8 +1,10 @@
 import * as React from 'react';
+import {useContext, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
+import Alert from '@mui/material/Alert';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
@@ -12,6 +14,22 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {AuthContext} from '../context/authContext';
+import {useForm} from '../utility/hooks';
+import {useMutation} from '@apollo/react-hooks';
+
+import {gql} from 'graphql-tag';
+import {useNavigate} from 'react-router-dom';
+
+const LOGIN_INPUT = gql`
+mutation Login($loginInput: LoginInput) {
+  login(loginInput: $loginInput) {
+    username
+    email
+    token
+  }
+}
+`
 
 function Copyright(props: any) {
   return (
@@ -28,15 +46,33 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function Login() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+export default function Login(props: any) {
+    const context = useContext(AuthContext);
+    let navigate = useNavigate();
+    const [errors, setErrors] = useState([]);
+
+    function loginUserCallback(){
+        console.log("here");
+        login();
+    }
+
+    const {handleChange, handleSubmit, formData} =useForm(loginUserCallback, {
+        email: '',
+        password: '',
+    })
+
+    const [login, {loading}] = useMutation(LOGIN_INPUT,{
+        update(proxy, {data: {login: userData}}) {
+            context.login(userData);
+            navigate('/');
+        },
+        onError({graphQLErrors}: any) {
+            setErrors(graphQLErrors);
+        },
+        variables: {
+            loginInput: formData
+        }
     });
-  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -72,7 +108,7 @@ export default function Login() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -82,6 +118,7 @@ export default function Login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={handleChange}
               />
               <TextField
                 margin="normal"
@@ -92,7 +129,13 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={handleChange}
               />
+              {errors.map(function(error: any){
+                return (
+                    <Alert severity="error">{error.message}</Alert>
+                )
+              })}
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"

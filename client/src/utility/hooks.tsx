@@ -1,13 +1,14 @@
 import {useState} from 'react';
 
 export const useForm = (callback: any, initialState = {}) => {
-    const [form, setForm] = useState(initialState);
+    const [formData, setFormData] = useState(initialState);
 
     const handleChange = (e: any) => {
-        setForm({
-            ...form,
+        setFormData({
+            ...formData,
             [e.target.name]: e.target.value,
         });
+        console.log(formData);
     }
 
     const handleSubmit = (e: any) => {
@@ -18,6 +19,6 @@ export const useForm = (callback: any, initialState = {}) => {
     return {
         handleChange,
         handleSubmit,
-        form,
+        formData,
     };
 }
