@@ -8,19 +8,19 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/authContext';
 import {ThemeProvider, createTheme} from '@mui/material/styles';
 
-const theme = createTheme({
+export const themeOptions: any = {
   palette: {
+    type: 'light',
     primary: {
-      main: '#f950b2',
+      main: 'rgba(255,198,218,0.87)',
     },
     secondary: {
-      main: 'rgb(220, 0, 78)',
-    },
-    background: {
-      paper: '#fff',
+      main: '#f50057',
     },
   },
-});
+};
+
+const theme = createTheme(themeOptions);
 
 
 
