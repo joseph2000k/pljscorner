@@ -17,6 +17,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {AuthContext} from '../context/authContext';
 import {useForm} from '../utility/hooks';
 import {useMutation} from '@apollo/react-hooks';
+import { useTheme } from '@mui/material/styles';
 
 import {gql} from 'graphql-tag';
 import {Navigate, useNavigate} from 'react-router-dom';
@@ -44,7 +45,6 @@ function Copyright(props: any) {
   );
 }
 
-const theme = createTheme();
 
 export default function Login(props: any) {
     const context = useContext(AuthContext);
@@ -52,7 +52,6 @@ export default function Login(props: any) {
     const [errors, setErrors] = useState([]);
 
     function loginUserCallback(){
-        console.log("here");
         login();
     }
 
@@ -74,6 +73,8 @@ export default function Login(props: any) {
         }
     });
 
+    const theme = useTheme();
+
   if(context.user) {
     return <Navigate to="/"/>
   }
@@ -88,7 +89,7 @@ export default function Login(props: any) {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random)',
+            backgroundImage: 'url(/pljscorner.jpg)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],

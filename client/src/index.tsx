@@ -6,6 +6,23 @@ import client from './apolloClient';
 import { ApolloProvider } from '@apollo/client';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/authContext';
+import {ThemeProvider, createTheme} from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#f950b2',
+    },
+    secondary: {
+      main: 'rgb(220, 0, 78)',
+    },
+    background: {
+      paper: '#fff',
+    },
+  },
+});
+
+
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
@@ -13,7 +30,9 @@ root.render(
   <ApolloProvider client={client}>
     <BrowserRouter>
   <React.StrictMode>
+    <ThemeProvider theme={theme}>
     <App />
+    </ThemeProvider>
   </React.StrictMode>
   </BrowserRouter>
   </ApolloProvider>
