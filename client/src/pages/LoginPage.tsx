@@ -19,7 +19,7 @@ import {useForm} from '../utility/hooks';
 import {useMutation} from '@apollo/react-hooks';
 
 import {gql} from 'graphql-tag';
-import {useNavigate} from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 
 const LOGIN_INPUT = gql`
 mutation Login($loginInput: LoginInput) {
@@ -36,7 +36,7 @@ function Copyright(props: any) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        PLJ's Corner
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -73,6 +73,10 @@ export default function Login(props: any) {
             loginInput: formData
         }
     });
+
+  if(context.user) {
+    return <Navigate to="/"/>
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -154,11 +158,11 @@ export default function Login(props: any) {
                     Forgot password?
                   </Link>
                 </Grid>
-                <Grid item>
+                {/* <Grid item>
                   <Link href="#" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
-                </Grid>
+                </Grid> */}
               </Grid>
               <Copyright sx={{ mt: 5 }} />
             </Box>
