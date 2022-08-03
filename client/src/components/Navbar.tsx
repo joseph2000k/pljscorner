@@ -46,7 +46,7 @@ const ResponsiveAppBar = () => {
     }
   }
 
-  return (
+  return user ? (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -59,7 +59,6 @@ const ResponsiveAppBar = () => {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'sans-serif',
               fontWeight: 700,
               color: 'inherit',
               textDecoration: 'none',
@@ -175,6 +174,6 @@ const ResponsiveAppBar = () => {
         </Toolbar>
       </Container>
     </AppBar>
-  );
+  ) : (null)
 };
 export default ResponsiveAppBar;
