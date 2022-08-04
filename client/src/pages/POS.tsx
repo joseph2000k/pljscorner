@@ -5,7 +5,7 @@ function POS(){
     <>
     <ProductTab />
     <div>
-      <h1>Home</h1>
+      
     </div>
     </>
   );
