@@ -11,6 +11,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
+import {Link as RouterLink} from 'react-router-dom';
 
 type Anchor = 'left';
 
@@ -46,7 +47,10 @@ export default function LeftDrawer() {
       <List>
         {['Sales', 'Receipts', 'Items'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              component={RouterLink}
+              to={`/${text.toLowerCase()}`}
+            >
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
