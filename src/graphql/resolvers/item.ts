@@ -3,7 +3,7 @@ import {Item as ItemType} from '../../models/Item';
 
 module.exports = {
     Query: {
-        getItem: async () => {
+        getItems: async () => {
             try {
                 const item = await Item.find().populate('category');
                 return item;

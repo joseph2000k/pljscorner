@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+import { useQuery } from '@apollo/client';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -8,18 +9,34 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import {GET_CATEGORIES} from '../graphql/query/CategoryQuery';
+import ProgressBar from '../components/ProgressBar';
 
 
 
 function Items(){
-  const [age, setAge] = React.useState('');
+
+  const [category, setCategory] = useState('All Items');
+
+  //if all items is selected, find all items
+
+  //if a category is selected, find all items in that category
+
+  //Pass category to ItemTable
+
+  const { loading, error, data } = useQuery(GET_CATEGORIES);
+
+  if (loading) return <ProgressBar />;
+  if (error) return <p>Something Went Wrong...</p>;
 
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+    setCategory(event.target.value as string);
   };
 
     return (
-      <Container>
+      <>
+      {!loading && !error && (
+        <Container>
         <Box sx={
           {
             width: '100%',
@@ -46,24 +63,32 @@ function Items(){
           </Box>
           <Box sx={{width: 200}}>
           <FormControl fullWidth>
-  <InputLabel id="demo-simple-select-label">Categories</InputLabel>
+  <InputLabel id="category-select-label">Categories</InputLabel>
   <Select
-    labelId="demo-simple-select-label"
-    id="demo-simple-select"
-    value={age}
+    labelId="category-label"
+    id="category-select"
+    value={category}
     label="Categories"
     onChange={handleChange}
+    defaultValue="All Items"
   >
-    <MenuItem value={10}>All Items</MenuItem>
-    <MenuItem value={20}>Categories</MenuItem>
+    <MenuItem value="All Items">All Items</MenuItem>
+     {
+      data.getCategory.map((category: any) => (
+        <MenuItem key={category._id} value={category._id}>{category.name}</MenuItem>
+      ))
+     }
   </Select>
 </FormControl>
 </Box>
           </Box>
+          
         <ItemTable />
       </div>
       </Box>
       </Container>
+      )}
+      </>
     );
   }
   

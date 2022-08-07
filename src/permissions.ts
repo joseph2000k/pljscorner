@@ -21,7 +21,8 @@ export const permissions = shield({
         paymentMethods: or(isAdmin, isUser),
         user: isAdmin,
         shops: or(isAdmin, isUser),
-        getItem: or(isAdmin, isUser),
+        getItems: or(isAdmin, isUser),
+        getCategory: or(isAdmin, isUser),
     },
     Mutation: {
         register: allow,
