@@ -12,6 +12,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
 import {Link as RouterLink} from 'react-router-dom';
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 
 type Anchor = 'left';
 
@@ -45,19 +47,22 @@ export default function LeftDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Sales', 'Receipts', 'Items'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton
-              component={RouterLink}
-              to={`/${text.toLowerCase()}`}
-            >
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem disablePadding>
+          <ListItemButton component={RouterLink} to="/">
+            <ListItemIcon>
+              <PointOfSaleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Sales" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton component={RouterLink} to="/items">
+            <ListItemIcon>
+              <FormatListBulletedIcon />
+            </ListItemIcon>
+            <ListItemText primary="Items" />
+          </ListItemButton>
+        </ListItem>
       </List>
       <Divider />
       <List>
