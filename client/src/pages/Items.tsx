@@ -18,6 +18,8 @@ function Items(){
 
   const [category, setCategory] = useState('All Items');
 
+  console.log(category);
+
   //if all items is selected, find all items
 
   //if a category is selected, find all items in that category
