@@ -84,6 +84,7 @@ module.exports = gql`
   type Query {
     getCategory: [Category]
     getItems: [Item]
+    getItemsByCategory(categoryId: ID!): [Item]
     user(id: ID!): User
     viewer: User!
     paymentMethods: [PaymentMethod]

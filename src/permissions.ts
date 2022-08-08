@@ -22,6 +22,7 @@ export const permissions = shield({
         user: isAdmin,
         shops: or(isAdmin, isUser),
         getItems: or(isAdmin, isUser),
+        getItemsByCategory: or(isAdmin, isUser),
         getCategory: or(isAdmin, isUser),
     },
     Mutation: {
