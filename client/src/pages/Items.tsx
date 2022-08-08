@@ -99,17 +99,24 @@ function Items(){
         <ItemTable items = {items}/>
       }
       </div>
+      
       </Box>
+      
       </Container>
       )}
-      <Box sx={{ height: 240, transform: 'translateZ(0px)', flexGrow: 1 }}>
+      <Box sx={{ 
+          position: 'fixed',
+          bottom: 0,
+          right: '1%',
+          zIndex: 'modal', }}>
       <SpeedDial
-        ariaLabel="SpeedDial basic example"
+        ariaLabel="SpeedDial"
         sx={{ position: 'absolute', bottom: 16, right: 20 }}
         icon={<SpeedDialIcon />}
       >
       </SpeedDial>
     </Box>
+      
       </>
     );
   }
