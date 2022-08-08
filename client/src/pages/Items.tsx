@@ -13,6 +13,9 @@ import {GET_CATEGORIES} from '../graphql/query/CategoryQuery';
 import { GET_ALL_ITEMS, GET_ITEMS_BY_CATEGORY } from '../graphql/query/ItemQuery';
 import ProgressBar from '../components/ProgressBar';
 
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+
 
 
 function Items(){
@@ -99,6 +102,14 @@ function Items(){
       </Box>
       </Container>
       )}
+      <Box sx={{ height: 240, transform: 'translateZ(0px)', flexGrow: 1 }}>
+      <SpeedDial
+        ariaLabel="SpeedDial basic example"
+        sx={{ position: 'absolute', bottom: 16, right: 20 }}
+        icon={<SpeedDialIcon />}
+      >
+      </SpeedDial>
+    </Box>
       </>
     );
   }

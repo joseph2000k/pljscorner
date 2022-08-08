@@ -7,44 +7,40 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+import Grow from '@mui/material/Grow';
 
 export default function ItemTable( {items}: any ) {
 
-  console.log(items);
     function createData(
         name: string,
-        calories: number,
-        fat: number,
-        carbs: number,
-        protein: number,
+        price: number,
+        sku: number,
+        stock: number,
       ) {
-        return { name, calories, fat, carbs, protein };
+        return { name, price, sku, stock};
       }
       
-      const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-      ];
+      const rows = items.map((item: any) => {
+        return createData(item.name, item.price, item.sku, item.stock);
+      }
+      );
 
 
     return (
+        <Grow in={true}>
         <TableContainer component={Paper}>
       <Table sx={{ minWidth: 800 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell align="right">Price</TableCell>
+            <TableCell align="right">Sku</TableCell>
+            <TableCell align="right">Stock</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row: any) => (
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -52,15 +48,15 @@ export default function ItemTable( {items}: any ) {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{row.price} Php</TableCell>
+              <TableCell align="right">{row.sku}</TableCell>
+              <TableCell align="right">{row.stock}</TableCell>
               <TableCell align="right"><Button>Edit</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+        </Grow>
     )
 }
