@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import {GET_CATEGORIES} from '../graphql/query/CategoryQuery';
+import { GET_ALL_ITEMS, GET_ITEMS_BY_CATEGORY } from '../graphql/query/ItemQuery';
 import ProgressBar from '../components/ProgressBar';
 
 
@@ -18,15 +19,21 @@ function Items(){
 
   const [category, setCategory] = useState('All Items');
 
-  console.log(category);
-
-  //if all items is selected, find all items
-
-  //if a category is selected, find all items in that category
-
-  //Pass category to ItemTable
-
   const { loading, error, data } = useQuery(GET_CATEGORIES);
+
+  const getItems = useQuery(GET_ALL_ITEMS);
+  const getItemsByCategory = useQuery(GET_ITEMS_BY_CATEGORY, {
+    variables: {
+      categoryId: category
+    }
+  });
+
+ let items = [];
+  if(category === 'All Items' && !getItems.loading && !getItems.error){
+    items = getItems.data.getItems;
+  } else if(!getItemsByCategory.loading && !getItemsByCategory.error){
+    items = getItemsByCategory.data.getItemsByCategory;
+  }
 
   if (loading) return <ProgressBar />;
   if (error) return <p>Something Went Wrong...</p>;
@@ -85,7 +92,9 @@ function Items(){
 </Box>
           </Box>
           
-        <ItemTable />
+      {
+        <ItemTable items = {items}/>
+      }
       </div>
       </Box>
       </Container>
