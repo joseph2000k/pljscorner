@@ -12,13 +12,25 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import {GET_CATEGORIES} from '../graphql/query/CategoryQuery';
 import { GET_ALL_ITEMS, GET_ITEMS_BY_CATEGORY } from '../graphql/query/ItemQuery';
 import ProgressBar from '../components/ProgressBar';
-
+//for Dial
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import Tooltip from '@mui/material/Tooltip';
+//for Modal
+import Modal from '@mui/material/Modal';
+import Backdrop from '@mui/material/Backdrop';
+import Fade from '@mui/material/Fade';
+import Button from '@mui/material/Button';
+
 
 
 
 function Items(){
+
+  //Modal Transition
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const [category, setCategory] = useState('All Items');
 
@@ -44,6 +56,21 @@ function Items(){
   const handleChange = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
   };
+
+  //Modal Style
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    borderRadius: 1,
+    boxShadow: 24,
+    p: 4,
+  };
+
+  
 
     return (
       <>
@@ -109,14 +136,43 @@ function Items(){
           bottom: 0,
           right: '1%',
           zIndex: 'modal', }}>
+      <Tooltip title="Add Item" placement="top" TransitionComponent={Fade}
+  TransitionProps={{ timeout: 600 }}>
       <SpeedDial
         ariaLabel="SpeedDial"
         sx={{ position: 'absolute', bottom: 16, right: 20 }}
         icon={<SpeedDialIcon />}
+        onClick={handleOpen}
       >
       </SpeedDial>
+      </Tooltip>
     </Box>
       
+
+    <div>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <Typography id="transition-modal-title" variant="h6" component="h2">
+              Text in a modal
+            </Typography>
+            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </Typography>
+          </Box>
+        </Fade>
+      </Modal>
+    </div>
       </>
     );
   }
