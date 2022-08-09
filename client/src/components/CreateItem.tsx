@@ -142,13 +142,29 @@ export default function CreateItem() {
         <Grid item xs={12} sm={6} marginTop={3}>
         <Divider><FormLabel component="legend">Inventory</FormLabel></Divider>
         </Grid>
-        <Grid container>
-              <Grid item xs >
-                Track Stock
-              </Grid>
-              <Grid item>
-              <Switch color="secondary" />
-              </Grid>
+        <Grid container spacing={3}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="stock"
+            name="stock"
+            label="Stock"
+            fullWidth
+            autoComplete="family-name"
+            variant="standard"
+          />
+        </Grid>
+
+        <Grid item marginTop={2}>
+        <FormControlLabel
+          value="start"
+          control={<Switch color="primary" defaultChecked />}
+          label="Track Inventory"
+          labelPlacement="start"
+        />
+        </Grid>
+
+
             </Grid>
           </Box>
         </Box>
