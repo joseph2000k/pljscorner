@@ -4,6 +4,7 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import ItemTable from '../components/ItemTable';
+import CreateItem from '../components/CreateItem';
 
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -16,6 +17,7 @@ import ProgressBar from '../components/ProgressBar';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import Tooltip from '@mui/material/Tooltip';
+import CreateIcon from '@mui/icons-material/Create';
 //for Modal
 import Modal from '@mui/material/Modal';
 import Backdrop from '@mui/material/Backdrop';
@@ -136,12 +138,12 @@ function Items(){
           bottom: 0,
           right: '1%',
           zIndex: 'modal', }}>
-      <Tooltip title="Add Item" placement="top" TransitionComponent={Fade}
+      <Tooltip title="Create Item" placement="top" TransitionComponent={Fade}
   TransitionProps={{ timeout: 600 }}>
       <SpeedDial
         ariaLabel="SpeedDial"
         sx={{ position: 'absolute', bottom: 16, right: 20 }}
-        icon={<SpeedDialIcon />}
+        icon={<SpeedDialIcon openIcon={<CreateIcon />} />}
         onClick={handleOpen}
       >
       </SpeedDial>
@@ -163,12 +165,7 @@ function Items(){
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Typography id="transition-modal-title" variant="h6" component="h2">
-              Text in a modal
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
+            <CreateItem />
           </Box>
         </Fade>
       </Modal>
