@@ -7,12 +7,15 @@ import {ThemeProvider, useTheme} from '@mui/material/styles';
 import { useQuery } from '@apollo/client';
 
 import Grid from '@mui/material/Grid';
+import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { Divider } from '@mui/material';
 
 
 import {GET_CATEGORIES} from '../graphql/query/CategoryQuery';
@@ -133,9 +136,20 @@ export default function CreateItem() {
             variant="standard"
           />
         </Grid>
-
-
         </Grid>
+
+
+        <Grid item xs={12} sm={6} marginTop={3}>
+        <Divider><FormLabel component="legend">Inventory</FormLabel></Divider>
+        </Grid>
+        <Grid container>
+              <Grid item xs >
+                Track Stock
+              </Grid>
+              <Grid item>
+              <Switch color="secondary" />
+              </Grid>
+            </Grid>
           </Box>
         </Box>
         </ThemeProvider>
