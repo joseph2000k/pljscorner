@@ -26,6 +26,16 @@ import { GET_ALL_ITEMS } from '../graphql/query/ItemQuery';
 import ProgressBar from '../components/ProgressBar';
 
 
+type Item = {
+  name: string;
+  price: number;
+  cost: number;
+  sku: string;
+  stock: number;
+  barcode: string;
+}
+
+
 export default function CreateItem() {
 
     const [category, setCategory] = useState('');
@@ -48,16 +58,16 @@ export default function CreateItem() {
     });
     
 
-    const {name, price, cost, sku, stock, barcode}:any = formData;
+    const {name, price, cost, sku, stock, barcode} = formData as Item;
 
     const [addItem, {loading} ] = useMutation(ADD_ITEM, {
         variables: {
           itemInput: {
             name,
-            price: parseFloat(price),
-            cost: parseFloat(cost),
+            price,
+            cost,
             sku,
-            stock: parseInt(stock),
+            stock,
             barcode,
             category: category,
           }
