@@ -6,6 +6,7 @@ import Avatar from '@mui/material/Avatar';
 import {ThemeProvider, useTheme} from '@mui/material/styles';
 import { useQuery } from '@apollo/client';
 
+import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
@@ -17,8 +18,11 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { Divider } from '@mui/material';
 
-
+import {useMutation} from '@apollo/react-hooks';
+import {useForm} from '../utility/hooks';
 import {GET_CATEGORIES} from '../graphql/query/CategoryQuery';
+import { ADD_ITEM } from '../graphql/mutation/addItem';
+import { GET_ALL_ITEMS } from '../graphql/query/ItemQuery';
 import ProgressBar from '../components/ProgressBar';
 
 
@@ -26,14 +30,44 @@ export default function CreateItem() {
 
     const [category, setCategory] = useState('');
 
-    const { loading, error, data } = useQuery(GET_CATEGORIES);
+    const { error, data } = useQuery(GET_CATEGORIES);
 
     const theme = useTheme();
+
+    function addItemCallback(){
+      addItem();
+    }
+
+    const {handleChange, handleSubmit, formData} = useForm(addItemCallback, {
+        name: '',
+        price: 0,
+        cost: 0,
+        sku: '',
+        stock: 0,
+        barcode: '',
+    });
+
+    const [addItem, {loading} ] = useMutation(ADD_ITEM, {
+        variables: {
+          itemInput: formData
+        },
+        update(cache, { data: { addItem } }) {
+            const { getItems }: any = cache.readQuery({ query: GET_ALL_ITEMS });
+            cache.writeQuery({
+                query: GET_ALL_ITEMS,
+                data: { getItems: [...getItems, addItem] },
+            });
+        },
+        onError(err) {
+          console.log(err);
+      },
+    });
+
 
     if (loading) return <ProgressBar />;
   if (error) return <p>Something Went Wrong...</p>;
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChangeCategory = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
   };
 
@@ -41,12 +75,14 @@ export default function CreateItem() {
         <>
         <ThemeProvider theme={theme}>
         <Box
+          component='form'
           sx={{
             marginTop: 1,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
+          onSubmit={handleSubmit}
         >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <CreateIcon />
@@ -63,11 +99,12 @@ export default function CreateItem() {
           <TextField
             required
             id="itemName"
-            name="itemName"
+            name="name"
             label="Item Name"
             fullWidth
             autoComplete="given-name"
             variant="standard"
+            onChange={handleChange}
           />
         </Grid>
 
@@ -77,9 +114,10 @@ export default function CreateItem() {
         <Select
     labelId="category-label"
     id="category-select"
+    name='category'
     value={category}
     label="Categories"
-    onChange={handleChange}
+    onChange={handleChangeCategory}
     defaultValue="Categories"
   >
      {
@@ -100,6 +138,7 @@ export default function CreateItem() {
             fullWidth
             autoComplete="given-name"
             variant="standard"
+            onChange={handleChange}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -111,6 +150,7 @@ export default function CreateItem() {
             fullWidth
             autoComplete="family-name"
             variant="standard"
+            onChange={handleChange}
           />
         </Grid>
 
@@ -123,6 +163,7 @@ export default function CreateItem() {
             fullWidth
             autoComplete="given-name"
             variant="standard"
+            onChange={handleChange}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -134,6 +175,7 @@ export default function CreateItem() {
             fullWidth
             autoComplete="family-name"
             variant="standard"
+            onChange={handleChange}
           />
         </Grid>
         </Grid>
@@ -152,6 +194,7 @@ export default function CreateItem() {
             fullWidth
             autoComplete="family-name"
             variant="standard"
+            onChange={handleChange}
           />
         </Grid>
 
@@ -166,6 +209,18 @@ export default function CreateItem() {
 
 
             </Grid>
+          
+          <Grid item xs={12} sm={12}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            disabled={loading}
+          >
+            Create Item
+          </Button>
+          </Grid>
           </Box>
         </Box>
         </ThemeProvider>
