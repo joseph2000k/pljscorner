@@ -46,10 +46,21 @@ export default function CreateItem() {
         stock: 0,
         barcode: '',
     });
+    
+
+    const {name, price, cost, sku, stock, barcode}:any = formData;
 
     const [addItem, {loading} ] = useMutation(ADD_ITEM, {
         variables: {
-          itemInput: formData
+          itemInput: {
+            name,
+            price: parseFloat(price),
+            cost: parseFloat(cost),
+            sku,
+            stock: parseInt(stock),
+            barcode,
+            category: category,
+          }
         },
         update(cache, { data: { addItem } }) {
             const { getItems }: any = cache.readQuery({ query: GET_ALL_ITEMS });
@@ -135,6 +146,7 @@ export default function CreateItem() {
             id="price"
             name="price"
             label="Price"
+            type="number"
             fullWidth
             autoComplete="given-name"
             variant="standard"
@@ -143,10 +155,10 @@ export default function CreateItem() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            required
             id="cost"
             name="cost"
             label="Cost"
+            type="number"
             fullWidth
             autoComplete="family-name"
             variant="standard"
@@ -156,7 +168,6 @@ export default function CreateItem() {
 
         <Grid item xs={12} sm={6}>
           <TextField
-            required
             id="sku"
             name="sku"
             label="SKU"
@@ -168,7 +179,6 @@ export default function CreateItem() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            required
             id="barcode"
             name="barcode"
             label="Barcode"
@@ -187,10 +197,10 @@ export default function CreateItem() {
         <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
-            required
             id="stock"
             name="stock"
             label="Stock"
+            type="number"
             fullWidth
             autoComplete="family-name"
             variant="standard"
@@ -210,7 +220,7 @@ export default function CreateItem() {
 
             </Grid>
           
-          <Grid item xs={12} sm={12}>
+          <Grid item xs={12} sm={12} marginTop={2}>
           <Button
             type="submit"
             fullWidth

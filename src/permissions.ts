@@ -29,6 +29,7 @@ export const permissions = shield({
         register: allow,
         addPaymentMethod: isAdmin,
         addShop: isAdmin,
+        addItem: isAdmin,
     }
 },
 );
