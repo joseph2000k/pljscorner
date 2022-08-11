@@ -1,24 +1,19 @@
 import { gql } from "@apollo/client";
+import { ITEM_DETAILS } from "../fragments";
 
 const GET_ALL_ITEMS = gql`
+  ${ITEM_DETAILS}
 query GetItems {
   getItems {
-    _id
-    name
-    price
-    stock
-    sku
+    ...ItemDetails
   }
 }`
 
 const GET_ITEMS_BY_CATEGORY= gql`
+  ${ITEM_DETAILS}
 query GetItemsByCategory($categoryId: ID!) {
   getItemsByCategory(categoryId: $categoryId) {
-    _id
-    name
-    price
-    sku
-    stock
+    ...ItemDetails
   }
 }`
 
