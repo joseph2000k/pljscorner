@@ -22,7 +22,7 @@ import {useMutation} from '@apollo/react-hooks';
 import {useForm} from '../utility/hooks';
 import {GET_CATEGORIES} from '../graphql/query/CategoryQuery';
 import { ADD_ITEM } from '../graphql/mutation/addItem';
-import { GET_ALL_ITEMS } from '../graphql/query/ItemQuery';
+import { GET_ALL_ITEMS, GET_ITEMS_BY_CATEGORY } from '../graphql/query/ItemQuery';
 import ProgressBar from '../components/ProgressBar';
 
 
@@ -74,10 +74,17 @@ export default function CreateItem() {
         },
         update(cache, { data: { addItem } }) {
             const { getItems }: any = cache.readQuery({ query: GET_ALL_ITEMS });
+            const { getItemsByCategory }: any = cache.readQuery({ query: GET_ITEMS_BY_CATEGORY, variables: { categoryId: category } });
             cache.writeQuery({
                 query: GET_ALL_ITEMS,
                 data: { getItems: [...getItems, addItem] },
             });
+            cache.writeQuery({
+                query: GET_ITEMS_BY_CATEGORY,
+                variables: { categoryId: category },
+                data: { getItemsByCategory: [...getItemsByCategory, addItem] },
+            });
+            
         },
         onError(err) {
           console.log(err);
