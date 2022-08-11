@@ -12,16 +12,17 @@ import Grow from '@mui/material/Grow';
 export default function ItemTable( {items}: any ) {
 
     function createData(
+        _id: string,
         name: string,
         price: number,
         sku: number,
         stock: number,
       ) {
-        return { name, price, sku, stock};
+        return {_id, name, price, sku, stock};
       }
       
       const rows = items.map((item: any) => {
-        return createData(item.name, item.price, item.sku, item.stock);
+        return createData(item._id,item.name, item.price, item.sku, item.stock);
       }
       );
 
@@ -42,7 +43,7 @@ export default function ItemTable( {items}: any ) {
         <TableBody>
           {rows.map((row: any) => (
             <TableRow
-              key={row.name}
+              key={row._id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
