@@ -4,7 +4,7 @@ const GET_CATEGORIES = gql`
 query GetCategory {
   getCategory {
     _id
-    name
+    categoryName
   }
 }
 `

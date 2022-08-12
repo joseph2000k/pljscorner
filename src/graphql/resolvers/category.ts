@@ -16,7 +16,7 @@ module.exports = {
   Mutation: {
     async addCategory (_: void, args: {categoryInput: CategoryType})  {
       const newCategory = new Category({
-        name: args.categoryInput.name,
+        categoryName: args.categoryInput.categoryName,
       });
       const result = await newCategory.save();
       return result;

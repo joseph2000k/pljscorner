@@ -1,12 +1,12 @@
 import {Schema, model} from 'mongoose';
 
 export interface Category {
-    name: string;
+    categoryName: string;
 
 }
 
 const CategorySchema = new Schema<Category>({
-  name: {
+  categoryName: {
     type: String,
   }
 });

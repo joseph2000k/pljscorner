@@ -14,15 +14,16 @@ export default function ItemTable( {items}: any ) {
     function createData(
         _id: string,
         name: string,
+        categoryName: string,
         price: number,
         sku: number,
         stock: number,
       ) {
-        return {_id, name, price, sku, stock};
+        return {_id, name, categoryName, price, sku, stock};
       }
       
       const rows = items.map((item: any) => {
-        return createData(item._id,item.name, item.price, item.sku, item.stock);
+        return createData(item._id,item.name, item.category.categoryName, item.price, item.sku, item.stock);
       }
       );
 
@@ -34,6 +35,7 @@ export default function ItemTable( {items}: any ) {
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
+            <TableCell align="right">Category</TableCell>
             <TableCell align="right">Price</TableCell>
             <TableCell align="right">Sku</TableCell>
             <TableCell align="right">Stock</TableCell>
@@ -49,6 +51,7 @@ export default function ItemTable( {items}: any ) {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
+              <TableCell align="right">{row.categoryName}</TableCell>
               <TableCell align="right">{row.price} Php</TableCell>
               <TableCell align="right">{row.sku}</TableCell>
               <TableCell align="right">{row.stock}</TableCell>

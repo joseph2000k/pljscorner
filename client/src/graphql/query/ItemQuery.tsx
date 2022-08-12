@@ -6,6 +6,9 @@ const GET_ALL_ITEMS = gql`
 query GetItems {
   getItems {
     ...ItemDetails
+    category {
+      categoryName
+    }
   }
 }`
 
@@ -14,6 +17,9 @@ const GET_ITEMS_BY_CATEGORY= gql`
 query GetItemsByCategory($categoryId: ID!) {
   getItemsByCategory(categoryId: $categoryId) {
     ...ItemDetails
+    category {
+      categoryName
+    }
   }
 }`
 

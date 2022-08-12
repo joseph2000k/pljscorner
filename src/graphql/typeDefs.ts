@@ -3,7 +3,7 @@ import { gql } from 'apollo-server-express';
 module.exports = gql`
   type Category {
     _id: ID!
-    name: String
+    categoryName: String
   }
 
   type PaymentMethod {
@@ -68,7 +68,7 @@ module.exports = gql`
   }
 
   input CategoryInput {
-    name: String
+    categoryName: String
   }
 
   input ShopInput {

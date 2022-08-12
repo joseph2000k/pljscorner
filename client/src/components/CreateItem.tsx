@@ -150,7 +150,7 @@ export default function CreateItem() {
   >
      {
       data.getCategory.map((category: any) => (
-        <MenuItem key={category._id} value={category._id}>{category.name}</MenuItem>
+        <MenuItem key={category._id} value={category._id}>{category.categoryName}</MenuItem>
       ))
      }
   </Select>
