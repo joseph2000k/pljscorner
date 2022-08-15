@@ -1,6 +1,12 @@
 import { gql } from 'apollo-server-express';
 
 module.exports = gql`
+  scalar upload
+
+  type File {
+    url: String!
+  }
+
   type Category {
     _id: ID!
     categoryName: String
@@ -97,5 +103,6 @@ module.exports = gql`
     login(loginInput: LoginInput): User
     addPaymentMethod(paymentMethodInput: PaymentMethodInput): PaymentMethod
     addShop(shopInput: ShopInput): Shop
+    singleUpload(file: upload!): File!
   }
 `;

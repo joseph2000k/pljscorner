@@ -8,6 +8,7 @@ import http from 'http';
 import { expressjwt, Request as JWtRequest } from 'express-jwt';
 import {permissions} from './permissions';
 
+const { graphqlUploadExpress } = require("graphql-upload-minimal");
 const config = require('config');
 const connectDB = require('./config/db');
 const typeDefs = require('./graphql/typeDefs');
@@ -19,6 +20,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   const app = express();
 
   app.use(cors());
+  app.use(graphqlUploadExpress());
 
   const httpServer = http.createServer(app);
 
