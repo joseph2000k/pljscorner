@@ -15,7 +15,9 @@ module.exports = {
          const filePath = path.join(__dirname, '../../../public/images', filename);
          await stream.pipe(fs.createWriteStream(filePath));
     
-          return { filename, mimetype, encoding };
+          return { 
+            url: `/images/${filename}`,
+          };
         },
 }
 }
