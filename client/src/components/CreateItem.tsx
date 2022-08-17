@@ -89,8 +89,7 @@ export default function CreateItem({displayedCategory}:any) {
                 variables: { categoryId: category },
                 data: { getItemsByCategory: [...getItemsByCategory, addItem] },
             });
-          }
-            
+          } 
         },
         onError(err) {
           console.log(err);
