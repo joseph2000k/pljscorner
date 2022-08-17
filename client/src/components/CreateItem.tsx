@@ -37,9 +37,8 @@ type Item = {
 }
 
 
-export default function CreateItem() {
+export default function CreateItem({displayedCategory}:any) {
 
-    //add file to singleUpload mutation
     const [singleUpload] = useMutation(UPLOAD_IMAGE);
 
     const [category, setCategory] = useState('');
@@ -51,7 +50,6 @@ export default function CreateItem() {
     function addItemCallback(){
       addItem();
     }
-
     const {handleChange, handleSubmit, formData} = useForm(addItemCallback, {
         name: '',
         price: 0,
@@ -63,6 +61,7 @@ export default function CreateItem() {
     
 
     const {name, price, cost, sku, stock, barcode} = formData as Item;
+
 
     const [addItem, {loading} ] = useMutation(ADD_ITEM, {
         variables: {
@@ -78,16 +77,19 @@ export default function CreateItem() {
         },
         update(cache, { data: { addItem } }) {
             const { getItems }: any = cache.readQuery({ query: GET_ALL_ITEMS });
-            const { getItemsByCategory }: any = cache.readQuery({ query: GET_ITEMS_BY_CATEGORY, variables: { categoryId: category } });
             cache.writeQuery({
                 query: GET_ALL_ITEMS,
                 data: { getItems: [...getItems, addItem] },
             });
+
+            if(displayedCategory !== 'All Items'){
+            const { getItemsByCategory }: any = cache.readQuery({ query: GET_ITEMS_BY_CATEGORY, variables: { categoryId: category } });
             cache.writeQuery({
                 query: GET_ITEMS_BY_CATEGORY,
                 variables: { categoryId: category },
                 data: { getItemsByCategory: [...getItemsByCategory, addItem] },
             });
+          }
             
         },
         onError(err) {

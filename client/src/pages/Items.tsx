@@ -162,7 +162,7 @@ function Items(){
       >
         <Fade in={open}>
           <Box sx={style}>
-            <CreateItem />
+            <CreateItem displayedCategory={category}/>
           </Box>
         </Fade>
       </Modal>
