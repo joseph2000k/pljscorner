@@ -24,12 +24,14 @@ export const permissions = shield({
         getItems: or(isAdmin, isUser),
         getItemsByCategory: or(isAdmin, isUser),
         getCategory: or(isAdmin, isUser),
+        hello: allow,
     },
     Mutation: {
         register: allow,
         addPaymentMethod: isAdmin,
         addShop: isAdmin,
         addItem: isAdmin,
+        singleUpload: isAdmin,
     }
 },
 );

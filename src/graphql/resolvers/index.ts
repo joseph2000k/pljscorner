@@ -3,6 +3,7 @@ const usersResolvers = require("./users");
 const itemResolvers = require("./item");
 const paymentmethodResolvers = require("./paymentmethod");
 const shopResolvers = require("./shop");
+const uploadResolvers = require("./uploadFile");
 
 module.exports = {
   Query: {
@@ -10,7 +11,8 @@ module.exports = {
     ...itemResolvers.Query,
     ...usersResolvers.Query,
     ...paymentmethodResolvers.Query,
-    ...shopResolvers.Query
+    ...shopResolvers.Query,
+    ...uploadResolvers.Query,
   },
 
   Mutation: {
@@ -18,6 +20,7 @@ module.exports = {
     ...categoryResolvers.Mutation,
     ...itemResolvers.Mutation,
     ...paymentmethodResolvers.Mutation,
-    ...shopResolvers.Mutation
+    ...shopResolvers.Mutation,
+    ...uploadResolvers.Mutation,
   },
 };

@@ -22,6 +22,7 @@ import {useMutation} from '@apollo/react-hooks';
 import {useForm} from '../utility/hooks';
 import {GET_CATEGORIES} from '../graphql/query/CategoryQuery';
 import { ADD_ITEM } from '../graphql/mutation/addItem';
+import { UPLOAD_IMAGE } from '../graphql/mutation/uploadimage';
 import { GET_ALL_ITEMS, GET_ITEMS_BY_CATEGORY } from '../graphql/query/ItemQuery';
 import ProgressBar from '../components/ProgressBar';
 
@@ -37,6 +38,9 @@ type Item = {
 
 
 export default function CreateItem() {
+
+    //add file to singleUpload mutation
+    const [singleUpload] = useMutation(UPLOAD_IMAGE);
 
     const [category, setCategory] = useState('');
 
@@ -98,6 +102,12 @@ export default function CreateItem() {
   const handleChangeCategory = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
   };
+
+  const handleUploadChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if(!event.target.files) return;
+    const file = event.target.files[0];
+    singleUpload({variables: {file}});
+  }
 
     return(
         <>
@@ -247,6 +257,18 @@ export default function CreateItem() {
           >
             Create Item
           </Button>
+          </Grid>
+          <Grid item xs={12} sm={12} marginTop={2}>
+          <Button
+  variant="contained"
+  component="label"
+>
+  Upload File
+  <input
+    type="file"
+    onChange={handleUploadChange}
+  />
+</Button>
           </Grid>
           </Box>
         </Box>

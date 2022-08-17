@@ -95,6 +95,7 @@ module.exports = gql`
     viewer: User!
     paymentMethods: [PaymentMethod]
     shops: [Shop]
+    hello: String
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
