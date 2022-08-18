@@ -1,66 +1,83 @@
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import Grow from '@mui/material/Grow';
+import * as React from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import Grow from "@mui/material/Grow";
 
-export default function ItemTable( {items}: any ) {
+export default function ItemTable({ items }: any) {
+  function createData(
+    _id: string,
+    name: string,
+    categoryName: string,
+    price: number,
+    sku: number,
+    stock: number,
+    image: string
+  ) {
+    return { _id, name, categoryName, price, sku, stock, image };
+  }
 
-    function createData(
-        _id: string,
-        name: string,
-        categoryName: string,
-        price: number,
-        sku: number,
-        stock: number,
-      ) {
-        return {_id, name, categoryName, price, sku, stock};
-      }
-      
-      const rows = items.map((item: any) => {
-        return createData(item._id,item.name, item.category.categoryName, item.price, item.sku, item.stock);
-      }
-      );
+  const rows = items.map((item: any) => {
+    return createData(
+      item._id,
+      item.name,
+      item.category.categoryName,
+      item.price,
+      item.sku,
+      item.stock,
+      item.image
+    );
+  });
 
-
-    return (
-        <Grow in={true}>
-        <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 800 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Category</TableCell>
-            <TableCell align="right">Price</TableCell>
-            <TableCell align="right">Sku</TableCell>
-            <TableCell align="right">Stock</TableCell>
-            <TableCell align="right"></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row: any) => (
-            <TableRow
-              key={row._id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.categoryName}</TableCell>
-              <TableCell align="right">{row.price} Php</TableCell>
-              <TableCell align="right">{row.sku}</TableCell>
-              <TableCell align="right">{row.stock}</TableCell>
-              <TableCell align="right"><Button>Edit</Button></TableCell>
+  return (
+    <Grow in={true}>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 800 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell></TableCell>
+              <TableCell>Product</TableCell>
+              <TableCell align="right">Category</TableCell>
+              <TableCell align="right">Price</TableCell>
+              <TableCell align="right">Sku</TableCell>
+              <TableCell align="right">Stock</TableCell>
+              <TableCell align="right"></TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-        </Grow>
-    )
+          </TableHead>
+          <TableBody>
+            {rows.map((row: any) => (
+              <TableRow
+                key={row._id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  <img
+                    src={`images/${row.image}`}
+                    alt={row.name}
+                    width="75"
+                    height="75"
+                  />
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {row.name}
+                </TableCell>
+                <TableCell align="right">{row.categoryName}</TableCell>
+                <TableCell align="right">{row.price} Php</TableCell>
+                <TableCell align="right">{row.sku}</TableCell>
+                <TableCell align="right">{row.stock}</TableCell>
+                <TableCell align="right">
+                  <Button>Edit</Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Grow>
+  );
 }

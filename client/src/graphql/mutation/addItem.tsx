@@ -9,6 +9,7 @@ const ADD_ITEM = gql`
     cost
     sku
     stock
+    image
     category{
       categoryName
     }
