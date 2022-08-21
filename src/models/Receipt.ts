@@ -6,10 +6,16 @@ import { Tax } from './Tax';
 import { PaymentMethod } from './PaymentMethod';
 import { Shop } from './Shop';
 
+type ReceiptItems = {
+    item: Item;
+    quantity: number;
+    price: number;
+}
+
 export interface Receipt {
     cashier: User;
     total: number;
-    items: Item[];
+    items: [ReceiptItems];
     cash: number;
     change: number;
     receiptnumber: number;
@@ -26,41 +32,56 @@ const ReceiptSchema = new Schema<Receipt>({
     cashier: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
+        //required: true,
     },
     total: {
         type: Number,
-        required: true,
+        //required: true,
     },
     items: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Item',
-        required: true,
+        itemId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Item',
+            //required: true,
+        },
+        item: {
+            type: String,
+            ref: 'Item',
+            //required: true,
+        },
+        quantity: {
+            type: Number,
+            //required: true,
+        },
+        price: {
+            type: Number,
+            //required: true,
+        },
     }],
     cash: {
         type: Number,
-        required: true,
+        //required: true,
     },
     change: {
         type: Number,
-        required: true,
+        //required: true,
     },
     receiptnumber: {
         type: Number,
-        required: true,
+        //required: true,
     },
     shop: {
         type: Schema.Types.ObjectId,
         ref: 'Shop',
-        required: true,
+        //required: true,
     },
     date: {
         type: Date,
-        required: true,
+        //required: true,
     },
     time: {
         type: Date,
-        required: true,
+        //required: true,
     },  
     tax: {
         type: Schema.Types.ObjectId,
@@ -73,7 +94,7 @@ const ReceiptSchema = new Schema<Receipt>({
     paymentmethod: {
         type: Schema.Types.String,
         ref: 'PaymentMethod',
-        required: true,
+        //required: true,
     },
     referencenumber: {
         type: Number

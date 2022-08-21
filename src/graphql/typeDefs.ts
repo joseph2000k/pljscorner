@@ -3,8 +3,45 @@ import { gql } from 'apollo-server-express';
 module.exports = gql`
   scalar upload
 
+  scalar Date
+
   type File {
     url: String!
+  }
+  
+  type Tax {
+    name: String!
+    value: Float!
+  }
+
+  type Discount {
+    name: String!
+    value: Float!
+  }
+
+
+  type Receipt {
+    _id: ID!
+    cashier: User
+    total: Float
+    items: [ReceiptItems]
+    cash: Float
+    change: Float
+    receiptnumber: Int
+    shop: Shop
+    date: Date
+    time: Date
+    tax: Tax
+    discount: Discount
+    paymentmethod: PaymentMethod
+    referencenumber: String
+  }
+
+  type ReceiptItems {
+    itemId: ID!
+    item: String!
+    quantity: Int
+    price: Float
   }
 
   type Category {
@@ -87,6 +124,29 @@ module.exports = gql`
     image: String
   }
 
+  input ReceiptItemsInput {
+    itemId: ID
+    item: String
+    quantity: Int
+    price: Float
+  }
+
+  input ReceiptInput {
+    cashier: ID
+    total: Float
+    items: [ReceiptItemsInput]
+    cash: Float
+    change: Float
+    receiptnumber: Int
+    shop: ID
+    date: Date
+    time: Date
+    tax: ID
+    discount: ID
+    paymentmethod: ID
+    referencenumber: String
+  }
+
   type Query {
     getCategory: [Category]
     getItems: [Item]
@@ -96,6 +156,7 @@ module.exports = gql`
     paymentMethods: [PaymentMethod]
     shops: [Shop]
     hello: String
+    receipts: [Receipt]
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
@@ -105,5 +166,6 @@ module.exports = gql`
     addPaymentMethod(paymentMethodInput: PaymentMethodInput): PaymentMethod
     addShop(shopInput: ShopInput): Shop
     singleUpload(file: upload!): File!
+    receipt(receiptInput: ReceiptInput): Receipt
   }
 `;
