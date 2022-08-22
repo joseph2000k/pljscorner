@@ -34,7 +34,9 @@ function POS() {
             component={Paper}
             elevation={6}
             square
-            style={{ maxHeight: "100vh", overflow: "auto" }}
+            marginLeft={120}
+            style={{ maxHeight: "100vh", overflow: "auto"}}
+            position="fixed"
           >
             <PosReceipt />
           </Grid>
