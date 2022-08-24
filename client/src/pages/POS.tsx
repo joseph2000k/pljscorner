@@ -5,15 +5,44 @@ import Paper from "@mui/material/Paper";
 import PosItems from "../components/PosItems";
 import PosReceipt from "../components/PosReceipt";
 import CssBaseline from "@mui/material/CssBaseline";
+import { styled } from '@mui/material/styles';
+
+const Receipt = styled('div')(({ theme }) => ({
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: "210px",
+  },
+  [theme.breakpoints.up('md')]: {
+    marginLeft: "120px",
+  },
+  [theme.breakpoints.up('lg')]: {
+    marginLeft: "215px",
+  },
+}));
+
+const Items = styled('div')(({ theme }) => ({
+
+  [theme.breakpoints.up('sm')]: {
+    width: "550px",
+  },
+  [theme.breakpoints.up('md')]: {
+    width: "800px",
+  },
+  [theme.breakpoints.up('lg')]: {
+    width: "1080px",
+  },
+}));
+
+
 
 function POS() {
   return (
     <>
-      <div style={{ marginTop: "60px" }}>
-        <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid style={{ marginTop: "60px" }}>
+        <Grid container component="main" >
           <CssBaseline />
-          <Grid item xs={false} sm={8} md={7}>
-            <div style={{ position: "sticky" }}>
+          <Grid item xs={false} sm={5} md={7} >
+            <Grid style={{ position: "sticky" }}>
+              <Items>
               <Box
                 sx={{
                   display: "flex",
@@ -24,8 +53,10 @@ function POS() {
                 <ProductTab />
                 <PosItems />
               </Box>
-            </div>
+              </Items>
+            </Grid>
           </Grid>
+          <Receipt>
           <Grid
             item
             xs={12}
@@ -34,14 +65,15 @@ function POS() {
             component={Paper}
             elevation={6}
             square
-            marginLeft={120}
+            maxWidth="800"
             style={{ maxHeight: "100vh", overflow: "auto"}}
             position="fixed"
           >
             <PosReceipt />
           </Grid>
+          </Receipt>
         </Grid>
-      </div>
+      </Grid>
     </>
   );
 }

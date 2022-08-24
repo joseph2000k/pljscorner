@@ -82,7 +82,7 @@ function Items() {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              marginTop: "20px",
+              marginTop: "100px",
             }}
           >
             <div>
