@@ -14,15 +14,10 @@ export default function PosItems({ items: items }: any) {
   }
 
   return (
-    <ImageList sx={{ maxHeight: "100px" }}>
+    <ImageList sx={{ width: 350, height: 300 }} cols={3} rowHeight={25}>
       {items.map((item: any) => (
         <ImageListItem key={item._id}>
-          <img
-            src={`images/${item.image}`}
-            alt={item.name}
-            width="75"
-            height="75"
-          />
+          <img src={`images/${item.image}`} alt={item.name} />
 
           <ImageListItemBar position="below" />
         </ImageListItem>
