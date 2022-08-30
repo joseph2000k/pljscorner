@@ -5,6 +5,7 @@ const paymentmethodResolvers = require("./paymentmethod");
 const shopResolvers = require("./shop");
 const uploadResolvers = require("./uploadFile");
 const receiptResolvers = require("./receipt");
+const cartResolvers = require("./cart");
 
 module.exports = {
   Query: {
@@ -15,6 +16,7 @@ module.exports = {
     ...shopResolvers.Query,
     ...uploadResolvers.Query,
     ...receiptResolvers.Query,
+    ...cartResolvers.Query,
   },
 
   Mutation: {
@@ -25,5 +27,6 @@ module.exports = {
     ...shopResolvers.Mutation,
     ...uploadResolvers.Mutation,
     ...receiptResolvers.Mutation,
+    ...cartResolvers.Mutation,
   },
 };

@@ -25,6 +25,7 @@ export const permissions = shield({
         getItemsByCategory: or(isAdmin, isUser),
         getCategory: or(isAdmin, isUser),
         hello: allow,
+        getCart: or(isAdmin, isUser),
     },
     Mutation: {
         register: allow,
@@ -33,6 +34,7 @@ export const permissions = shield({
         addItem: isAdmin,
         singleUpload: isAdmin,
         receipt: or(isAdmin, isUser),
+        addToCart: or(isAdmin, isUser),
     }
 },
 );

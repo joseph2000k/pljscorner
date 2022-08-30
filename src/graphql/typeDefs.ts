@@ -54,10 +54,17 @@ module.exports = gql`
     name: String
   }
 
+  type CartItems {
+    itemId: ID!
+    item: String!
+    quantity: Int
+    totalPrice: Float
+  }
+
   type Cart {
     _id: ID
     user: User
-    items: [Item]
+    items: [CartItems]
   }
 
   type Shop {
@@ -157,6 +164,7 @@ module.exports = gql`
     shops: [Shop]
     hello: String
     receipts: [Receipt]
+    getCart(userId: ID!): [CartItems]
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
@@ -167,5 +175,6 @@ module.exports = gql`
     addShop(shopInput: ShopInput): Shop
     singleUpload(file: upload!): File!
     receipt(receiptInput: ReceiptInput): Receipt
+    addToCart(cartInput: ID): Cart
   }
 `;
