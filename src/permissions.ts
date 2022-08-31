@@ -35,6 +35,7 @@ export const permissions = shield({
         singleUpload: isAdmin,
         receipt: or(isAdmin, isUser),
         addToCart: or(isAdmin, isUser),
+        removeFromCart: or(isAdmin, isUser),
     }
 },
 );

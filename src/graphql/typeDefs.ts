@@ -176,5 +176,6 @@ module.exports = gql`
     singleUpload(file: upload!): File!
     receipt(receiptInput: ReceiptInput): Receipt
     addToCart(cartInput: ID): Cart
+    removeFromCart(cartInput: ID): Cart
   }
 `;
