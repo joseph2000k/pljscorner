@@ -18,31 +18,34 @@ module.exports = {
                 const cart = await Cart.findOne({user: user.id});
                 const item = await Item.findById(args.cartInput);
                 
-                console.log(cart);
-                console.log(item)
                 if(!cart) {
                     return new Error('Cart not found');
                 }
                 if(!item) {
                     return new Error('Item not found');
                 }
-
-                //check if item is already in cart and update quantity in database
-                const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; }) => item.itemId.toString() === args.cartInput);
-                console.log(cartItem);
-                if(cartItem) {
-                    cartItem.quantity += 1;
-                    cartItem.price += item.price;
-                    await cart.save();
-                    return cart;
+                if(item.stock < 1) {
+                    return new Error('Item out of stock');
                 }
 
-                cart.items.push({
-                    itemId: item._id,
-                    item: item.name,
-                    quantity: 1,
-                    price: item.price,
-                });
+                const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; }) => item.itemId.toString() === args.cartInput);
+             
+               
+                if(!cartItem) {
+                    cart.items.push({
+                        itemId: item._id,
+                        item: item.name,
+                        quantity: 1,
+                        price: item.price,
+                    });
+                } else {
+                    cartItem.quantity += 1;
+                    cartItem.price += item.price;
+                }
+
+                item.stock -= 1;
+
+                await item.save();
 
                 await cart.save();
 

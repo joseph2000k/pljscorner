@@ -58,7 +58,7 @@ module.exports = gql`
     itemId: ID!
     item: String!
     quantity: Int
-    totalPrice: Float
+    price: Float
   }
 
   type Cart {
