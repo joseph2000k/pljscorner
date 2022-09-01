@@ -5,7 +5,7 @@ module.exports = {
     Query: {
         getCart: async (_: void, args: {userId: string}) => {
             try {
-                const cart = await Cart.findOne({user: args.userId}).populate('user');
+                const cart = await Cart.findOne({user: args.userId});
                 return cart;
             } catch (err) {
                 throw err;

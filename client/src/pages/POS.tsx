@@ -2,7 +2,7 @@ import Products from "../components/Products";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import PosReceipt from "../components/PosReceipt";
+import PosCart from "../components/PosCart";
 import CssBaseline from "@mui/material/CssBaseline";
 import { styled } from "@mui/material/styles";
 
@@ -64,7 +64,7 @@ function POS() {
               style={{ maxHeight: "100vh", overflow: "auto" }}
               position="fixed"
             >
-              <PosReceipt />
+              <PosCart />
             </Grid>
           </Receipt>
         </Grid>

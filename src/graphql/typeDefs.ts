@@ -164,7 +164,7 @@ module.exports = gql`
     shops: [Shop]
     hello: String
     receipts: [Receipt]
-    getCart(userId: ID!): [CartItems]
+    getCart(userId: ID!): Cart
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
