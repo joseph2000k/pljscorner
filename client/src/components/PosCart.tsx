@@ -27,6 +27,7 @@ export default function PosCart() {
     },
   });
 
+  console.log(data);
   function createData(
     itemId: string,
     item: string,
