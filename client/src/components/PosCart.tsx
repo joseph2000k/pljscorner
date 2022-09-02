@@ -27,7 +27,6 @@ export default function PosCart() {
     },
   });
 
-  console.log(data);
   function createData(
     itemId: string,
     item: string,
@@ -49,13 +48,16 @@ export default function PosCart() {
 
   const Receipt = styled("div")(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
-      marginLeft: "100px",
+      marginLeft: "10px",
+      maxWidth: "150px",
     },
     [theme.breakpoints.up("md")]: {
-      marginLeft: "150px",
+      marginLeft: "25px",
+      maxWidth: "300px",
     },
     [theme.breakpoints.up("lg")]: {
-      marginLeft: "170px",
+      marginLeft: "15px",
+      maxWidth: "300px",
     },
   }));
 
@@ -71,10 +73,32 @@ export default function PosCart() {
             sx={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
+              marginLeft: "10px",
             }}
           >
-            Receipt Here
+            <Table sx={{ maxWidth: 300 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Item</TableCell>
+                  <TableCell align="right">Quantity</TableCell>
+                  <TableCell align="right">Price</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {cartItems.map((row: any) => (
+                  <TableRow
+                    key={row.itemId}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.item}
+                    </TableCell>
+                    <TableCell align="right">{row.quantity}</TableCell>
+                    <TableCell align="right">{row.price}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </Box>
         </Receipt>
       </Grid>
