@@ -37,6 +37,7 @@ function Items() {
   const { loading, error, data } = useQuery(GET_CATEGORIES);
 
   const getItems = useQuery(GET_ALL_ITEMS);
+  getItems.refetch();
   const getItemsByCategory = useQuery(GET_ITEMS_BY_CATEGORY, {
     variables: {
       categoryId: category,

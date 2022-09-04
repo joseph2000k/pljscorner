@@ -12,7 +12,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { ADD_TO_CART } from "../graphql/mutation/cartMutation";
 import { GET_CART } from "../graphql/query/cartQuery";
 import { useTheme } from "@mui/material/styles";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation} from "@apollo/react-hooks";
 import { AuthContext } from "../context/authContext";
 
 export default function PosItems({ items: items }: any) {
@@ -22,7 +22,7 @@ export default function PosItems({ items: items }: any) {
   const { user } = useContext(AuthContext);
 
 
-  const [addToCart] = useMutation(ADD_TO_CART, {
+  const [addToCart, {loading}] = useMutation(ADD_TO_CART, {
     update(cache, { data: { addToCart } }) {
       cache.modify({
         id: cache.identify({userId: user.id}),  
@@ -38,6 +38,10 @@ export default function PosItems({ items: items }: any) {
       });
     },
   });
+
+  if (loading) {
+    return <ProgressBar />;
+  }
 
   function handleAddToCart(id: any) {
     addToCart({variables: { cartInput: id }});
