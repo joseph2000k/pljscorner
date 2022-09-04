@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext } from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
@@ -12,33 +12,36 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { ADD_TO_CART } from "../graphql/mutation/cartMutation";
 import { GET_CART } from "../graphql/query/cartQuery";
 import { useTheme } from "@mui/material/styles";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/react-hooks";
+import { AuthContext } from "../context/authContext";
 
 export default function PosItems({ items: items }: any) {
   const theme = useTheme();
+  const imageSize = useMediaQuery(theme.breakpoints.down("md"));
 
-  const [addToCartButton, setAddToCartButton] = useState("");
+  const { user } = useContext(AuthContext);
+
 
   const [addToCart] = useMutation(ADD_TO_CART, {
-    variables: {
-      cartInput: addToCartButton,
-    },
     update(cache, { data: { addToCart } }) {
-      const { getCart }: any = cache.readQuery({ query: GET_CART });
-      cache.writeQuery({
-        query: GET_CART,
-        data: { getCart: getCart.concat([addToCart]) },
+      cache.modify({
+        id: cache.identify({userId: user.id}),  
+        fields: {
+          items(existingItems = []) {
+            const newItemRef = cache.writeFragment({
+              data: addToCart,
+              fragment: GET_CART,
+            });
+            return [...existingItems, newItemRef];
+          },
+        },
       });
     },
   });
 
-  const imageSize = useMediaQuery(theme.breakpoints.down("md"));
-
-  const handleOnClick = (id: string) => {
-    console.log(id);
-    setAddToCartButton(id);
-    addToCart();
-  };
+  function handleAddToCart(id: any) {
+    addToCart({variables: { cartInput: id }});
+  }
 
   if (items.length === 0) {
     return <ProgressBar />;
@@ -55,7 +58,7 @@ export default function PosItems({ items: items }: any) {
       >
         {items.map((item: any) => (
           <ImageListItem key={item._id}>
-            <ButtonBase onClick={() => handleOnClick(item._id)}>
+            <ButtonBase onClick={()=>handleAddToCart(item._id)}>
               <Box>
                 <img
                   src={`images/${item.image}`}
