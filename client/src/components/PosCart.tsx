@@ -56,7 +56,7 @@ export default function PosCart() {
       maxWidth: "300px",
     },
     [theme.breakpoints.up("lg")]: {
-      marginLeft: "15px",
+      marginLeft: "60px",
       maxWidth: "300px",
     },
   }));

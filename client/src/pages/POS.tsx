@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper";
 import PosCart from "../components/PosCart";
 import CssBaseline from "@mui/material/CssBaseline";
 import { styled } from "@mui/material/styles";
+import Payment from "../components/Payment";
 
 const Receipt = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("sm")]: {
@@ -58,7 +59,7 @@ function POS() {
               sm={4}
               md={5}
               component={Paper}
-              elevation={1}
+              elevation={2}
               square
               minWidth="75vh"
               style={{ maxHeight: "75vh", overflow: "auto" }}
@@ -72,14 +73,14 @@ function POS() {
               sm={4}
               md={5}
               component={Paper}
-              elevation={1}
+              elevation={2}
               square
               minWidth="75vh"
               marginTop="75vh"
               style={{ minHeight: "25vh" }}
               position="fixed"
             >
-              <h3>Payment Component</h3>
+              <Payment />
             </Grid>
           </Receipt>
         </Grid>
