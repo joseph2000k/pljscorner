@@ -58,13 +58,28 @@ function POS() {
               sm={4}
               md={5}
               component={Paper}
-              elevation={6}
+              elevation={1}
               square
-              maxWidth="800"
-              style={{ maxHeight: "100vh", overflow: "auto" }}
+              minWidth="75vh"
+              style={{ maxHeight: "75vh", overflow: "auto" }}
               position="fixed"
             >
               <PosCart />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              md={5}
+              component={Paper}
+              elevation={1}
+              square
+              minWidth="75vh"
+              marginTop="75vh"
+              style={{ minHeight: "25vh" }}
+              position="fixed"
+            >
+              <h3>Payment Component</h3>
             </Grid>
           </Receipt>
         </Grid>

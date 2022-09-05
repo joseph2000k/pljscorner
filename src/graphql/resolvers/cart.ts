@@ -10,6 +10,19 @@ module.exports = {
             } catch (err) {
                 throw err;
             }
+        },
+        getTotal: async (_: void, args: void, {user}: any) => {
+            try {
+                const cart = await Cart.findOne({user: user.id});
+                const items = cart.items;
+                let total = 0;
+                items.forEach((item: {item: string, quantity: number, price: number}) => {
+                    total += item.price;
+                });
+                return total;
+            } catch (err) {
+                throw err;
+            }
         }
     },
     Mutation: {
