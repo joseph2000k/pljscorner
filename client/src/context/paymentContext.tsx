@@ -1,6 +1,4 @@
 import { useReducer, createContext } from "react";
-import { GET_TOTAL } from "../graphql/query/cartQuery";
-
 const initialState = {
   total: 0,
 };

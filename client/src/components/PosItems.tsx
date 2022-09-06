@@ -21,7 +21,7 @@ import { AuthContext } from "../context/authContext";
 
 import { PaymentContext } from "../context/paymentContext";
 
-export default function PosItems({ items: items }: any) {
+export default function PosItems({ items }: any) {
   const theme = useTheme();
   const imageSize = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -107,6 +107,7 @@ export default function PosItems({ items: items }: any) {
     if (!loadingTotal && !errorTotal) {
       addTotal(dataTotal.getTotal);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadingTotal, errorTotal, dataTotal]);
 
   if (loading || removeFromCartLoading) {
@@ -157,33 +158,29 @@ export default function PosItems({ items: items }: any) {
             </ButtonBase>
             {
               //show quantity if item is in cart
-              cartItems.map((cartItem: any) => {
-                if (cartItem.itemId === item._id) {
-                  return (
-                    <Grid
-                      container
-                      justifyContent="center"
-                      key={cartItem.itemId}
-                    >
-                      <Grid item xs={12}>
-                        <Typograhpy
-                          fontSize=".7rem"
-                          sx={{ textAlign: "center" }}
+              cartItems
+                .filter((cartItem: any) => cartItem.itemId === item._id)
+                .map((cartItem: any) => (
+                  <Grid
+                    container
+                    justifyContent="center"
+                    spacing={1}
+                    key={cartItem.itemId}
+                  >
+                    <Typograhpy fontSize=".7rem" sx={{ textAlign: "center" }}>
+                      <Grid>
+                        {cartItem.quantity}pcs in cart
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          onClick={() => handleRemoveFromCart(item._id)}
                         >
-                          {cartItem.quantity}pcs in cart
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            onClick={() => handleRemoveFromCart(item._id)}
-                          >
-                            remove 1
-                          </Button>
-                        </Typograhpy>
+                          Remove One
+                        </Button>
                       </Grid>
-                    </Grid>
-                  );
-                }
-              })
+                    </Typograhpy>
+                  </Grid>
+                ))
             }
           </ImageListItem>
         ))}

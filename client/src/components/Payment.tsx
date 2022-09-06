@@ -7,25 +7,13 @@ export default function Payment() {
 
   const Payment = styled("div")(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
-      marginLeft: "70px",
+      marginLeft: "0px",
     },
     [theme.breakpoints.up("md")]: {
       marginLeft: "130px",
     },
     [theme.breakpoints.up("lg")]: {
       marginLeft: "150px",
-    },
-  }));
-
-  const Items = styled("div")(({ theme }) => ({
-    [theme.breakpoints.up("sm")]: {
-      width: "550px",
-    },
-    [theme.breakpoints.up("md")]: {
-      width: "800px",
-    },
-    [theme.breakpoints.up("lg")]: {
-      width: "1080px",
     },
   }));
 
