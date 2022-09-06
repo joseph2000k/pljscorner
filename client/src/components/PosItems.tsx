@@ -167,8 +167,8 @@ export default function PosItems({ items }: any) {
                     spacing={1}
                     key={cartItem.itemId}
                   >
-                    <Typograhpy fontSize=".7rem" sx={{ textAlign: "center" }}>
-                      <Grid>
+                    <Grid>
+                      <Typograhpy fontSize=".7rem" sx={{ textAlign: "center" }}>
                         {cartItem.quantity}pcs in cart
                         <Button
                           variant="outlined"
@@ -177,8 +177,8 @@ export default function PosItems({ items }: any) {
                         >
                           Remove One
                         </Button>
-                      </Grid>
-                    </Typograhpy>
+                      </Typograhpy>
+                    </Grid>
                   </Grid>
                 ))
             }
