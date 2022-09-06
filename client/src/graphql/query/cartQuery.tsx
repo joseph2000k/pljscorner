@@ -17,4 +17,10 @@ const GET_CART = gql`
   }
 `;
 
-export { GET_CART };
+const GET_TOTAL = gql`
+  query TotalPrice {
+    getTotal
+  }
+`;
+
+export { GET_CART, GET_TOTAL };

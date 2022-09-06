@@ -1,35 +1,37 @@
-import React from 'react'
+import { useContext } from "react";
 import { styled } from "@mui/material/styles";
+import { PaymentContext } from "../context/paymentContext";
 
 export default function Payment() {
+  const { total } = useContext(PaymentContext);
 
-    const Payment = styled("div")(({ theme }) => ({
-        [theme.breakpoints.up("sm")]: {
-          marginLeft: "50px",
-        },
-        [theme.breakpoints.up("md")]: {
-          marginLeft: "100px",
-        },
-        [theme.breakpoints.up("lg")]: {
-          marginLeft: "140px",
-        },
-      }));
-      
-      const Items = styled("div")(({ theme }) => ({
-        [theme.breakpoints.up("sm")]: {
-          width: "550px",
-        },
-        [theme.breakpoints.up("md")]: {
-          width: "800px",
-        },
-        [theme.breakpoints.up("lg")]: {
-          width: "1080px",
-        },
-      }));
+  const Payment = styled("div")(({ theme }) => ({
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: "70px",
+    },
+    [theme.breakpoints.up("md")]: {
+      marginLeft: "130px",
+    },
+    [theme.breakpoints.up("lg")]: {
+      marginLeft: "150px",
+    },
+  }));
+
+  const Items = styled("div")(({ theme }) => ({
+    [theme.breakpoints.up("sm")]: {
+      width: "550px",
+    },
+    [theme.breakpoints.up("md")]: {
+      width: "800px",
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "1080px",
+    },
+  }));
 
   return (
     <Payment>
-    <h3>Payment Component</h3>
+      <h2>Total: {total}</h2>
     </Payment>
-  )
+  );
 }

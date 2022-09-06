@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
@@ -11,21 +11,24 @@ import ButtonBase from "@mui/material/ButtonBase";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { ADD_TO_CART } from "../graphql/mutation/cartMutation";
 import { GET_CART } from "../graphql/query/cartQuery";
+import { GET_TOTAL } from "../graphql/query/cartQuery";
 import { useTheme } from "@mui/material/styles";
-import { useMutation} from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { AuthContext } from "../context/authContext";
+
+import { PaymentContext } from "../context/paymentContext";
 
 export default function PosItems({ items: items }: any) {
   const theme = useTheme();
   const imageSize = useMediaQuery(theme.breakpoints.down("md"));
 
   const { user } = useContext(AuthContext);
+  const { addTotal } = useContext(PaymentContext);
 
-
-  const [addToCart, {loading}] = useMutation(ADD_TO_CART, {
+  const [addToCart, { loading }] = useMutation(ADD_TO_CART, {
     update(cache, { data: { addToCart } }) {
       cache.modify({
-        id: cache.identify({userId: user.id}),  
+        id: cache.identify({ userId: user.id }),
         fields: {
           items(existingItems = []) {
             const newItemRef = cache.writeFragment({
@@ -39,12 +42,28 @@ export default function PosItems({ items: items }: any) {
     },
   });
 
+  const {
+    loading: loadingTotal,
+    error: errorTotal,
+    data: dataTotal,
+    refetch: refetchTotal,
+  } = useQuery(GET_TOTAL);
+
+  refetchTotal();
+
+  useEffect(() => {
+    if (!loadingTotal && !errorTotal) {
+      addTotal(dataTotal.getTotal);
+    }
+  }, [loadingTotal, errorTotal, dataTotal]);
+
   if (loading) {
     return <ProgressBar />;
   }
 
   function handleAddToCart(id: any) {
-    addToCart({variables: { cartInput: id }});
+    addToCart({ variables: { cartInput: id } });
+    addTotal(dataTotal.getTotal);
   }
 
   if (items.length === 0) {
@@ -62,7 +81,7 @@ export default function PosItems({ items: items }: any) {
       >
         {items.map((item: any) => (
           <ImageListItem key={item._id}>
-            <ButtonBase onClick={()=>handleAddToCart(item._id)}>
+            <ButtonBase onClick={() => handleAddToCart(item._id)}>
               <Box>
                 <img
                   src={`images/${item.image}`}

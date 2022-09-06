@@ -6,6 +6,7 @@ import PosCart from "../components/PosCart";
 import CssBaseline from "@mui/material/CssBaseline";
 import { styled } from "@mui/material/styles";
 import Payment from "../components/Payment";
+import { PaymentProvider } from "../context/paymentContext";
 
 const Receipt = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("sm")]: {
@@ -15,7 +16,7 @@ const Receipt = styled("div")(({ theme }) => ({
     marginLeft: "120px",
   },
   [theme.breakpoints.up("lg")]: {
-    marginLeft: "215px",
+    marginLeft: "150px",
   },
 }));
 
@@ -34,57 +35,59 @@ const Items = styled("div")(({ theme }) => ({
 function POS() {
   return (
     <>
-      <Grid style={{ marginTop: "60px" }}>
-        <Grid container component="main">
-          <CssBaseline />
-          <Grid item xs={false} sm={5} md={7}>
-            <Grid style={{ position: "sticky" }}>
-              <Items>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <Products />
-                </Box>
-              </Items>
+      <PaymentProvider>
+        <Grid style={{ marginTop: "60px" }}>
+          <Grid container component="main">
+            <CssBaseline />
+            <Grid item xs={false} sm={5} md={7}>
+              <Grid style={{ position: "sticky" }}>
+                <Items>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Products />
+                  </Box>
+                </Items>
+              </Grid>
             </Grid>
+            <Receipt>
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                md={5}
+                component={Paper}
+                elevation={2}
+                square
+                minWidth="75vh"
+                style={{ maxHeight: "75vh", overflow: "auto" }}
+                position="fixed"
+              >
+                <PosCart />
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                md={5}
+                component={Paper}
+                elevation={2}
+                square
+                minWidth="75vh"
+                marginTop="75vh"
+                style={{ minHeight: "25vh" }}
+                position="fixed"
+              >
+                <Payment />
+              </Grid>
+            </Receipt>
           </Grid>
-          <Receipt>
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              md={5}
-              component={Paper}
-              elevation={2}
-              square
-              minWidth="75vh"
-              style={{ maxHeight: "75vh", overflow: "auto" }}
-              position="fixed"
-            >
-              <PosCart />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              md={5}
-              component={Paper}
-              elevation={2}
-              square
-              minWidth="75vh"
-              marginTop="75vh"
-              style={{ minHeight: "25vh" }}
-              position="fixed"
-            >
-              <Payment />
-            </Grid>
-          </Receipt>
         </Grid>
-      </Grid>
+      </PaymentProvider>
     </>
   );
 }
