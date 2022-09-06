@@ -17,4 +17,21 @@ const ADD_TO_CART = gql`
   }
 `;
 
-export { ADD_TO_CART };
+const REMOVE_FROM_CART = gql`
+  mutation RemoveFromCart($cartInput: ID) {
+    removeFromCart(cartInput: $cartInput) {
+      _id
+      user {
+        _id
+      }
+      items {
+        itemId
+        item
+        quantity
+        price
+      }
+    }
+  }
+`;
+
+export { ADD_TO_CART, REMOVE_FROM_CART };

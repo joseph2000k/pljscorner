@@ -9,7 +9,10 @@ import Grid from "@mui/material/Grid";
 import Typograhpy from "@mui/material/Typography";
 import ButtonBase from "@mui/material/ButtonBase";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { ADD_TO_CART } from "../graphql/mutation/cartMutation";
+import {
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+} from "../graphql/mutation/cartMutation";
 import { GET_CART } from "../graphql/query/cartQuery";
 import { GET_TOTAL } from "../graphql/query/cartQuery";
 import { useTheme } from "@mui/material/styles";
@@ -24,6 +27,35 @@ export default function PosItems({ items: items }: any) {
 
   const { user } = useContext(AuthContext);
   const { addTotal } = useContext(PaymentContext);
+
+  const {
+    data: cartData,
+    loading: cartLoading,
+    error: cartError,
+  } = useQuery(GET_CART, {
+    variables: {
+      userId: user.id,
+    },
+  });
+
+  function createData(
+    itemId: string,
+    item: string,
+    quantity: number,
+    price: number
+  ) {
+    return { itemId, item, quantity, price };
+  }
+
+  //map through cart items and create data for table
+  let cartItems: never[] = [];
+  if (!cartLoading && !cartError) {
+    cartItems = cartData.getCart.items
+      .map((item: any) => {
+        return createData(item.itemId, item.item, item.quantity, item.price);
+      })
+      .reverse();
+  }
 
   const [addToCart, { loading }] = useMutation(ADD_TO_CART, {
     update(cache, { data: { addToCart } }) {
@@ -42,6 +74,26 @@ export default function PosItems({ items: items }: any) {
     },
   });
 
+  const [removeFromCart, { loading: removeFromCartLoading }] = useMutation(
+    REMOVE_FROM_CART,
+    {
+      update(cache, { data: { removeFromCart } }) {
+        cache.modify({
+          id: cache.identify({ userId: user.id }),
+          fields: {
+            items(existingItems = []) {
+              const newItemRef = cache.writeFragment({
+                data: removeFromCart,
+                fragment: GET_CART,
+              });
+              return [...existingItems, newItemRef];
+            },
+          },
+        });
+      },
+    }
+  );
+
   const {
     loading: loadingTotal,
     error: errorTotal,
@@ -57,12 +109,17 @@ export default function PosItems({ items: items }: any) {
     }
   }, [loadingTotal, errorTotal, dataTotal]);
 
-  if (loading) {
+  if (loading || removeFromCartLoading) {
     return <ProgressBar />;
   }
 
   function handleAddToCart(id: any) {
     addToCart({ variables: { cartInput: id } });
+    addTotal(dataTotal.getTotal);
+  }
+
+  function handleRemoveFromCart(id: any) {
+    removeFromCart({ variables: { cartInput: id } });
     addTotal(dataTotal.getTotal);
   }
 
@@ -98,6 +155,36 @@ export default function PosItems({ items: items }: any) {
                 />
               </Box>
             </ButtonBase>
+            {
+              //show quantity if item is in cart
+              cartItems.map((cartItem: any) => {
+                if (cartItem.itemId === item._id) {
+                  return (
+                    <Grid
+                      container
+                      justifyContent="center"
+                      key={cartItem.itemId}
+                    >
+                      <Grid item xs={12}>
+                        <Typograhpy
+                          fontSize=".7rem"
+                          sx={{ textAlign: "center" }}
+                        >
+                          {cartItem.quantity}pcs in cart
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            onClick={() => handleRemoveFromCart(item._id)}
+                          >
+                            remove 1
+                          </Button>
+                        </Typograhpy>
+                      </Grid>
+                    </Grid>
+                  );
+                }
+              })
+            }
           </ImageListItem>
         ))}
       </ImageList>
