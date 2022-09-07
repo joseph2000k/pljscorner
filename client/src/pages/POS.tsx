@@ -64,7 +64,7 @@ function POS() {
                 elevation={2}
                 square
                 minWidth="75vh"
-                style={{ maxHeight: "75vh", overflow: "auto" }}
+                style={{ maxHeight: "70vh", overflow: "auto" }}
                 position="fixed"
               >
                 <PosCart />
@@ -78,7 +78,7 @@ function POS() {
                 elevation={2}
                 square
                 minWidth="75vh"
-                marginTop="75vh"
+                marginTop="70vh"
                 style={{ minHeight: "25vh" }}
                 position="fixed"
               >

@@ -20,6 +20,7 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import { AuthContext } from "../context/authContext";
 
 import { PaymentContext } from "../context/paymentContext";
+import Skeleton from "@mui/material/Skeleton";
 
 export default function PosItems({ items }: any) {
   const theme = useTheme();
@@ -110,10 +111,6 @@ export default function PosItems({ items }: any) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadingTotal, errorTotal, dataTotal]);
 
-  if (loading || removeFromCartLoading) {
-    return <ProgressBar />;
-  }
-
   function handleAddToCart(id: any) {
     addToCart({ variables: { cartInput: id } });
     addTotal(dataTotal.getTotal);
@@ -139,14 +136,26 @@ export default function PosItems({ items }: any) {
       >
         {items.map((item: any) => (
           <ImageListItem key={item._id}>
-            <ButtonBase onClick={() => handleAddToCart(item._id)}>
+            <ButtonBase
+              onClick={() => handleAddToCart(item._id)}
+              disabled={loading || removeFromCartLoading}
+              disableRipple
+            >
               <Box>
-                <img
-                  src={`images/${item.image}`}
-                  alt={item.name}
-                  width={imageSize ? "50px" : "100px"}
-                  height={imageSize ? "50px" : "100px"}
-                />
+                {loading ? (
+                  <Skeleton
+                    variant="rectangular"
+                    width={imageSize ? "50px" : "100px"}
+                    height={imageSize ? "50px" : "100px"}
+                  />
+                ) : (
+                  <img
+                    src={`images/${item.image}`}
+                    alt={item.name}
+                    width={imageSize ? "50px" : "100px"}
+                    height={imageSize ? "50px" : "100px"}
+                  />
+                )}
                 <ImageListItemBar
                   title={<Typograhpy fontSize=".7rem">{item.name}</Typograhpy>}
                   subtitle={
@@ -174,6 +183,7 @@ export default function PosItems({ items }: any) {
                           variant="outlined"
                           size="small"
                           onClick={() => handleRemoveFromCart(item._id)}
+                          disabled={loading || removeFromCartLoading}
                         >
                           Remove One
                         </Button>
