@@ -16,10 +16,24 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+const cache = new InMemoryCache({
+  typePolicies: {
+    Cart: {
+      fields: {
+        items: {
+          merge(existing = [], incoming) {
+            return [...incoming];
+          },
+        },
+      },
+    },
+  },
+});
+
 const client = new ApolloClient({
   connectToDevTools: true,
   link: from([authLink, uploadLink]),
-  cache: new InMemoryCache(),
+  cache,
 });
 
 export default client;
