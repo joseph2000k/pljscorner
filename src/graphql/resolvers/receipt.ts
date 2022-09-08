@@ -17,7 +17,10 @@ module.exports = {
     Mutation: {
         receipt: async (_:void, args: { receiptInput: ReceiptType }, {user}: any) => {
             const { total, items, cash, paymentmethod, referencenumber } = args.receiptInput;
-            console.log(user.id);
+            
+            if(!cash) {
+                throw new Error('Cash is required');
+            }
 
             const transaction = {
                 change: cash - total,
