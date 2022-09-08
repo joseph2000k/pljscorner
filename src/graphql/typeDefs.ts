@@ -136,20 +136,13 @@ module.exports = gql`
     item: String
     quantity: Int
     price: Float
+    isDiscounted: Boolean
   }
 
   input ReceiptInput {
-    cashier: ID
     total: Float
     items: [ReceiptItemsInput]
     cash: Float
-    change: Float
-    receiptnumber: Int
-    shop: ID
-    date: Date
-    time: Date
-    tax: ID
-    discount: ID
     paymentmethod: ID
     referencenumber: String
   }

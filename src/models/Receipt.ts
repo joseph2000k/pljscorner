@@ -10,6 +10,7 @@ type ReceiptItems = {
     item: Item;
     quantity: number;
     price: number;
+    isDiscounted: boolean;
 }
 
 export interface Receipt {
@@ -56,6 +57,10 @@ const ReceiptSchema = new Schema<Receipt>({
         price: {
             type: Number,
             //required: true,
+        },
+        isDiscounted: {
+            type: Boolean,
+            default: false,
         },
     }],
     cash: {

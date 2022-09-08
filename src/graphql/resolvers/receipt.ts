@@ -15,9 +15,24 @@ module.exports = {
             }
         },
     Mutation: {
-        receipt: async (_:void, args: { receiptInput: ReceiptType }) => {
+        receipt: async (_:void, args: { receiptInput: ReceiptType }, {user}: any) => {
+            const { total, items, cash, paymentmethod, referencenumber } = args.receiptInput;
+            console.log(user.id);
+
+            const transaction = {
+                change: cash - total,
+                cash,
+                total,
+                items,
+                cashier: user.id,
+                date: new Date().toISOString(),
+                time: new Date().toISOString(),
+                paymentmethod,
+                referencenumber,
+            }
+
             const newReceipt = new Receipt({
-                ...args.receiptInput
+                ...transaction
             });
             const receipt = await newReceipt.save();
             
