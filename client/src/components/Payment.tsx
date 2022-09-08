@@ -64,7 +64,7 @@ export default function Payment() {
             maxHeight: "8vh",
           }}
         >
-          <h2>Total Price: {total}</h2>
+          <h2>Total Price: ₱{total}</h2>
         </Box>
         <Box
           sx={{
@@ -86,14 +86,20 @@ export default function Payment() {
           </Button>
           <Box sx={{ marginLeft: "50px" }}>
             <ButtonBase
-              sx={{ minHeight: "60px", maxWidth: "140px" }}
+              sx={{
+                minHeight: "60px",
+                maxWidth: "140px",
+                borderRaduis: "30px",
+              }}
               {...{ disabled: total === 0 }}
             >
               <img
-                src="assets/gcashlogo.png"
+                src="assets/gcashlogoblue.png"
                 alt="Card Logo"
-                width="120px"
-                height="30px"
+                /* width="120px"
+                height="30px" */
+                width="100%"
+                height="60px"
               />
             </ButtonBase>
           </Box>
