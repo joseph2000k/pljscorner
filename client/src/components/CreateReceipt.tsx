@@ -13,12 +13,61 @@ import InputLabel from "@mui/material/InputLabel";
 import Input from "@mui/material/Input";
 import InputAdornment from "@mui/material/InputAdornment";
 import PaymentIcon from "@mui/icons-material/Payment";
+import { GET_CART } from "../graphql/query/cartQuery";
+import { RECEIPT } from "../graphql/mutation/receipt";
+import { AuthContext } from "../context/authContext";
+import { useForm } from "../utility/hooks";
+
+import { useMutation, useQuery } from "@apollo/react-hooks";
 
 export default function CreateReceipt({ setOpen }: any) {
   const { total } = useContext(PaymentContext);
+  const { user } = useContext(AuthContext);
+
   const [isPayed, setIsPayed] = useState(false);
 
   const theme = useTheme();
+
+  const { loading, error, data } = useQuery(GET_CART, {
+    variables: {
+      userId: user.id,
+    },
+  });
+
+  function receiptCallback() {
+    receipt();
+    if (!receiptLoading) {
+      setIsPayed(true);
+    }
+  }
+
+  const { handleChange, handleSubmit, formData } = useForm(receiptCallback, {
+    cash: 0,
+  });
+
+  const { cash }: any = formData;
+
+  let cartItems: any = [];
+  if (!loading && !error) {
+    cartItems = data.getCart.items.map((item: any) => {
+      return {
+        itemId: item.itemId,
+        item: item.item,
+        quantity: item.quantity,
+        price: item.price,
+      };
+    });
+  }
+
+  const [receipt, { loading: receiptLoading }] = useMutation(RECEIPT, {
+    variables: {
+      receiptInput: {
+        total: total,
+        cash: cash,
+        items: cartItems,
+      },
+    },
+  });
 
   const toPay = (
     <>
@@ -29,16 +78,16 @@ export default function CreateReceipt({ setOpen }: any) {
       <Box sx={{ display: "flex", alignItems: "center", mt: 3, mb: 2 }}>
         <Grid container spacing={2}>
           <FormControl fullWidth sx={{ m: 1 }} variant="standard">
-            <InputLabel htmlFor="standard-adornment-amount">
-              Cash Amount
-            </InputLabel>
-            <Input
+            <TextField
               autoFocus
+              required
               type="number"
               id="standard-adornment-amount"
-              startAdornment={
-                <InputAdornment position="start">₱</InputAdornment>
-              }
+              name="cash"
+              label="Cash Amount"
+              variant="standard"
+              inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+              onChange={handleChange}
             />
           </FormControl>
         </Grid>
@@ -48,11 +97,9 @@ export default function CreateReceipt({ setOpen }: any) {
         color="secondary"
         variant="contained"
         type="submit"
-        //onsubmit prevent default to prevent page refresh
-        onClick={(e) => {
-          e.preventDefault();
-          setIsPayed(true);
-        }}
+        fullWidth
+        disabled={receiptLoading || cash < total}
+        onClick={handleSubmit}
       >
         Pay &nbsp;
         <PaymentIcon />
@@ -62,20 +109,37 @@ export default function CreateReceipt({ setOpen }: any) {
 
   const payed = (
     <>
-      <Typography id="transition-modal-title" variant="h5" component="h2">
-        payed
-        <Button
-          autoFocus
-          color="secondary"
-          variant="contained"
-          onClick={(e) => {
-            e.preventDefault();
-            setOpen(false);
-          }}
-        >
-          close
-        </Button>
-      </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", mt: 3, mb: 2 }}>
+        <Typography id="transition-modal-title" variant="h5" component="h2">
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            Transaction Successful!
+          </Box>
+          <Box
+            sx={{
+              color: theme.palette.success.main,
+              justifyContent: "center",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <h3>Change: ₱ {cash - total}</h3>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center", mt: 3, mb: 2 }}>
+            <Button
+              autoFocus
+              fullWidth
+              color="secondary"
+              variant="contained"
+              onClick={(e) => {
+                e.preventDefault();
+                setOpen(false);
+              }}
+            >
+              close
+            </Button>
+          </Box>
+        </Typography>
+      </Box>
     </>
   );
 
