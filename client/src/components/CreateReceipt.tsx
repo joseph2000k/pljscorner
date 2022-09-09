@@ -26,20 +26,25 @@ export default function CreateReceipt({ setOpen }: any) {
 
   const [isPayed, setIsPayed] = useState(false);
 
+  const [totalPrice, setTotalPrice] = useState(total);
+
   const theme = useTheme();
 
-  const { loading, error, data } = useQuery(GET_CART, {
+  const { loading, error, data, refetch } = useQuery(GET_CART, {
     variables: {
       userId: user.id,
     },
   });
 
   function receiptCallback() {
+    setTotalPrice(total);
     receipt();
     if (!receiptLoading) {
       setIsPayed(true);
     }
   }
+
+  refetch();
 
   const { handleChange, handleSubmit, formData } = useForm(receiptCallback, {
     cash: 0,
@@ -122,7 +127,7 @@ export default function CreateReceipt({ setOpen }: any) {
               alignItems: "center",
             }}
           >
-            <h3>Change: ₱ {cash - total}</h3>
+            <h3>Change: ₱ {cash - totalPrice}</h3>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center", mt: 3, mb: 2 }}>
             <Button
