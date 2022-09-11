@@ -1,14 +1,20 @@
 const Receipt = require('../../models/Receipt');
-const Item = require('../../models/Item');
 const Cart = require('../../models/Cart');
+const User = require('../../models/User');
 import { Receipt as ReceiptType } from "../../models/Receipt";
 
 module.exports = {
     Query: {
-        receipts: async () => {
+        receipts: async (_:void, args: void, {user}: any) => {
             try {
-                const receipts = await Receipt.find();
-                return receipts;
+                const role = await User.findById(user.id).select('role');
+
+                if (role.role === 'admin') {
+                    return await Receipt.find().sort({ date: -1 }).populate('cashier', 'username');
+                } else {
+                    return  await Receipt.find({ cashier: user.id }).sort({ date: -1 }).populate('cashier', 'username');
+                }
+
             } catch (err) {
                 throw err;
             }
