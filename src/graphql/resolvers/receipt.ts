@@ -19,8 +19,30 @@ module.exports = {
                 throw err;
             }
                 
+            },
+        receipt: async (_:void, {receiptId}:any, {user}: any) => {
+            try {
+                const role = await User.findById(user.id).select('role');
+
+                if (role.role === 'admin') {
+                    return await Receipt.findById(receiptId).populate('cashier', 'username');
+                } 
+
+                const receipt = await Receipt.findById(receiptId).populate('cashier', 'username');
+
+                if (receipt.cashier.id === user.id) {
+                    return receipt;
+                } else {
+                    return new Error('Unauthorized');
+                }
+
+            } catch (err) {
+                throw err;
             }
+        
         },
+    },
+
     Mutation: {
         receipt: async (_:void, args: { receiptInput: ReceiptType }, {user}: any) => {
             const { total, items, cash, paymentmethod, referencenumber } = args.receiptInput;
@@ -65,6 +87,3 @@ module.exports = {
     }
     }
 }
-
-
-

@@ -27,6 +27,8 @@ export const permissions = shield({
         hello: allow,
         getCart: or(isAdmin, isUser),
         getTotal: or(isAdmin, isUser),
+        receipts: or(isAdmin, isUser),
+        receipt: or(isAdmin, isUser),
     },
     Mutation: {
         register: allow,

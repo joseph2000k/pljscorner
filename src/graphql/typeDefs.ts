@@ -157,6 +157,7 @@ module.exports = gql`
     shops: [Shop]
     hello: String
     receipts: [Receipt]
+    receipt(receiptId: ID!): Receipt
     getCart(userId: ID!): Cart
     getTotal: Float
   }
