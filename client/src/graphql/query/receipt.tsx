@@ -21,4 +21,21 @@ const GET_RECEIPTS = gql`
   }
 `;
 
-export { GET_RECEIPTS };
+const GET_RECEIPT = gql`
+  query Receipt($receiptId: ID!) {
+    receipt(receiptId: $receiptId) {
+      total
+      cash
+      change
+      receiptnumber
+      items {
+        item
+        quantity
+        price
+      }
+      time
+    }
+  }
+`;
+
+export { GET_RECEIPTS, GET_RECEIPT };

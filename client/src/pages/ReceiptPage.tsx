@@ -1,4 +1,5 @@
-import React from "react";
+import { useState } from "react";
+import ViewReceipt from "../components/ViewReceipt";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
@@ -16,26 +17,35 @@ import Moment from "moment";
 const Items = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("sm")]: {
     width: "450px",
+    marginLeft: "325px",
   },
   [theme.breakpoints.up("md")]: {
     width: "600px",
+    marginLeft: "450px",
   },
   [theme.breakpoints.up("lg")]: {
     width: "800px",
+    marginLeft: "450px",
   },
 }));
 
 export default function ReceiptPage() {
+  const [receiptId, setReceiptId] = useState("");
+
   const { loading, error, data, refetch } = useQuery(GET_RECEIPTS);
 
   refetch();
 
   if (loading) return <p>Loading...</p>;
 
+  const handleClick = (id: string) => {
+    setReceiptId(id);
+  };
+
   const receiptList = data.receipts.map((receipt: any) => {
     return (
       <Grid item xs={12} sm={6} md={4} lg={3} margin={0} key={receipt._id}>
-        <ButtonBase>
+        <ButtonBase onClick={() => handleClick(receipt._id)}>
           <Box>
             <Box
               sx={{
@@ -118,7 +128,7 @@ export default function ReceiptPage() {
               alignItems: "center",
             }}
           >
-            Selected Receipt
+            <ViewReceipt receiptId={receiptId} />
           </Box>
         </Items>
       </Grid>
