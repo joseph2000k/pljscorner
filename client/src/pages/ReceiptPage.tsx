@@ -24,8 +24,8 @@ const Items = styled("div")(({ theme }) => ({
     marginLeft: "450px",
   },
   [theme.breakpoints.up("lg")]: {
-    width: "800px",
-    marginLeft: "450px",
+    width: "600px",
+    marginLeft: "650px",
   },
 }));
 

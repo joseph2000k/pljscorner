@@ -28,7 +28,11 @@ const GET_RECEIPT = gql`
       cash
       change
       receiptnumber
+      cashier {
+        username
+      }
       items {
+        itemId
         item
         quantity
         price
