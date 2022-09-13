@@ -26,12 +26,24 @@ export default function ViewReceipt({ receiptId: receiptId }: any) {
     return <Box marginTop="300px">Please Select a Receipt</Box>;
   }
 
-  console.log(data.receipt.items);
+  const items = data.receipt.items ? (
+    data.receipt.items.map((item: any) => {
+      return (
+        <Box key={item.itemId}>
+          {item.item} x {item.quantity} = {item.price}
+        </Box>
+      );
+    })
+  ) : (
+    <Box>No Items</Box>
+  );
+
+  console.log(items);
 
   return (
     <>
       <Grid container marginTop="50px">
-        <Paper elevation={3} sx={{ minWidth: "400px", minHeight: "400px" }}>
+        <Paper elevation={2} sx={{ minWidth: "400px", minHeight: "400px" }}>
           <Box
             display="flex"
             minWidth="300px"
@@ -61,7 +73,9 @@ export default function ViewReceipt({ receiptId: receiptId }: any) {
             </Box>
           </Box>
           <Divider variant="middle" />
-          items here
+          <Box marginLeft="15px" marginTop="10px">
+            {items}
+          </Box>
         </Paper>
       </Grid>
     </>
