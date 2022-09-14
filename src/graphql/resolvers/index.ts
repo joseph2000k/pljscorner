@@ -6,6 +6,7 @@ const shopResolvers = require("./shop");
 const uploadResolvers = require("./uploadFile");
 const receiptResolvers = require("./receipt");
 const cartResolvers = require("./cart");
+const buymoretakemorediscountResolvers = require("./buymoretakemorediscount");
 
 module.exports = {
   Query: {
@@ -17,6 +18,7 @@ module.exports = {
     ...uploadResolvers.Query,
     ...receiptResolvers.Query,
     ...cartResolvers.Query,
+    ...buymoretakemorediscountResolvers.Query,
   },
 
   Mutation: {
@@ -28,5 +30,6 @@ module.exports = {
     ...uploadResolvers.Mutation,
     ...receiptResolvers.Mutation,
     ...cartResolvers.Mutation,
+    ...buymoretakemorediscountResolvers.Mutation,
   },
 };

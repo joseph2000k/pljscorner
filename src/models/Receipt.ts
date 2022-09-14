@@ -1,7 +1,6 @@
 import {Schema, model} from 'mongoose';
 import { Item } from './Item';
 import { User } from './User';
-import { Discount } from './Discount';
 import { Tax } from './Tax';
 import { PaymentMethod } from './PaymentMethod';
 import { Shop } from './Shop';
@@ -24,7 +23,7 @@ export interface Receipt {
     date: Date;
     time: Date;
     tax: Tax;
-    discount: Discount;
+    discount: number;
     paymentmethod: PaymentMethod;
     referencenumber: number;
 }
@@ -93,8 +92,7 @@ const ReceiptSchema = new Schema<Receipt>({
         ref: 'Tax',
     },
     discount: {
-        type: Schema.Types.ObjectId,
-        ref: 'Discount',
+        type: Number,
     },
     paymentmethod: {
         type: Schema.Types.String,

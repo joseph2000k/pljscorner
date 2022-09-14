@@ -14,9 +14,19 @@ module.exports = gql`
     value: Float!
   }
 
-  type Discount {
-    name: String!
-    value: Float!
+  type BuyMoreTakeMoreDiscount {
+    _id: ID!
+    item: Item!
+    buy: Int!
+    take: Int!
+    activated: Boolean!
+  }
+
+  input BuyMoreTakeMoreDiscountInput {
+    item: ID!
+    buy: Int!
+    take: Int!
+    activated: Boolean!
   }
 
 
@@ -32,7 +42,7 @@ module.exports = gql`
     date: Date
     time: Date
     tax: Tax
-    discount: Discount
+    discount: Int
     paymentmethod: PaymentMethod
     referencenumber: String
   }
@@ -160,6 +170,8 @@ module.exports = gql`
     receipt(receiptId: ID!): Receipt
     getCart(userId: ID!): Cart
     getTotal: Float
+    getBMTMDiscounts: [BuyMoreTakeMoreDiscount]
+    getBMTMDiscount(discountId: ID!): BuyMoreTakeMoreDiscount
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
@@ -172,5 +184,6 @@ module.exports = gql`
     receipt(receiptInput: ReceiptInput): Receipt
     addToCart(cartInput: ID): Cart
     removeFromCart(cartInput: ID): Cart
+    addBMTMDiscount(discountInput: BuyMoreTakeMoreDiscountInput): BuyMoreTakeMoreDiscount
   }
 `;
