@@ -8,6 +8,7 @@ import ProgressBar from "./ProgressBar";
 import LinearProgress from "@mui/material/LinearProgress";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
+import Moment from "moment";
 
 export default function ViewReceipt({ receiptId: receiptId }: any) {
   const { loading, error, data } = useQuery(GET_RECEIPT, {
@@ -29,8 +30,20 @@ export default function ViewReceipt({ receiptId: receiptId }: any) {
   const items = data.receipt.items ? (
     data.receipt.items.map((item: any) => {
       return (
-        <Box key={item.itemId}>
-          {item.item} x {item.quantity} = {item.price}
+        <Box
+          key={item.itemId}
+          sx={{
+            marginTop: "5px",
+            marginBottom: "5px",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box>
+            {item.item} x {item.quantity}
+          </Box>
+          <Box>{item.price}</Box>
         </Box>
       );
     })
@@ -38,12 +51,10 @@ export default function ViewReceipt({ receiptId: receiptId }: any) {
     <Box>No Items</Box>
   );
 
-  console.log(items);
-
   return (
     <>
-      <Grid container marginTop="50px">
-        <Paper elevation={2} sx={{ minWidth: "400px", minHeight: "400px" }}>
+      <Grid container marginTop="50px" marginBottom="50px">
+        <Paper elevation={2} sx={{ minWidth: "500px", minHeight: "400px" }}>
           <Box
             display="flex"
             minWidth="300px"
@@ -52,8 +63,8 @@ export default function ViewReceipt({ receiptId: receiptId }: any) {
           >
             <Box>
               <Box display="flex" justifyContent="center" marginTop="10px">
-                <Typography fontWeight="bold" fontSize="25px">
-                  {data.receipt.total}
+                <Typography fontWeight="bold" fontSize="30px">
+                  ₱ {data.receipt.total}
                 </Typography>
               </Box>
               <Box display="flex" justifyContent="center">
@@ -73,8 +84,26 @@ export default function ViewReceipt({ receiptId: receiptId }: any) {
             </Box>
           </Box>
           <Divider variant="middle" />
-          <Box marginLeft="15px" marginTop="10px">
-            {items}
+          <Box margin="15px">{items}</Box>
+          <Divider variant="middle" />
+          <Box margin="15px">Total Discount:</Box>
+          <Divider variant="middle" />
+          <Box margin="15px">Total: ₱{data.receipt.total}</Box>
+          <Box margin="15px"> Cash: ₱{data.receipt.cash}</Box>
+          <Box margin="15px">Change: ₱{data.receipt.change}</Box>
+          <Box margin="15px">Mode of Payment: </Box>
+          <Divider variant="middle" />
+          <Box
+            display="flex"
+            minWidth="300px"
+            justifyContent="space-between"
+            margin="15px"
+          >
+            <Box>
+              Date: &nbsp;
+              {Moment(data.receipt.time).format("l, h:mm:ss a")}
+            </Box>
+            <Box>#{data.receipt.receiptnumber}</Box>
           </Box>
         </Paper>
       </Grid>

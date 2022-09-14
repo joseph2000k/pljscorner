@@ -17,7 +17,7 @@ import Moment from "moment";
 const Items = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("sm")]: {
     width: "450px",
-    marginLeft: "325px",
+    marginLeft: "300px",
   },
   [theme.breakpoints.up("md")]: {
     width: "600px",
@@ -25,7 +25,7 @@ const Items = styled("div")(({ theme }) => ({
   },
   [theme.breakpoints.up("lg")]: {
     width: "600px",
-    marginLeft: "650px",
+    marginLeft: "600px",
   },
 }));
 
