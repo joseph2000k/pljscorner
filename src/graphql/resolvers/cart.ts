@@ -1,5 +1,6 @@
 const Cart = require('../../models/Cart');
 const Item = require('../../models/Item');
+const BMTMDiscount = require('../../models/BuyMoreTakeMoreDiscount');
 
 module.exports = {
     Query: {
@@ -42,7 +43,7 @@ module.exports = {
                 }
 
                 const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; }) => item.itemId.toString() === args.cartInput);
-             
+                const discount = await BMTMDiscount.findOne({item: args.cartInput, activated: true});
                
                 if(!cartItem) {
                     cart.items.push({
@@ -51,6 +52,15 @@ module.exports = {
                         quantity: 1,
                         price: item.price,
                     });
+                } else if(cartItem && discount) {
+                    cartItem.quantity += 1;
+                
+                    const remainder = cartItem.quantity % discount.buy;
+                    if(remainder === 0) {
+                        cartItem.price = item.price * (cartItem.quantity - (cartItem.quantity / discount.buy) * discount.take);
+                    } else {
+                    cartItem.price += item.price;
+                    }
                 } else {
                     cartItem.quantity += 1;
                     cartItem.price += item.price;
@@ -72,6 +82,7 @@ module.exports = {
             try {
                 const cart = await Cart.findOne({user: user.id});
                 const item = await Item.findById(args.cartInput);
+                const discount = await BMTMDiscount.findOne({item: args.cartInput, activated: true});
                 
                 if(!cart) {
                     return new Error('Cart not found');
@@ -85,7 +96,16 @@ module.exports = {
                
                 if(!cartItem) {
                     return new Error('Item not found in cart');
-                } else {
+                } else if(cartItem && discount) {
+                    const remainder = cartItem.quantity % discount.buy;
+                    if(remainder === 0) {
+                        cartItem.price = item.price * (cartItem.quantity - (cartItem.quantity / discount.buy) * discount.take);
+                    } else {
+                    cartItem.price -= item.price;
+                    }
+                    cartItem.quantity -= 1;
+                }
+                else {
                     cartItem.quantity -= 1;
                     cartItem.price -= item.price;
                 }
