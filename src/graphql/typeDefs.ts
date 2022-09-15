@@ -14,18 +14,18 @@ module.exports = gql`
     value: Float!
   }
 
-  type BuyMoreTakeMoreDiscount {
+  type BuyMoreAndSaveDiscount {
     _id: ID!
     item: Item!
     buy: Int!
-    take: Int!
+    saveValue: Int!
     activated: Boolean!
   }
 
-  input BuyMoreTakeMoreDiscountInput {
+  input BuyMoreAndSaveDiscountInput {
     item: ID!
     buy: Int!
-    take: Int!
+    saveValue: Int!
     activated: Boolean!
   }
 
@@ -170,8 +170,8 @@ module.exports = gql`
     receipt(receiptId: ID!): Receipt
     getCart(userId: ID!): Cart
     getTotal: Float
-    getBMTMDiscounts: [BuyMoreTakeMoreDiscount]
-    getBMTMDiscount(discountId: ID!): BuyMoreTakeMoreDiscount
+    getBMSDiscounts: [BuyMoreAndSaveDiscount]
+    getBMSDiscount(discountId: ID!): BuyMoreAndSaveDiscount
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
@@ -184,6 +184,6 @@ module.exports = gql`
     receipt(receiptInput: ReceiptInput): Receipt
     addToCart(cartInput: ID): Cart
     removeFromCart(cartInput: ID): Cart
-    addBMTMDiscount(discountInput: BuyMoreTakeMoreDiscountInput): BuyMoreTakeMoreDiscount
+    addBMSDiscount(discountInput: BuyMoreAndSaveDiscountInput): BuyMoreAndSaveDiscount
   }
 `;

@@ -29,8 +29,8 @@ export const permissions = shield({
         getTotal: or(isAdmin, isUser),
         receipts: or(isAdmin, isUser),
         receipt: or(isAdmin, isUser),
-        getBMTMDiscount: or(isAdmin, isUser),
-        getBMTMDiscounts: or(isAdmin, isUser),
+        getBMSDiscount: or(isAdmin, isUser),
+        getBMSDiscounts: or(isAdmin, isUser),
     },
     Mutation: {
         register: allow,
@@ -41,7 +41,7 @@ export const permissions = shield({
         receipt: or(isAdmin, isUser),
         addToCart: or(isAdmin, isUser),
         removeFromCart: or(isAdmin, isUser),
-        addBMTMDiscount: isAdmin,
+        addBMSDiscount: isAdmin,
     }
 },
 );

@@ -1,6 +1,6 @@
 import {Schema, model} from 'mongoose';
 
-/* export interface BuyMoreTakeMoreDiscount {
+/* export interface BuyMoreAndSaveDiscount {
     name: string;
     value: number;
 } */
@@ -15,7 +15,7 @@ const DiscountSchema = new Schema({
         type: Number,
         //required: true,
     },
-    take: {
+    saveValue: {
         type: Number,
         //required: true,
     },
@@ -27,6 +27,6 @@ const DiscountSchema = new Schema({
 }
 );
 
-const BuyMoreTakeMoreDiscount = model('BuyMoreTakeMoreDiscount', DiscountSchema);
+const BuyMoreAndSaveDiscount = model('BuyMoreAndSaveDiscount', DiscountSchema);
 
-module.exports=BuyMoreTakeMoreDiscount;
+module.exports=BuyMoreAndSaveDiscount;

@@ -1,6 +1,6 @@
 const Cart = require('../../models/Cart');
 const Item = require('../../models/Item');
-const BMTMDiscount = require('../../models/BuyMoreTakeMoreDiscount');
+const BMSDiscount = require('../../models/BuyMoreAndSaveDiscount');
 
 module.exports = {
     Query: {
@@ -43,7 +43,7 @@ module.exports = {
                 }
 
                 const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; }) => item.itemId.toString() === args.cartInput);
-                const discount = await BMTMDiscount.findOne({item: args.cartInput, activated: true});
+                const discount = await BMSDiscount.findOne({item: args.cartInput, activated: true});
                
                 if(!cartItem) {
                     cart.items.push({
@@ -57,7 +57,8 @@ module.exports = {
                 
                     const remainder = cartItem.quantity % discount.buy;
                     if(remainder === 0) {
-                        cartItem.price = item.price * (cartItem.quantity - (cartItem.quantity / discount.buy) * discount.take);
+                        console.log(remainder)
+                        cartItem.price += item.price - discount.saveValue;
                     } else {
                     cartItem.price += item.price;
                     }
@@ -82,7 +83,7 @@ module.exports = {
             try {
                 const cart = await Cart.findOne({user: user.id});
                 const item = await Item.findById(args.cartInput);
-                const discount = await BMTMDiscount.findOne({item: args.cartInput, activated: true});
+                const discount = await BMSDiscount.findOne({item: args.cartInput, activated: true});
                 
                 if(!cart) {
                     return new Error('Cart not found');
@@ -99,7 +100,7 @@ module.exports = {
                 } else if(cartItem && discount) {
                     const remainder = cartItem.quantity % discount.buy;
                     if(remainder === 0) {
-                        cartItem.price = item.price * (cartItem.quantity - (cartItem.quantity / discount.buy) * discount.take);
+                        cartItem.price -= item.price - discount.saveValue;
                     } else {
                     cartItem.price -= item.price;
                     }
