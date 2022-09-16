@@ -28,7 +28,7 @@ const Items = styled("div")(({ theme }) => ({
     width: "800px",
   },
   [theme.breakpoints.up("lg")]: {
-    width: "1080px",
+    width: "1000px",
   },
 }));
 
@@ -40,7 +40,7 @@ function POS() {
           <Grid container component="main">
             <CssBaseline />
             <Grid item xs={false} sm={5} md={7}>
-              <Grid style={{ position: "sticky" }}>
+              <Grid style={{ position: "fixed" }}>
                 <Items>
                   <Box
                     sx={{
@@ -63,7 +63,7 @@ function POS() {
                 component={Paper}
                 elevation={2}
                 square
-                minWidth="75vh"
+                minWidth="50vh"
                 style={{ maxHeight: "70vh", overflow: "auto" }}
                 position="fixed"
               >
@@ -77,7 +77,7 @@ function POS() {
                 component={Paper}
                 elevation={2}
                 square
-                minWidth="75vh"
+                minWidth="70vh"
                 marginTop="70vh"
                 style={{ minHeight: "25vh" }}
                 position="fixed"

@@ -61,7 +61,11 @@ export default function PosCart() {
     <Grid
       container
       component="main"
-      sx={{ height: "100vh", width: "400px", marginTop: "10px" }}
+      sx={{
+        minHeight: "75vh",
+        width: "400px",
+        marginTop: "10px",
+      }}
     >
       <Grid item xs={false}>
         <Receipt>

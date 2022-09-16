@@ -57,7 +57,6 @@ module.exports = {
                 
                     const remainder = cartItem.quantity % discount.buy;
                     if(remainder === 0) {
-                        console.log(remainder)
                         cartItem.price += item.price - discount.saveValue;
                     } else {
                     cartItem.price += item.price;

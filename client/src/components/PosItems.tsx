@@ -128,8 +128,8 @@ export default function PosItems({ items }: any) {
     <Box>
       <ImageList
         sx={{
-          width: { sm: 500, md: 700, lg: 800 },
-          height: { sm: 1000, md: 600, lg: 500 },
+          width: { sm: 500, md: 800, lg: 890 },
+          height: { sm: 1000, md: 500, lg: 500 },
         }}
         cols={6}
         rowHeight="auto"

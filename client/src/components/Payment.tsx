@@ -25,12 +25,12 @@ export default function Payment() {
   const Payment = styled("div")(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
       marginLeft: "0px",
+      maxWidth: "22vh",
     },
     [theme.breakpoints.up("md")]: {
       marginLeft: "5px",
       maxWidth: "44vh",
       minHeight: "15vh",
-      //border: "1px solid #000",
     },
     [theme.breakpoints.up("lg")]: {
       marginLeft: "10px",
