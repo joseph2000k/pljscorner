@@ -23,4 +23,10 @@ const GET_TOTAL = gql`
   }
 `;
 
-export { GET_CART, GET_TOTAL };
+const NO_OF_ITEMS = gql`
+  query NumberofItemsInCart {
+    numberOfItemsInCart
+  }
+`;
+
+export { GET_CART, GET_TOTAL, NO_OF_ITEMS };

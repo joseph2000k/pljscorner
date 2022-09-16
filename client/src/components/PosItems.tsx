@@ -13,8 +13,7 @@ import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
 } from "../graphql/mutation/cartMutation";
-import { GET_CART } from "../graphql/query/cartQuery";
-import { GET_TOTAL } from "../graphql/query/cartQuery";
+import { GET_CART, GET_TOTAL, NO_OF_ITEMS } from "../graphql/query/cartQuery";
 import { useTheme } from "@mui/material/styles";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { AuthContext } from "../context/authContext";
@@ -27,7 +26,7 @@ export default function PosItems({ items }: any) {
   const imageSize = useMediaQuery(theme.breakpoints.down("md"));
 
   const { user } = useContext(AuthContext);
-  const { addTotal } = useContext(PaymentContext);
+  const { addTotal, addNumberOfItems } = useContext(PaymentContext);
 
   const {
     data: cartData,
@@ -104,21 +103,45 @@ export default function PosItems({ items }: any) {
 
   refetchTotal();
 
+  const {
+    loading: loadingNumberOfItems,
+    error: errorNumberOfItems,
+    data: dataNumberOfItems,
+    refetch: refetchNumberOfItems,
+  } = useQuery(NO_OF_ITEMS);
+
+  refetchNumberOfItems();
+
   useEffect(() => {
-    if (!loadingTotal && !errorTotal) {
+    if (
+      !loadingTotal &&
+      !errorTotal &&
+      !loadingNumberOfItems &&
+      !errorNumberOfItems
+    ) {
       addTotal(dataTotal.getTotal);
+      addNumberOfItems(dataNumberOfItems.numberOfItemsInCart);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadingTotal, errorTotal, dataTotal]);
+  }, [
+    loadingTotal,
+    errorTotal,
+    dataTotal,
+    loadingNumberOfItems,
+    errorNumberOfItems,
+    dataNumberOfItems,
+  ]);
 
   function handleAddToCart(id: any) {
     addToCart({ variables: { cartInput: id } });
     addTotal(dataTotal.getTotal);
+    addNumberOfItems(dataNumberOfItems.numberOfItemsInCart);
   }
 
   function handleRemoveFromCart(id: any) {
     removeFromCart({ variables: { cartInput: id } });
     addTotal(dataTotal.getTotal);
+    addNumberOfItems(dataNumberOfItems.numberOfItemsInCart);
   }
 
   if (items.length === 0) {

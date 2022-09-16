@@ -15,7 +15,9 @@ import Fade from "@mui/material/Fade";
 
 export default function Payment() {
   const theme = useTheme();
-  const { total } = useContext(PaymentContext);
+  const { total, numberOfItems } = useContext(PaymentContext);
+
+  console.log(numberOfItems);
 
   //Modal Transition
   const [open, setOpen] = useState(false);
@@ -65,6 +67,16 @@ export default function Payment() {
           }}
         >
           <h2>Total Price: ₱{total}</h2>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            //border: "solid 1px",
+            maxHeight: "8vh",
+          }}
+        >
+          No. Of Items: {numberOfItems}
         </Box>
         <Box
           sx={{

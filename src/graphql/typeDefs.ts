@@ -172,6 +172,7 @@ module.exports = gql`
     getTotal: Float
     getBMSDiscounts: [BuyMoreAndSaveDiscount]
     getBMSDiscount(discountId: ID!): BuyMoreAndSaveDiscount
+    numberOfItemsInCart: Int
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
