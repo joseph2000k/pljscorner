@@ -16,7 +16,7 @@ const Receipt = styled("div")(({ theme }) => ({
     marginLeft: "120px",
   },
   [theme.breakpoints.up("lg")]: {
-    marginLeft: "150px",
+    marginLeft: "225px",
   },
 }));
 
@@ -28,7 +28,7 @@ const Items = styled("div")(({ theme }) => ({
     width: "800px",
   },
   [theme.breakpoints.up("lg")]: {
-    width: "1000px",
+    width: "1140px",
   },
 }));
 

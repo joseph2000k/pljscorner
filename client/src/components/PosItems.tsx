@@ -151,8 +151,8 @@ export default function PosItems({ items }: any) {
     <Box>
       <ImageList
         sx={{
-          width: { sm: 500, md: 800, lg: 890 },
-          height: { sm: 1000, md: 500, lg: 500 },
+          width: { sm: 500, md: 800, lg: 1100 },
+          height: { sm: 1000, md: 500, lg: 600 },
         }}
         cols={6}
         rowHeight="auto"
@@ -201,7 +201,8 @@ export default function PosItems({ items }: any) {
                   >
                     <Grid>
                       <Typograhpy fontSize=".7rem" sx={{ textAlign: "center" }}>
-                        {cartItem.quantity}pcs in cart
+                        <Box>{cartItem.quantity}pcs in cart</Box>
+                        <Box>
                         <Button
                           variant="outlined"
                           size="small"
@@ -210,6 +211,7 @@ export default function PosItems({ items }: any) {
                         >
                           Remove One
                         </Button>
+                        </Box>
                       </Typograhpy>
                     </Grid>
                   </Grid>
