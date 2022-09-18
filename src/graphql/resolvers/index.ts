@@ -7,6 +7,7 @@ const uploadResolvers = require("./uploadFile");
 const receiptResolvers = require("./receipt");
 const cartResolvers = require("./cart");
 const buymoreandsavediscount = require("./buymoreandsavediscount");
+const saveMoreDiscountResolver = require("./savemorediscount");
 
 module.exports = {
   Query: {
@@ -19,6 +20,7 @@ module.exports = {
     ...receiptResolvers.Query,
     ...cartResolvers.Query,
     ...buymoreandsavediscount.Query,
+    ...saveMoreDiscountResolver.Query,
   },
 
   Mutation: {
@@ -31,5 +33,6 @@ module.exports = {
     ...receiptResolvers.Mutation,
     ...cartResolvers.Mutation,
     ...buymoreandsavediscount.Mutation,
+    ...saveMoreDiscountResolver.Mutation,
   },
 };
