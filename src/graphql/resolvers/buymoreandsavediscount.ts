@@ -1,5 +1,4 @@
-const 
-buyMoreAndSaveDiscount = require('../../models/BuyMoreAndSaveDiscount');
+const buyMoreAndSaveDiscount = require('../../models/BuyMoreAndSaveDiscount');
 
 module.exports = {
     Query: {

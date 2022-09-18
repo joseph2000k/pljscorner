@@ -154,7 +154,7 @@ export default function PosItems({ items }: any) {
           width: { sm: 500, md: 800, lg: 1100 },
           height: { sm: 1000, md: 500, lg: 600 },
         }}
-        cols={6}
+        cols={8}
         rowHeight="auto"
       >
         {items.map((item: any) => (
@@ -201,8 +201,8 @@ export default function PosItems({ items }: any) {
                   >
                     <Grid>
                       <Typograhpy fontSize=".7rem" sx={{ textAlign: "center" }}>
-                        <Box>{cartItem.quantity}pcs in cart</Box>
-                        <Box>
+                        {cartItem.quantity}pcs in cart
+                        
                         <Button
                           variant="outlined"
                           size="small"
@@ -211,7 +211,7 @@ export default function PosItems({ items }: any) {
                         >
                           Remove One
                         </Button>
-                        </Box>
+                       
                       </Typograhpy>
                     </Grid>
                   </Grid>

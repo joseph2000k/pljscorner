@@ -29,6 +29,23 @@ module.exports = gql`
     activated: Boolean!
   }
 
+  type SaveMoreDiscount {
+    _id: ID!
+    items: [Item]!
+    title: String!
+    buy: Int!
+    saveValue: Int!
+    activated: Boolean!
+  }
+
+  input SaveMoreDiscountInput {
+    items: [ID!]!
+    title: String!
+    buy: Int!
+    saveValue: Int!
+    activated: Boolean!
+  }
+
 
   type Receipt {
     _id: ID!
@@ -52,6 +69,7 @@ module.exports = gql`
     item: String!
     quantity: Int
     price: Float
+    discount: [ID]
   }
 
   type Category {
@@ -69,6 +87,7 @@ module.exports = gql`
     item: String!
     quantity: Int
     price: Float
+    discount: [ID]
   }
 
   type Cart {
@@ -146,7 +165,7 @@ module.exports = gql`
     item: String
     quantity: Int
     price: Float
-    isDiscounted: Boolean
+    discount: ID
   }
 
   input ReceiptInput {
@@ -172,6 +191,7 @@ module.exports = gql`
     getTotal: Float
     getBMSDiscounts: [BuyMoreAndSaveDiscount]
     getBMSDiscount(discountId: ID!): BuyMoreAndSaveDiscount
+    getSMDiscounts: [SaveMoreDiscount]
     numberOfItemsInCart: Int
   }
   type Mutation {
@@ -186,5 +206,7 @@ module.exports = gql`
     addToCart(cartInput: ID): Cart
     removeFromCart(cartInput: ID): Cart
     addBMSDiscount(discountInput: BuyMoreAndSaveDiscountInput): BuyMoreAndSaveDiscount
+    createSMDiscount(discountInput: SaveMoreDiscountInput): SaveMoreDiscount
+    addSMDItem(discountId: ID!, item: ID!): SaveMoreDiscount
   }
 `;

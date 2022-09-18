@@ -1,6 +1,7 @@
 const Cart = require('../../models/Cart');
 const Item = require('../../models/Item');
 const BMSDiscount = require('../../models/BuyMoreAndSaveDiscount');
+const SMDiscount = require('../../models/SaveMoreDiscount');
 
 module.exports = {
     Query: {
@@ -57,7 +58,8 @@ module.exports = {
 
                 const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; }) => item.itemId.toString() === args.cartInput);
                 const discount = await BMSDiscount.findOne({item: args.cartInput, activated: true});
-               
+                const discount2 = await SMDiscount.findOne({items: args.cartInput, activated: true});
+
                 if(!cartItem) {
                     cart.items.push({
                         itemId: item._id,
@@ -65,7 +67,7 @@ module.exports = {
                         quantity: 1,
                         price: item.price,
                     });
-                } else if(cartItem && discount) {
+                }/*  else if(cartItem && discount) {
                     cartItem.quantity += 1;
                 
                     const remainder = cartItem.quantity % discount.buy;
@@ -74,11 +76,34 @@ module.exports = {
                     } else {
                     cartItem.price += item.price;
                     }
-                } else {
+                }  */else {
                     cartItem.quantity += 1;
                     cartItem.price += item.price;
                 }
 
+                let items = [];
+                if(discount2) {
+                    const itemsInDiscount2 = cart.items.filter((item: { itemId: { toString: () => string; }; }) => discount2.items.includes(item.itemId.toString()));
+                    items.push(...itemsInDiscount2);
+                }
+                
+                let totalQuantity = 0;
+                items.forEach((item: { quantity: number; }) => {
+                    totalQuantity += item.quantity;
+                });
+
+                if(discount2){
+                    let remainder = totalQuantity % discount2.buy;
+
+                    if(remainder===0) {
+                        cart.items.forEach((item: { itemId: { toString: () => string; }; discount: any; price: number }) => {
+                            if(discount2.items.includes(item.itemId.toString())) {
+                                item.price = 0;
+                                item.discount.push(discount2._id);
+                            }
+                        });
+                    } 
+                }
                 item.stock -= 1;
 
                 await item.save();
@@ -96,6 +121,7 @@ module.exports = {
                 const cart = await Cart.findOne({user: user.id});
                 const item = await Item.findById(args.cartInput);
                 const discount = await BMSDiscount.findOne({item: args.cartInput, activated: true});
+                const discount2 = await SMDiscount.findOne({items: args.cartInput, activated: true});
                 
                 if(!cart) {
                     return new Error('Cart not found');
@@ -109,7 +135,7 @@ module.exports = {
                
                 if(!cartItem) {
                     return new Error('Item not found in cart');
-                } else if(cartItem && discount) {
+                } /* else if(cartItem && discount) {
                     const remainder = cartItem.quantity % discount.buy;
                     if(remainder === 0) {
                         cartItem.price -= item.price - discount.saveValue;
@@ -117,7 +143,7 @@ module.exports = {
                     cartItem.price -= item.price;
                     }
                     cartItem.quantity -= 1;
-                }
+                } */
                 else {
                     cartItem.quantity -= 1;
                     cartItem.price -= item.price;
@@ -125,6 +151,19 @@ module.exports = {
 
                 if(cartItem.quantity < 1) {
                     cart.items = cart.items.filter((item: { itemId: { toString: () => string; }; }) => item.itemId.toString() !== args.cartInput);
+                }
+
+                let totalQuantityOfItemsInDiscount = 0;
+                if(discount2) {
+                    const itemsInDiscount = cart.items.filter((item: { itemId: { toString: () => string; }; }) => discount2.items.includes(item.itemId.toString()));
+                    itemsInDiscount.forEach((item: { quantity: number; }) => {
+                        totalQuantityOfItemsInDiscount += item.quantity;
+                    });
+                }
+
+                let remainder = totalQuantityOfItemsInDiscount % discount2.buy;
+                if(remainder === 0) {
+                    console.log('remainder is 0');
                 }
 
                 item.stock += 1;

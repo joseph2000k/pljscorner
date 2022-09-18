@@ -31,6 +31,7 @@ export const permissions = shield({
         receipt: or(isAdmin, isUser),
         getBMSDiscount: or(isAdmin, isUser),
         getBMSDiscounts: or(isAdmin, isUser),
+        getSMDiscounts: or(isAdmin, isUser),
         numberOfItemsInCart: or(isAdmin, isUser)
     },
     Mutation: {
@@ -43,6 +44,8 @@ export const permissions = shield({
         addToCart: or(isAdmin, isUser),
         removeFromCart: or(isAdmin, isUser),
         addBMSDiscount: isAdmin,
+        createSMDiscount: isAdmin,
+        addSMDItem: isAdmin,
     }
 },
 );

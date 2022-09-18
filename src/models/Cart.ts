@@ -1,12 +1,14 @@
 import {Schema, model} from 'mongoose';
 import {User} from './User';
 import { Item } from './Item';
+import {SaveMoreDiscount} from './SaveMoreDiscount';
 
 
 type CartItems = {
     item: Item;
     quantity: number;
     price: number;
+    discount: [SaveMoreDiscount];
 }
 export interface Cart {
     user: User;
@@ -37,6 +39,11 @@ const CartSchema = new Schema<Cart>({
             type: Number,
             //required: true,
         },
+        discount: [{
+            type: Schema.Types.ObjectId,
+            ref: 'SaveMoreDiscount',
+            //required: true,
+        }],
     }],
 });
 

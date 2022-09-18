@@ -4,12 +4,13 @@ import { User } from './User';
 import { Tax } from './Tax';
 import { PaymentMethod } from './PaymentMethod';
 import { Shop } from './Shop';
+import {SaveMoreDiscount} from './SaveMoreDiscount';
 
 type ReceiptItems = {
     item: Item;
     quantity: number;
     price: number;
-    isDiscounted: boolean;
+    discount: [SaveMoreDiscount];
 }
 
 export interface Receipt {
@@ -57,10 +58,11 @@ const ReceiptSchema = new Schema<Receipt>({
             type: Number,
             //required: true,
         },
-        isDiscounted: {
-            type: Boolean,
-            default: false,
-        },
+        discount: [{
+            type: Schema.Types.ObjectId,
+            ref: 'SaveMoreDiscount',
+            //required: true,
+        }],
     }],
     cash: {
         type: Number,
