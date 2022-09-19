@@ -128,13 +128,10 @@ module.exports = {
                                         discount: item.discount
                                     });
                                     //if first index then change price to discount.saveValue
-                                    if(i === 0) {
-                                        cart.items[cart.items.length-1].price = discount2.saveValue;
-                                    } else {
-                                        cart.items[cart.items.length-1].price = 0;
-                                    }
                                 }
                             }
+                            //change price to 0
+                            item.price = 0;
                         });
                         //remove items in cartitems that has a discount property that has discount2._id with quantity greater than 1
                         cart.items = cart.items.filter((item: {
@@ -159,6 +156,19 @@ module.exports = {
                     }
                 });
                     } 
+
+                    //select last index of cart.items that has discount2._id in discount property
+                    let lastIndex = cart.items.length - 1;
+                    for(let i = lastIndex; i >= 0; i--) {
+                        if(cart.items[i].discount.includes(discount2._id)) {
+                            lastIndex = i;
+                            cart.items[i].price = discount2.saveValue;
+                            break;
+                        }
+                    }
+
+                    //reverse cart.items
+                    cart.items = cart.items.reverse();
                 }
 
                 
