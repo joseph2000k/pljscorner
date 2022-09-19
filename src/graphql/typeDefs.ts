@@ -83,6 +83,7 @@ module.exports = gql`
   }
 
   type CartItems {
+    _id: ID!
     itemId: ID!
     item: String!
     quantity: Int

@@ -39,12 +39,13 @@ export default function PosItems({ items }: any) {
   });
 
   function createData(
+    _id: string,
     itemId: string,
     item: string,
     quantity: number,
     price: number
   ) {
-    return { itemId, item, quantity, price };
+    return { _id, itemId, item, quantity, price };
   }
 
   //map through cart items and create data for table
@@ -52,7 +53,13 @@ export default function PosItems({ items }: any) {
   if (!cartLoading && !cartError) {
     cartItems = cartData.getCart.items
       .map((item: any) => {
-        return createData(item.itemId, item.item, item.quantity, item.price);
+        return createData(
+          item._id,
+          item.itemId,
+          item.item,
+          item.quantity,
+          item.price
+        );
       })
       .reverse();
   }
@@ -197,12 +204,11 @@ export default function PosItems({ items }: any) {
                     container
                     justifyContent="center"
                     spacing={1}
-                    key={cartItem.itemId}
+                    key={cartItem._id}
                   >
                     <Grid>
                       <Typograhpy fontSize=".7rem" sx={{ textAlign: "center" }}>
                         {cartItem.quantity}pcs in cart
-                        
                         <Button
                           variant="outlined"
                           size="small"
@@ -211,7 +217,6 @@ export default function PosItems({ items }: any) {
                         >
                           Remove One
                         </Button>
-                       
                       </Typograhpy>
                     </Grid>
                   </Grid>

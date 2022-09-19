@@ -60,6 +60,9 @@ module.exports = {
                 const discount = await BMSDiscount.findOne({item: args.cartInput, activated: true});
                 const discount2 = await SMDiscount.findOne({items: args.cartInput, activated: true});
 
+          
+
+
                 if(!cartItem) {
                     cart.items.push({
                         itemId: item._id,
@@ -81,7 +84,8 @@ module.exports = {
                     cartItem.price += item.price;
                 }
 
-                let items = [];
+
+                let items=[];
                 if(discount2) {
                     const itemsInDiscount2 = cart.items.filter((item: { itemId: { toString: () => string; }; }) => discount2.items.includes(item.itemId.toString()));
                     items.push(...itemsInDiscount2);
@@ -94,16 +98,70 @@ module.exports = {
 
                 if(discount2){
                     let remainder = totalQuantity % discount2.buy;
+                    console.log(items)
 
                     if(remainder===0) {
                         cart.items.forEach((item: { itemId: { toString: () => string; }; discount: any; price: number }) => {
                             if(discount2.items.includes(item.itemId.toString())) {
-                                item.price = 0;
+                                /* item.price = item.price - discount2.saveValue; */
                                 item.discount.push(discount2._id);
                             }
                         });
+                        //find all items in cart that has discount2._id in discount property
+                        let toJoinItems: { itemId: { toString: () => string; }; discount: any; price: number; }[]=[];
+                        cart.items.forEach((item: { itemId: { toString: () => string; }; discount: any; price: number }) => {
+                            if(item.discount.includes(discount2._id)) {
+                                //store all found items in an array then push to cart.items
+                                toJoinItems.push(item);
+                            }
+                        });
+
+                        //find all itmes in toJoinItems that has quantity greater than 1 then separate them into individual items then push to cart.items\
+                        toJoinItems.forEach((item:any) => {
+                            if(item.quantity > 1) {
+                                for(let i = 0; i < item.quantity; i++) {
+                                    cart.items.push({
+                                        itemId: item.itemId,
+                                        item: item.item + discount2.title,
+                                        quantity: 1,
+                                        price: 0,
+                                        discount: item.discount
+                                    });
+                                    //if first index then change price to discount.saveValue
+                                    if(i === 0) {
+                                        cart.items[cart.items.length-1].price = discount2.saveValue;
+                                    } else {
+                                        cart.items[cart.items.length-1].price = 0;
+                                    }
+                                }
+                            }
+                        });
+                        //remove items in cartitems that has a discount property that has discount2._id with quantity greater than 1
+                        cart.items = cart.items.filter((item: {
+                            quantity: number; itemId: { toString: () => string; }; discount: any; price: number 
+}) => {
+                            if(item.discount.includes(discount2._id) && item.quantity > 1) {
+                                return false;
+                            }
+                            return true;
+                        });
+
+                        toJoinItems=[]
+
+                        //sort cart items that has discount2._id in discount property
+                cart.items = cart.items.sort((a: { discount: any; }, b: { discount: any; }) => {
+                    if(a.discount.includes(discount2._id) && !b.discount.includes(discount2._id)) {
+                        return -1;
+                    } else if(!a.discount.includes(discount2._id) && b.discount.includes(discount2._id)) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                });
                     } 
                 }
+
+                
                 item.stock -= 1;
 
                 await item.save();

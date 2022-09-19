@@ -8,6 +8,7 @@ const GET_CART = gql`
         _id
       }
       items {
+        _id
         itemId
         item
         quantity

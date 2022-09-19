@@ -24,12 +24,13 @@ export default function PosCart() {
   });
 
   function createData(
+    _id: string,
     itemId: string,
     item: string,
     quantity: number,
     price: number
   ) {
-    return { itemId, item, quantity, price };
+    return { _id, itemId, item, quantity, price };
   }
 
   //map through cart items and create data for table
@@ -37,10 +38,18 @@ export default function PosCart() {
   if (!loading && !error) {
     cartItems = data.getCart.items
       .map((item: any) => {
-        return createData(item.itemId, item.item, item.quantity, item.price);
+        return createData(
+          item._id,
+          item.itemId,
+          item.item,
+          item.quantity,
+          item.price
+        );
       })
       .reverse();
   }
+
+  console.log(cartItems);
 
   const Receipt = styled("div")(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
@@ -87,7 +96,7 @@ export default function PosCart() {
               <TableBody>
                 {cartItems.map((row: any) => (
                   <TableRow
-                    key={row.itemId}
+                    key={row._id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">

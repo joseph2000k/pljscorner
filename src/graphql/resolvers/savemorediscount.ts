@@ -13,6 +13,7 @@ module.exports = {
     },
     Mutation: {
         createSMDiscount: async (_: void, args: {discountInput: any}) => {
+            console.log("here")
             try {
                 const discount = new SaveMoreDiscount({
                     items: args.discountInput.items,
