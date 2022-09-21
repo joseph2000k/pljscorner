@@ -61,6 +61,16 @@ module.exports = {
                 const discount2 = await SMDiscount.findOne({items: args.cartInput, activated: true});
 
           
+                //get total quantity of cart items that has discount property of discount2._id
+                let totalQuantityWithDiscount = 0;
+                cart.items.forEach((item: { discount: any; quantity: number; }) => {
+                    if(item.discount.length > 0) {
+                        totalQuantityWithDiscount += item.quantity;
+                    }
+                });
+
+
+                
 
 
                 if(!cartItem) {
@@ -70,16 +80,18 @@ module.exports = {
                         quantity: 1,
                         price: item.price,
                     });
-                }/*  else if(cartItem && discount) {
-                    cartItem.quantity += 1;
-                
-                    const remainder = cartItem.quantity % discount.buy;
-                    if(remainder === 0) {
-                        cartItem.price += item.price - discount.saveValue;
-                    } else {
-                    cartItem.price += item.price;
+                }else if(totalQuantityWithDiscount > 0) {
+                    //log if mulitiple of discount.buy
+                    if(totalQuantityWithDiscount % discount2.buy === 0) {
+                        cart.items.push({
+                        itemId: item._id,
+                        item: item.name,
+                        quantity: 1,
+                        price: item.price,
+                    });
                     }
-                }  */else {
+
+                }else {
                     cartItem.quantity += 1;
                     cartItem.price += item.price;
                 }
@@ -98,7 +110,6 @@ module.exports = {
 
                 if(discount2){
                     let remainder = totalQuantity % discount2.buy;
-                    console.log(items)
 
                     if(remainder===0) {
                         cart.items.forEach((item: { itemId: { toString: () => string; }; discount: any; price: number }) => {
