@@ -4,8 +4,16 @@ module.exports = {
     Query: {
         getSMDiscounts: async (_: void, args: void) => {
             try {
-                const discounts = await SaveMoreDiscount.find();
+                const discounts = await SaveMoreDiscount.find().populate('items');
                 return discounts;
+            } catch (err) {
+                throw err;
+            }
+        },
+        viewDiscountedItems: async (_: void, args: {discountId: string}) => {
+            try {
+                const discount = await SaveMoreDiscount.findById(args.discountId);
+                return discount;
             } catch (err) {
                 throw err;
             }

@@ -21,7 +21,7 @@ import { AuthContext } from "../context/authContext";
 import { PaymentContext } from "../context/paymentContext";
 import Skeleton from "@mui/material/Skeleton";
 
-export default function PosItems({ items }: any) {
+export default function PosItems({ items, discountedItems }: any) {
   const theme = useTheme();
   const imageSize = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -154,6 +154,7 @@ export default function PosItems({ items }: any) {
   if (items.length === 0) {
     return <ProgressBar />;
   }
+
   return (
     <Box>
       <ImageList

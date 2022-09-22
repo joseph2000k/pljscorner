@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { GET_CATEGORIES } from "../graphql/query/CategoryQuery";
+import { GET_DISCOUNT } from "../graphql/query/smdiscount";
 import { useQuery } from "@apollo/client";
 import ProgressBar from "./ProgressBar";
 import {
@@ -19,6 +20,8 @@ export default function Products() {
 
   const { loading, error, data } = useQuery(GET_CATEGORIES);
 
+  const getDiscount = useQuery(GET_DISCOUNT);
+
   const getItems = useQuery(GET_ALL_ITEMS);
   const getItemsByCategory = useQuery(GET_ITEMS_BY_CATEGORY, {
     variables: {
@@ -26,6 +29,7 @@ export default function Products() {
     },
   });
 
+  if (getDiscount.loading) return <ProgressBar />;
   if (loading) return <ProgressBar />;
 
   function createData(_id: string, categoryName: string) {
@@ -39,6 +43,17 @@ export default function Products() {
     items = getItemsByCategory.data.getItemsByCategory;
   }
 
+  let discountedItems = [];
+  if (
+    categoryId === "Buy 3 for 100" &&
+    !getDiscount.loading &&
+    !getDiscount.error
+  ) {
+    discountedItems = getDiscount.data.getSMDiscounts;
+  }
+
+  console.log(discountedItems);
+
   const categories = data.getCategory.map((category: any) => {
     return createData(category._id, category.categoryName);
   });
@@ -47,8 +62,10 @@ export default function Products() {
     setValue(newValue);
     if (newValue === 0) {
       setCategoryId("All Items");
-    } else {
+    } else if (newValue !== categories.length + 1) {
       setCategoryId(categories[newValue - 1]._id);
+    } else if (newValue === categories.length + 1) {
+      setCategoryId("Buy 3 for 100");
     }
   };
 
@@ -66,10 +83,11 @@ export default function Products() {
           {categories.map((row: any) => (
             <Tab key={row._id} label={row.categoryName} />
           ))}
+          <Tab label="Buy 3 for 100" />
         </Tabs>
       </Box>
       <Box>
-        <PosItems items={items} />
+        <PosItems items={items} discountedItems={discountedItems} />
       </Box>
     </>
   );

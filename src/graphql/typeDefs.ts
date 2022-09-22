@@ -194,6 +194,7 @@ module.exports = gql`
     getBMSDiscount(discountId: ID!): BuyMoreAndSaveDiscount
     getSMDiscounts: [SaveMoreDiscount]
     numberOfItemsInCart: Int
+    viewDiscountedItems(discountId: ID!): [Item]
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
@@ -209,5 +210,6 @@ module.exports = gql`
     addBMSDiscount(discountInput: BuyMoreAndSaveDiscountInput): BuyMoreAndSaveDiscount
     createSMDiscount(discountInput: SaveMoreDiscountInput): SaveMoreDiscount
     addSMDItem(discountId: ID!, item: ID!): SaveMoreDiscount
+    addDiscountedItem(discountId: ID!, item: ID!): BuyMoreAndSaveDiscount
   }
 `;
