@@ -4,9 +4,13 @@ const GET_DISCOUNT = gql`
   query GetSMDiscounts {
     getSMDiscounts {
       items {
-        name
-        image
         _id
+        name
+        price
+        cost
+        sku
+        stock
+        image
       }
       title
       buy

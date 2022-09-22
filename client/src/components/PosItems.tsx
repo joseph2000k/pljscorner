@@ -22,11 +22,18 @@ import { PaymentContext } from "../context/paymentContext";
 import Skeleton from "@mui/material/Skeleton";
 
 export default function PosItems({ items, discountedItems }: any) {
+
   const theme = useTheme();
   const imageSize = useMediaQuery(theme.breakpoints.down("md"));
 
   const { user } = useContext(AuthContext);
   const { addTotal, addNumberOfItems } = useContext(PaymentContext);
+
+  //map discounteditems.items and display _id, price, and image
+  const discountedItemsMap = discountedItems[0]?.items?.map(
+    (item: any) => item
+  );
+  console.log(discountedItemsMap);
 
   const {
     data: cartData,
@@ -151,11 +158,56 @@ export default function PosItems({ items, discountedItems }: any) {
     addNumberOfItems(dataNumberOfItems.numberOfItemsInCart);
   }
 
-  if (items.length === 0) {
-    return <ProgressBar />;
-  }
 
-  return (
+
+  return discountedItems.length > 0 ? (
+    <Box>
+      <ImageList
+        sx={{
+          width: { sm: 500, md: 800, lg: 1100 },
+          height: { sm: 1000, md: 500, lg: 600 },
+        }}
+        cols={8}
+        rowHeight="auto"
+      >
+        {discountedItemsMap.map((item: any) => (
+          <ImageListItem key={item._id}>
+            <ButtonBase
+              onClick={() => handleAddToCart(item._id)}
+              disabled={loading || removeFromCartLoading}
+              disableRipple
+            >
+              <Box>
+                {loading ? (
+                  <Skeleton
+                    variant="rectangular"
+                    width={imageSize ? "50px" : "100px"}
+                    height={imageSize ? "50px" : "100px"}
+                  />
+                ) : (
+                  <img
+                    src={`images/${item.image}`}
+                    alt={item.name}
+                    width={imageSize ? "50px" : "100px"}
+                    height={imageSize ? "50px" : "100px"}
+                  />
+                )}
+                <ImageListItemBar
+                  title={<Typograhpy fontSize=".7rem">{item.name}</Typograhpy>}
+                  subtitle={
+                    <Typograhpy fontSize=".7rem">{item.price} Php</Typograhpy>
+                  }
+                  position="below"
+                />
+              </Box>
+            </ButtonBase>
+
+          </ImageListItem>
+        ))}
+      </ImageList>
+    </Box>
+  
+  ) : (
     <Box>
       <ImageList
         sx={{

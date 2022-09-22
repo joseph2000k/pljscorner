@@ -47,7 +47,7 @@ export const permissions = shield({
         addBMSDiscount: isAdmin,
         createSMDiscount: isAdmin,
         addSMDItem: isAdmin,
-        addDiscountedItem: or(isAdmin, isUser)
+        addDiscountedItemToCart: or(isAdmin, isUser)
     }
 },
 );

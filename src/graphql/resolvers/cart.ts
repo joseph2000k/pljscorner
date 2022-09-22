@@ -56,9 +56,12 @@ module.exports = {
                     return new Error('Item out of stock');
                 }
 
-                const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; }) => item.itemId.toString() === args.cartInput);
+                /* const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; }) => item.itemId.toString() === args.cartInput) */
 
-                console.log(cartItem)
+                //find items in cart item where discount length is 0
+                const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; discounts: { length: number; }; }) => item.itemId.toString() === args.cartInput && item.discounts.length === 0);
+
+                console.log("this is cart Item", cartItem)
                 
                 if(!cartItem) {
                     cart.items.push({
@@ -71,6 +74,46 @@ module.exports = {
                     cartItem.quantity += 1;
                     cartItem.price += item.price;
                 }
+
+                
+                item.stock -= 1;
+
+                await item.save();
+
+                await cart.save();
+
+                return cart;
+
+            } catch (err) {
+                return err;
+            }
+        },
+        addDiscountedItemToCart: async (_: void, args: {item: string}, {user}: any) => {
+            try {
+                const cart = await Cart.findOne({user: user.id});
+                const item = await Item.findById(args.item);
+                
+                if(!cart) {
+                    return new Error('Cart not found');
+                }
+                if(!item) {
+                    return new Error('Item not found');
+                }
+                if(item.stock < 1) {
+                    return new Error('Item out of stock');
+                }
+
+                const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; }) => item.itemId.toString() === args.item);
+
+                console.log(cartItem)
+                
+                    cart.items.push({
+                        itemId: item._id,
+                        item: item.name,
+                        quantity: 1,
+                        price: 0,
+                    });
+               
 
                 
                 item.stock -= 1;

@@ -210,6 +210,6 @@ module.exports = gql`
     addBMSDiscount(discountInput: BuyMoreAndSaveDiscountInput): BuyMoreAndSaveDiscount
     createSMDiscount(discountInput: SaveMoreDiscountInput): SaveMoreDiscount
     addSMDItem(discountId: ID!, item: ID!): SaveMoreDiscount
-    addDiscountedItem(discountId: ID!, item: ID!): BuyMoreAndSaveDiscount
+    addDiscountedItemToCart(item: ID!): Cart
   }
 `;
