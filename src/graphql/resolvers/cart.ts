@@ -59,9 +59,8 @@ module.exports = {
                 /* const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; }) => item.itemId.toString() === args.cartInput) */
 
                 //find items in cart item where discount length is 0
-                const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; discounts: { length: number; }; }) => item.itemId.toString() === args.cartInput && item.discounts.length === 0);
+                const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; discount: { length: number; }; }) => item.itemId.toString() === args.cartInput && item.discount.length === 0);
 
-                console.log("this is cart Item", cartItem)
                 
                 if(!cartItem) {
                     cart.items.push({
@@ -92,6 +91,8 @@ module.exports = {
             try {
                 const cart = await Cart.findOne({user: user.id});
                 const item = await Item.findById(args.item);
+                const sMDiscount = await SMDiscount.findOne({items: args.item});
+
                 
                 if(!cart) {
                     return new Error('Cart not found');
@@ -105,13 +106,13 @@ module.exports = {
 
                 const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; }) => item.itemId.toString() === args.item);
 
-                console.log(cartItem)
                 
                     cart.items.push({
                         itemId: item._id,
-                        item: item.name,
+                        item: item.name + sMDiscount.title,
                         quantity: 1,
                         price: 0,
+                        discount: [sMDiscount._id]
                     });
                
 
@@ -141,7 +142,9 @@ module.exports = {
                     return new Error('Item not found');
                 }
 
-                const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; }) => item.itemId.toString() === args.cartInput);
+                const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; discount: { length: number; }; }) => item.itemId.toString() === args.cartInput && item.discount.length === 0);
+
+                
              
                
                 if(!cartItem) {
@@ -156,8 +159,10 @@ module.exports = {
                 }
 
                 if(cartItem.quantity < 1) {
-                    cart.items = cart.items.filter((item: { itemId: { toString: () => string; }; }) => item.itemId.toString() !== args.cartInput);
+                    //remove item from cart that discount length is 0
+                    cart.items = cart.items.filter((item: { itemId: { toString: () => string; }; discount: { length: number; }; }) => item.itemId.toString() !== args.cartInput || item.discount.length !== 0);
                 }
+
 
                 item.stock += 1;
 

@@ -17,6 +17,23 @@ const ADD_TO_CART = gql`
   }
 `;
 
+const ADD_TO_CART_WITH_DISCOUNT = gql`
+  mutation AddDiscountedItemToCart($item: ID!) {
+    addDiscountedItemToCart(item: $item) {
+      _id
+      user {
+        _id
+      }
+      items {
+        itemId
+        item
+        quantity
+        price
+      }
+    }
+  }
+`;
+
 const REMOVE_FROM_CART = gql`
   mutation RemoveFromCart($cartInput: ID) {
     removeFromCart(cartInput: $cartInput) {
@@ -34,4 +51,4 @@ const REMOVE_FROM_CART = gql`
   }
 `;
 
-export { ADD_TO_CART, REMOVE_FROM_CART };
+export { ADD_TO_CART, REMOVE_FROM_CART, ADD_TO_CART_WITH_DISCOUNT };

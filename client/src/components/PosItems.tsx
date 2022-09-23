@@ -11,6 +11,7 @@ import ButtonBase from "@mui/material/ButtonBase";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {
   ADD_TO_CART,
+  ADD_TO_CART_WITH_DISCOUNT,
   REMOVE_FROM_CART,
 } from "../graphql/mutation/cartMutation";
 import { GET_CART, GET_TOTAL, NO_OF_ITEMS } from "../graphql/query/cartQuery";
@@ -22,7 +23,6 @@ import { PaymentContext } from "../context/paymentContext";
 import Skeleton from "@mui/material/Skeleton";
 
 export default function PosItems({ items, discountedItems }: any) {
-
   const theme = useTheme();
   const imageSize = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -50,9 +50,10 @@ export default function PosItems({ items, discountedItems }: any) {
     itemId: string,
     item: string,
     quantity: number,
-    price: number
+    price: number,
+    discount: string
   ) {
-    return { _id, itemId, item, quantity, price };
+    return { _id, itemId, item, quantity, price, discount };
   }
 
   //map through cart items and create data for table
@@ -65,7 +66,8 @@ export default function PosItems({ items, discountedItems }: any) {
           item.itemId,
           item.item,
           item.quantity,
-          item.price
+          item.price,
+          item.discount
         );
       })
       .reverse();
@@ -87,6 +89,24 @@ export default function PosItems({ items, discountedItems }: any) {
       });
     },
   });
+
+  const [addDiscountedItemToCart, { loading: addDiscountedItemToCartLoading }] =
+    useMutation(ADD_TO_CART_WITH_DISCOUNT, {
+      update(cache, { data: { addDiscountedItemToCart } }) {
+        cache.modify({
+          id: cache.identify({ userId: user.id }),
+          fields: {
+            items(existingItems = []) {
+              const newItemRef = cache.writeFragment({
+                data: addDiscountedItemToCart,
+                fragment: GET_CART,
+              });
+              return [...existingItems, newItemRef];
+            },
+          },
+        });
+      },
+    });
 
   const [removeFromCart, { loading: removeFromCartLoading }] = useMutation(
     REMOVE_FROM_CART,
@@ -152,13 +172,17 @@ export default function PosItems({ items, discountedItems }: any) {
     addNumberOfItems(dataNumberOfItems.numberOfItemsInCart);
   }
 
+  function handleAddToCartWithDiscount(id: any) {
+    addDiscountedItemToCart({ variables: { item: id } });
+    addTotal(dataTotal.getTotal);
+    addNumberOfItems(dataNumberOfItems.numberOfItemsInCart);
+  }
+
   function handleRemoveFromCart(id: any) {
     removeFromCart({ variables: { cartInput: id } });
     addTotal(dataTotal.getTotal);
     addNumberOfItems(dataNumberOfItems.numberOfItemsInCart);
   }
-
-
 
   return discountedItems.length > 0 ? (
     <Box>
@@ -173,8 +197,8 @@ export default function PosItems({ items, discountedItems }: any) {
         {discountedItemsMap.map((item: any) => (
           <ImageListItem key={item._id}>
             <ButtonBase
-              onClick={() => handleAddToCart(item._id)}
-              disabled={loading || removeFromCartLoading}
+              onClick={() => handleAddToCartWithDiscount(item._id)}
+              disabled={addDiscountedItemToCartLoading || removeFromCartLoading}
               disableRipple
             >
               <Box>
@@ -201,12 +225,10 @@ export default function PosItems({ items, discountedItems }: any) {
                 />
               </Box>
             </ButtonBase>
-
           </ImageListItem>
         ))}
       </ImageList>
     </Box>
-  
   ) : (
     <Box>
       <ImageList
@@ -251,7 +273,11 @@ export default function PosItems({ items, discountedItems }: any) {
             {
               //show quantity if item is in cart
               cartItems
-                .filter((cartItem: any) => cartItem.itemId === item._id)
+                .filter(
+                  (cartItem: any) =>
+                    cartItem.itemId === item._id &&
+                    cartItem.discount.length === 0
+                )
                 .map((cartItem: any) => (
                   <Grid
                     container
