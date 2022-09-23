@@ -176,6 +176,46 @@ module.exports = {
             } catch (err) {
                 return err;
             }
+        },
+        removeFromCartDiscount: async (_: void, args: {cartInput: string}, {user}: any) => {
+            try {
+                const cart = await Cart.findOne({user: user.id});
+                const item = await Item.findById(args.cartInput);
+                
+                
+                if(!cart) {
+                    return new Error('Cart not found');
+                }
+                if(!item) {
+                    return new Error('Item not found');
+                }
+
+                const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; discount: { length: number; }; }) => item.itemId.toString() === args.cartInput && item.discount.length > 0);
+
+                console.log("this is cartItem", cartItem)
+                
+             
+                if(!cartItem) {
+                    return new Error('Item not found in cart');
+                } else if(cartItem) {
+                    //get _id of the item
+                    const id = cartItem._id;
+                    //remove the item with the id
+                    cart.items = cart.items.filter((item: { _id: { toString: () => string; }; }) => item._id.toString() !== id.toString());
+                }
+
+                item.stock += 1;
+
+                await item.save();
+
+                await cart.save();
+
+                return cart;
+
+
+            } catch (err) {
+                return err;
+            }
         }
     }
 }

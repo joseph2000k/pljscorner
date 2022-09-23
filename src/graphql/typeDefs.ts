@@ -207,6 +207,7 @@ module.exports = gql`
     receipt(receiptInput: ReceiptInput): Receipt
     addToCart(cartInput: ID): Cart
     removeFromCart(cartInput: ID): Cart
+    removeFromCartDiscount(cartInput: ID): Cart
     addBMSDiscount(discountInput: BuyMoreAndSaveDiscountInput): BuyMoreAndSaveDiscount
     createSMDiscount(discountInput: SaveMoreDiscountInput): SaveMoreDiscount
     addSMDItem(discountId: ID!, item: ID!): SaveMoreDiscount

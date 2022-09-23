@@ -44,6 +44,7 @@ export const permissions = shield({
         receipt: or(isAdmin, isUser),
         addToCart: or(isAdmin, isUser),
         removeFromCart: or(isAdmin, isUser),
+        removeFromCartDiscount: or(isAdmin, isUser),
         addBMSDiscount: isAdmin,
         createSMDiscount: isAdmin,
         addSMDItem: isAdmin,

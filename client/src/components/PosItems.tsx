@@ -13,6 +13,7 @@ import {
   ADD_TO_CART,
   ADD_TO_CART_WITH_DISCOUNT,
   REMOVE_FROM_CART,
+  REMOVE_FROM_CART_WITH_DISCOUNT,
 } from "../graphql/mutation/cartMutation";
 import { GET_CART, GET_TOTAL, NO_OF_ITEMS } from "../graphql/query/cartQuery";
 import { useTheme } from "@mui/material/styles";
@@ -128,6 +129,24 @@ export default function PosItems({ items, discountedItems }: any) {
     }
   );
 
+  const [removeFromCartDiscount, { loading: removeFromCartDiscountLoading }] =
+    useMutation(REMOVE_FROM_CART_WITH_DISCOUNT, {
+      update(cache, { data: { removeFromCartDiscount } }) {
+        cache.modify({
+          id: cache.identify({ userId: user.id }),
+          fields: {
+            items(existingItems = []) {
+              const newItemRef = cache.writeFragment({
+                data: removeFromCartDiscount,
+                fragment: GET_CART,
+              });
+              return [...existingItems, newItemRef];
+            },
+          },
+        });
+      },
+    });
+
   const {
     loading: loadingTotal,
     error: errorTotal,
@@ -184,6 +203,12 @@ export default function PosItems({ items, discountedItems }: any) {
     addNumberOfItems(dataNumberOfItems.numberOfItemsInCart);
   }
 
+  function handleRemoveFromCartDiscount(id: any) {
+    removeFromCartDiscount({ variables: { cartInput: id } });
+    addTotal(dataTotal.getTotal);
+    addNumberOfItems(dataNumberOfItems.numberOfItemsInCart);
+  }
+
   return discountedItems.length > 0 ? (
     <Box>
       <ImageList
@@ -225,6 +250,37 @@ export default function PosItems({ items, discountedItems }: any) {
                 />
               </Box>
             </ButtonBase>
+            {
+              //show quantity if item is in cart
+              cartItems
+                .filter(
+                  (cartItem: any) =>
+                    cartItem.itemId === item._id &&
+                    cartItem.discount.length !== 0
+                )
+                .map((cartItem: any) => (
+                  <Grid
+                    container
+                    justifyContent="center"
+                    spacing={1}
+                    maxHeight="8px"
+                    key={cartItem._id}
+                  >
+                    <Grid>
+                      <Typograhpy fontSize=".7rem" sx={{ textAlign: "center" }}>
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          onClick={() => handleRemoveFromCartDiscount(item._id)}
+                          disabled={loading || removeFromCartLoading}
+                        >
+                          Remove One
+                        </Button>
+                      </Typograhpy>
+                    </Grid>
+                  </Grid>
+                ))
+            }
           </ImageListItem>
         ))}
       </ImageList>
