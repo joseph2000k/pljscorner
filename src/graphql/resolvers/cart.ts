@@ -93,6 +93,13 @@ module.exports = {
                 const item = await Item.findById(args.item);
                 const sMDiscount = await SMDiscount.findOne({items: args.item});
 
+                let totalQuantityWithDiscount = 0;
+                cart.items.forEach((item: { discount: any; quantity: number; }) => {
+                    if(item.discount.length > 0) {
+                        totalQuantityWithDiscount += item.quantity;
+                    }
+                });
+
                 
                 if(!cart) {
                     return new Error('Cart not found');
@@ -114,7 +121,26 @@ module.exports = {
                         price: 0,
                         discount: [sMDiscount._id]
                     });
+
+                const remainder = (totalQuantityWithDiscount + 1) % sMDiscount.buy;
                
+                if(remainder === 0) {
+                    //find last index in cart with discount.length > 0
+                    const lastItemWithDiscount = cart.items.length - 1;
+                    cart.items[lastItemWithDiscount].price = sMDiscount.saveValue;
+                }
+
+
+                //sort the last three items in cart with discount.length > 0
+                cart.items.sort((a: { discount: any; }, b: { discount: any; }) => {
+                    if(a.discount.length > 0 && b.discount.length > 0) {
+                        return 0;
+                    } else if(a.discount.length > 0) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                });
 
                 
                 item.stock -= 1;
@@ -191,8 +217,6 @@ module.exports = {
                 }
 
                 const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; discount: { length: number; }; }) => item.itemId.toString() === args.cartInput && item.discount.length > 0);
-
-                console.log("this is cartItem", cartItem)
                 
              
                 if(!cartItem) {

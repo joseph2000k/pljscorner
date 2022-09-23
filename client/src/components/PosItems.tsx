@@ -34,7 +34,6 @@ export default function PosItems({ items, discountedItems }: any) {
   const discountedItemsMap = discountedItems[0]?.items?.map(
     (item: any) => item
   );
-  console.log(discountedItemsMap);
 
   const {
     data: cartData,
@@ -243,9 +242,7 @@ export default function PosItems({ items, discountedItems }: any) {
                 )}
                 <ImageListItemBar
                   title={<Typograhpy fontSize=".7rem">{item.name}</Typograhpy>}
-                  subtitle={
-                    <Typograhpy fontSize=".7rem">{item.price} Php</Typograhpy>
-                  }
+                  subtitle={<Typograhpy fontSize=".7rem">3 for 100</Typograhpy>}
                   position="below"
                 />
               </Box>
