@@ -207,6 +207,7 @@ module.exports = {
             try {
                 const cart = await Cart.findOne({user: user.id});
                 const item = await Item.findById(args.cartInput);
+                const sMDiscount = await SMDiscount.findOne({items: args.cartInput});
                 
                 
                 if(!cart) {
@@ -216,9 +217,13 @@ module.exports = {
                     return new Error('Item not found');
                 }
 
+                
+                
+
                 const cartItem = cart.items.find((item: { itemId: { toString: () => string; }; discount: { length: number; }; }) => item.itemId.toString() === args.cartInput && item.discount.length > 0);
                 
-             
+                
+
                 if(!cartItem) {
                     return new Error('Item not found in cart');
                 } else if(cartItem) {
@@ -226,13 +231,48 @@ module.exports = {
                     const id = cartItem._id;
                     //remove the item with the id
                     cart.items = cart.items.filter((item: { _id: { toString: () => string; }; }) => item._id.toString() !== id.toString());
+
+                    //save the cart
+                    await cart.save();
+
+                    const discountedItems = cart.items.filter((item: { discount: { length: number; }; }) => item.discount.length > 0);
+                
+                    let remainder = (discountedItems.length) % sMDiscount.buy;
+    
+    
+                    //filter items in discountedItems where price is equal to sMDiscount.saveValue
+                    let itemsSaveValue = discountedItems.filter((item: { price: number; }) => item.price === sMDiscount.saveValue);
+    
+    
+                    let itemsDivisor = (discountedItems.length - 1) / sMDiscount.buy;
+    
+                    if(remainder===0 && itemsDivisor > 0) {
+                        console.log('remainder is 0');
+                        //set price to saveValue
+                        discountedItems[discountedItems.length - 2].price = sMDiscount.saveValue;
+                    }
+                    else {
+                        let discountedItems = cart.items.filter((item: { discount: { length: number; }; }) => item.discount.length > 0);
+                        //set price to 0
+                        discountedItems[discountedItems.length - 1].price = 0;
+                    }
+                    
                 }
 
+               
+
+                /* if(itemsSaveValue.length === Math.floor(itemsDivisor) && remainder === 0) {
+                    //set last item in cart with discount.length > 0 to 0
+                    cart.items[cart.items.length - 1].price = 0;
+                } */
+                    
+                
                 item.stock += 1;
 
                 await item.save();
 
                 await cart.save();
+
 
                 return cart;
 
