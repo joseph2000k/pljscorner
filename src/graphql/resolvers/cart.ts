@@ -265,12 +265,12 @@ module.exports = {
 
                     let itemsWithNoValue = discountedItems.filter((item: { price: number; }) => item.price === 0);
                     console.log("this is itemsWithNoValue", itemsWithNoValue.length);
-                    const saveValueRemainder = (itemsWithNoValue.length) % sMDiscount.buy;
-                    console.log("this is saveValueRemainder", saveValueRemainder);
+                    const saveValueRemainder = (itemsWithNoValue.length ) % sMDiscount.buy;
+                    console.log("this is saveValueRemainder", saveValueRemainder-1);
                     console.log("this is item price", cartItem.price)
 
 
-                    if(saveValueRemainder === 0 && cartItem.price === sMDiscount.saveValue) {
+                    if(saveValueRemainder-1 <= 0 && cartItem.price === sMDiscount.saveValue) {
                         console.log('remainder is 0');
                         //set price to saveValue
                         itemsWithNoValue[itemsWithNoValue.length - 1].price = sMDiscount.saveValue;
