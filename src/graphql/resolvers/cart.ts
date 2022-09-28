@@ -259,42 +259,34 @@ module.exports = {
     
                     //filter items in discountedItems where price is equal to sMDiscount.saveValue
                     let itemsSaveValue = discountedItems.filter((item: { price: number; }) => item.price === sMDiscount.saveValue);
-    
+                    console.log("this is itemsSaveValue", itemsSaveValue.length);
     
                     let itemsDivisor = (discountedItems.length + 1) / sMDiscount.buy;
+                    console.log("this is itemsDivisor", Math.floor(itemsDivisor));
 
                     let itemsWithNoValue = discountedItems.filter((item: { price: number; }) => item.price === 0);
                     console.log("this is itemsWithNoValue", itemsWithNoValue.length);
                     const saveValueRemainder = (itemsWithNoValue.length ) % sMDiscount.buy;
-                    console.log("this is saveValueRemainder", saveValueRemainder-1);
+                    console.log("this is saveValueRemainder", saveValueRemainder);
                     console.log("this is item price", cartItem.price)
 
-
-                    if(saveValueRemainder-1 <= 0 && cartItem.price === sMDiscount.saveValue) {
-                        console.log('remainder is 0');
-                        //set price to saveValue
-                        itemsWithNoValue[itemsWithNoValue.length - 1].price = sMDiscount.saveValue;
-                    } else if(itemsSaveValue.length  < Math.floor(itemsDivisor) && cartItem.price !== sMDiscount.saveValue){
-                        console.log('itemsSaveValue.length  < Math.floor(itemsDivisor)');
-                        //set price to saveValue
-                        itemsWithNoValue[itemsWithNoValue.length - 1].price = sMDiscount.saveValue;
-                    }
-                    else {
-                        //set price to 0
-                        discountedItems[discountedItems.length - 1].price = 0;
-                    }
-                    
-                }
-                /* if(itemsSaveValue.length === Math.floor(itemsDivisor) && remainder === 0) {
-                    //set last item in cart with discount.length > 0 to 0
-                    cart.items[cart.items.length - 1].price = 0;
-                } */
-
-                
-                    //get _id of the item
+                    if(saveValueRemainder === 0 && cartItem.price === sMDiscount.saveValue) {
                     const id = cartItem._id;
-                    //remove the item with the id
                     cart.items = cart.items.filter((item: { _id: { toString: () => string; }; }) => item._id.toString() !== id.toString());
+                        itemsWithNoValue[itemsWithNoValue.length - 1].price = sMDiscount.saveValue;
+                    } else if(saveValueRemainder !== 0 && cartItem.price === sMDiscount.saveValue) {
+                    const id = cartItem._id;
+                    cart.items = cart.items.filter((item: { _id: { toString: () => string; }; }) => item._id.toString() !== id.toString());
+                    } else if(saveValueRemainder === 0 && cartItem.price === 0) {
+                    const id = cartItem._id;
+                    cart.items = cart.items.filter((item: { _id: { toString: () => string; }; }) => item._id.toString() !== id.toString());
+                        itemsWithNoValue[itemsWithNoValue.length - 1].price = 0;
+                    } else if(saveValueRemainder !== 0 && cartItem.price === 0) {
+                    const id = cartItem._id;
+                    cart.items = cart.items.filter((item: { _id: { toString: () => string; }; }) => item._id.toString() !== id.toString());
+                    } 
+                } 
+                
                 
                 item.stock += 1;
 
