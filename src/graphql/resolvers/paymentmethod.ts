@@ -16,6 +16,17 @@ module.exports = {
             } catch (err) {
                 throw err;
             }
+        },
+        paymentMethod: async (_: void, {paymentMethod}: any) => {
+            try {
+                const paymentMethodName = await PaymentMethod.findOne({name: paymentMethod});
+                if(!paymentMethodName) {
+                    return new Error('Payment Method Not Found');
+                }
+                return paymentMethodName;
+            } catch (err) {
+                throw err;
+            }
         }
     },
     Mutation: {

@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import CreateReceipt from "./CreateReceipt";
+import CreateReceiptCard from "./CreateReceiptCard";
 import { styled } from "@mui/material/styles";
 import { PaymentContext } from "../context/paymentContext";
 import { Box } from "@mui/system";
@@ -7,6 +8,8 @@ import { ThemeProvider, useTheme } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import ButtonBase from "@mui/material/ButtonBase";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_PAYMENT_METHOD } from "../graphql/query/paymentMethodQuery";
 
 //for Modal
 import Modal from "@mui/material/Modal";
@@ -16,13 +19,34 @@ import Fade from "@mui/material/Fade";
 export default function Payment() {
   const theme = useTheme();
   const { total, numberOfItems } = useContext(PaymentContext);
+  const [paymentMethod, setPaymentMethod] = useState("");
 
+  const { loading, error, data } = useQuery(GET_PAYMENT_METHOD, {
+    variables: {
+      paymentMethod: paymentMethod,
+    },
+  });
+
+  console.log(data);
   console.log(numberOfItems);
 
-  //Modal Transition
+  //Modal Transition Cash
+
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setOpen(true);
+    setPaymentMethod("Cash");
+  };
   const handleClose = () => setOpen(false);
+
+  //Modal Transition Card////
+  //////////////////////////////////////TODO: FIX THIS///////////////////////////////////////////
+  const [openCard, setOpenCard] = useState(false);
+  const handleOpenCard = () => {
+    setOpenCard(true);
+    setPaymentMethod("Gcash");
+  };
+  const handleCloseCard = () => setOpenCard(false);
 
   const Payment = styled("div")(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
@@ -54,6 +78,8 @@ export default function Payment() {
     boxShadow: 24,
     p: 4,
   };
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <ThemeProvider theme={theme}>
@@ -104,6 +130,7 @@ export default function Payment() {
                 borderRaduis: "30px",
               }}
               {...{ disabled: total === 0 }}
+              onClick={handleOpenCard}
             >
               <img
                 src="assets/gcashlogoblue.png"
@@ -133,6 +160,26 @@ export default function Payment() {
           <Fade in={open}>
             <Box sx={style}>
               <CreateReceipt setOpen={setOpen} />
+            </Box>
+          </Fade>
+        </Modal>
+      </div>
+
+      <div>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={openCard}
+          onClose={handleCloseCard}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={openCard}>
+            <Box sx={style}>
+              <CreateReceiptCard setOpen={setOpenCard} />
             </Box>
           </Fade>
         </Modal>

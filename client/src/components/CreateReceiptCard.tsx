@@ -20,9 +20,11 @@ import { useForm } from "../utility/hooks";
 
 import { useMutation, useQuery } from "@apollo/react-hooks";
 
-export default function CreateReceipt({ setOpen, paymentMethod }: any) {
+export default function CreateReceiptCard({ setOpen, paymentMethod }: any) {
   const { total } = useContext(PaymentContext);
   const { user } = useContext(AuthContext);
+
+  console.log("this is the payment method inside card", paymentMethod);
 
   const [isPayed, setIsPayed] = useState(false);
 
@@ -68,7 +70,7 @@ export default function CreateReceipt({ setOpen, paymentMethod }: any) {
     variables: {
       receiptInput: {
         total: total,
-        cash: cash,
+        cash: total,
         items: cartItems,
         paymentmethod: paymentMethod,
       },
@@ -81,33 +83,14 @@ export default function CreateReceipt({ setOpen, paymentMethod }: any) {
         Amount Due: ₱ {total}
       </Typography>
 
-      <Box sx={{ display: "flex", alignItems: "center", mt: 3, mb: 2 }}>
-        <Grid container spacing={2}>
-          <FormControl fullWidth sx={{ m: 1 }} variant="standard">
-            <TextField
-              autoFocus
-              required
-              type="number"
-              id="standard-adornment-amount"
-              name="cash"
-              label="Cash Amount"
-              variant="standard"
-              inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-              onChange={handleChange}
-            />
-          </FormControl>
-        </Grid>
-      </Box>
-
       <Button
         color="secondary"
         variant="contained"
         type="submit"
         fullWidth
-        disabled={receiptLoading || cash < total}
         onClick={handleSubmit}
       >
-        Pay &nbsp;
+        Pay With GCash &nbsp;
         <PaymentIcon />
       </Button>
     </>

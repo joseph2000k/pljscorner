@@ -184,6 +184,7 @@ module.exports = gql`
     user(id: ID!): User
     viewer: User!
     paymentMethods: [PaymentMethod]
+    paymentMethod(paymentMethod: String): PaymentMethod
     shops: [Shop]
     hello: String
     receipts: [Receipt]

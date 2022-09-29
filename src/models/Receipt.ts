@@ -97,7 +97,7 @@ const ReceiptSchema = new Schema<Receipt>({
         type: Number,
     },
     paymentmethod: {
-        type: Schema.Types.String,
+        type: Schema.Types.ObjectId,
         ref: 'PaymentMethod',
         //required: true,
     },
