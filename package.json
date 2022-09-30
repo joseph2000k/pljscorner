@@ -9,7 +9,6 @@
     "build": "tsc",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "npm run build"
   },
   "author": "Joseph Timbol",
   "license": "MIT",
