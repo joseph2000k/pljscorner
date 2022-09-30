@@ -1,3 +1,4 @@
+import React from "react";
 import { useReducer, createContext } from "react";
 const initialState = {
   total: 0,
