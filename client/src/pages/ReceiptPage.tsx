@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import ViewReceipt from "../components/ViewReceipt";
 import Box from "@mui/material/Box";

@@ -1,3 +1,4 @@
+import React from "react";
 import { useContext, useState } from "react";
 import CreateReceipt from "./CreateReceipt";
 import CreateReceiptCard from "./CreateReceiptCard";

@@ -1,3 +1,4 @@
+import React from "react";
 import { GET_CATEGORIES } from "../graphql/query/CategoryQuery";
 import { useQuery } from "@apollo/client";
 import ProgressBar from "../components/ProgressBar";
