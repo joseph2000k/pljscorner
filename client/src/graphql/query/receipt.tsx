@@ -17,9 +17,6 @@ const GET_RECEIPTS = gql`
       cashier {
         username
       }
-      paymentmethod {
-        name
-      }
     }
   }
 `;

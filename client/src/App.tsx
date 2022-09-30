@@ -7,7 +7,6 @@ import PrivateRoute from "./components/routing/PrivateRoute";
 import Items from "./pages/Items";
 import Category from "./pages/Category";
 import ReceiptPage from "./pages/ReceiptPage";
-import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -19,7 +18,6 @@ function App() {
           <Route path="/items" element={<Items />} />
           <Route path="/category" element={<Category />} />
           <Route path="/receipts" element={<ReceiptPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>
