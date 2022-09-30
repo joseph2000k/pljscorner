@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 import POS from "./pages/POS";
 import Login from "./pages/LoginPage";
