@@ -23,8 +23,6 @@ export default function ViewReceipt({ receiptId: receiptId }: any) {
     );
   }
 
-  console.log(data);
-
   if (receiptId === "") {
     return <Box marginTop="300px">Please Select a Receipt</Box>;
   }
