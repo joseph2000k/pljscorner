@@ -23,13 +23,11 @@ module.exports = {
         receipt: async (_:void, {receiptId}:any, {user}: any) => {
             try {
                 const role = await User.findById(user.id).select('role');
-
                 if (role.role === 'admin') {
-                    return await Receipt.findById(receiptId).populate('cashier', 'username');
+                    return await Receipt.findById(receiptId).populate('cashier', 'username').populate('paymentmethod', 'name');
                 } 
 
-                const receipt = await Receipt.findById(receiptId).populate('cashier', 'username');
-
+                const receipt = await Receipt.findById(receiptId).populate('cashier', 'username').populate('paymentmethod', 'name');
                 if (receipt.cashier.id === user.id) {
                     return receipt;
                 } else {

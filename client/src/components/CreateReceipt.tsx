@@ -70,7 +70,7 @@ export default function CreateReceipt({ setOpen, paymentMethod }: any) {
         total: total,
         cash: cash,
         items: cartItems,
-        paymentmethod: paymentMethod,
+        paymentmethod: paymentMethod.paymentMethod._id,
       },
     },
   });

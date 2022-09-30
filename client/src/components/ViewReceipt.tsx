@@ -23,6 +23,8 @@ export default function ViewReceipt({ receiptId: receiptId }: any) {
     );
   }
 
+  console.log(data);
+
   if (receiptId === "") {
     return <Box marginTop="300px">Please Select a Receipt</Box>;
   }
@@ -91,7 +93,9 @@ export default function ViewReceipt({ receiptId: receiptId }: any) {
           <Box margin="15px">Total: ₱{data.receipt.total}</Box>
           <Box margin="15px"> Cash: ₱{data.receipt.cash}</Box>
           <Box margin="15px">Change: ₱{data.receipt.change}</Box>
-          <Box margin="15px">Mode of Payment: </Box>
+          <Box margin="15px">
+            Mode of Payment: {data.receipt.paymentmethod.name}
+          </Box>
           <Divider variant="middle" />
           <Box
             display="flex"

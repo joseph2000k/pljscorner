@@ -159,7 +159,7 @@ export default function Payment() {
         >
           <Fade in={open}>
             <Box sx={style}>
-              <CreateReceipt setOpen={setOpen} />
+              <CreateReceipt setOpen={setOpen} paymentMethod={data} />
             </Box>
           </Fade>
         </Modal>
@@ -179,7 +179,7 @@ export default function Payment() {
         >
           <Fade in={openCard}>
             <Box sx={style}>
-              <CreateReceiptCard setOpen={setOpenCard} />
+              <CreateReceiptCard setOpen={setOpenCard} paymentMethod={data} />
             </Box>
           </Fade>
         </Modal>

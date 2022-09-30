@@ -72,7 +72,7 @@ export default function CreateReceiptCard({ setOpen, paymentMethod }: any) {
         total: total,
         cash: total,
         items: cartItems,
-        paymentmethod: paymentMethod,
+        paymentmethod: paymentMethod.paymentMethod._id,
       },
     },
   });
@@ -101,7 +101,7 @@ export default function CreateReceiptCard({ setOpen, paymentMethod }: any) {
       <Box sx={{ display: "flex", alignItems: "center", mt: 3, mb: 2 }}>
         <Typography id="transition-modal-title" variant="h5" component="h2">
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            Transaction Successful!
+            {/* Transaction Successful! */}
           </Box>
           <Box
             sx={{
@@ -111,7 +111,7 @@ export default function CreateReceiptCard({ setOpen, paymentMethod }: any) {
               alignItems: "center",
             }}
           >
-            <h3>Change: ₱ {cash - totalPrice}</h3>
+            <h3>Transaction Successful!</h3>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center", mt: 3, mb: 2 }}>
             <Button

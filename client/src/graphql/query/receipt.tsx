@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 const GET_RECEIPTS = gql`
-  query Cashier {
+  query Receipts {
     receipts {
       _id
       total
@@ -36,6 +36,9 @@ const GET_RECEIPT = gql`
         item
         quantity
         price
+      }
+      paymentmethod {
+        name
       }
       time
     }
