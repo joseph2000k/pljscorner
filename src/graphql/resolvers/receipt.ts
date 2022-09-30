@@ -10,9 +10,9 @@ module.exports = {
                 const role = await User.findById(user.id).select('role');
 
                 if (role.role === 'admin') {
-                    return await Receipt.find().sort({ date: -1 }).populate('cashier', 'username');
+                    return await Receipt.find().sort({ date: -1 }).populate('cashier', 'username').populate('paymentmethod', 'name');;
                 } else {
-                    return  await Receipt.find({ cashier: user.id }).sort({ date: -1 }).populate('cashier', 'username');
+                    return  await Receipt.find({ cashier: user.id }).sort({ date: -1 }).populate('cashier', 'username').populate('paymentmethod', 'name');;
                 }
 
             } catch (err) {
@@ -38,7 +38,7 @@ module.exports = {
                 throw err;
             }
         
-        },
+        },  
     },
 
     Mutation: {

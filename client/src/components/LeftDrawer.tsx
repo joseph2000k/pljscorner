@@ -86,6 +86,16 @@ export default function LeftDrawer() {
       </List>
       <Divider />
       <List>
+        <ListItem disablePadding>
+          <ListItemButton component={RouterLink} to="/dashboard">
+            <ListItemIcon>
+              <CategoryIcon />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItemButton>
+        </ListItem>
+      </List>
+      <List>
         {["Discounts", "Settings"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
