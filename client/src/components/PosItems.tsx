@@ -226,7 +226,7 @@ export default function PosItems({ items, discountedItems }: any) {
               disabled={addDiscountedItemToCartLoading || removeFromCartLoading}
               disableRipple
             >
-              <Box>
+              <Box marginTop="15px" marginBottom="15px">
                 {loading ? (
                   <Skeleton
                     variant="rectangular"
