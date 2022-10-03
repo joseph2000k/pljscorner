@@ -1,4 +1,0 @@
-{
-    "mongoURI":"mongodb+srv://joseph2000k:120819@cluster0.uyzur.mongodb.net/pljscorner?retryWrites=true&w=majority",
-    "jwtSecret":"secrettoken"
-}
