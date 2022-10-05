@@ -63,13 +63,14 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 }  */
 
 //connect to Database
+const PORT = process.env.PORT || 5000
 connectDB()
   .then(() => {
-    return httpServer.listen( process.env.PORT || 5000 );
+    return httpServer.listen({ PORT });
   })
-  /* .then(() => {
-    console.log(`Server is running on port http://localhost:${port}${server.graphqlPath}/`);
-  }); */
+  .then(() => {
+    console.log(`Server is running on port http://localhost:${PORT}${server.graphqlPath}/`);
+  });
 }
 
 startApolloServer(typeDefs, resolvers);
