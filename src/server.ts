@@ -63,7 +63,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 }  */
 
 //connect to Database
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT
 connectDB()
   .then(() => {
     return httpServer.listen({ PORT });
