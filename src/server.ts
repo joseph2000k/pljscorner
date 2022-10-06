@@ -53,23 +53,23 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   server.applyMiddleware({ app });
 
 //serve static assets in production
-/*  if(process.env.NODE_ENV === 'production') {
+ if(process.env.NODE_ENV === 'production') {
   //set static folder
   app.use(express.static('client/build'));
 
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
-}  */
+} 
 
 //connect to Database
-const port = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000
 connectDB()
   .then(() => {
-    return httpServer.listen({ port });
+    return httpServer.listen({ PORT });
   })
   .then(() => {
-    console.log(`Server is running on port http://localhost:${port}${server.graphqlPath}/`);
+    console.log(`Server is running on PORT http://localhost:${PORT}${server.graphqlPath}/`);
   });
 }
 
