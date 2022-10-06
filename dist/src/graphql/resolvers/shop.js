@@ -9,32 +9,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Product = require("../../models/Product");
+const Shop = require('../../models/Shop');
 module.exports = {
     Query: {
-        getProducts: () => __awaiter(void 0, void 0, void 0, function* () {
+        shops: () => __awaiter(void 0, void 0, void 0, function* () {
             try {
-                const products = yield Product.find();
-                return products;
+                const shops = yield Shop.find();
+                return shops;
             }
             catch (err) {
                 throw err;
             }
-        }),
+        })
     },
     Mutation: {
-        addProduct(_, args) {
+        addShop(_, args) {
             return __awaiter(this, void 0, void 0, function* () {
-                console.log(args);
-                const newProduct = new Product({
-                    name: args.productInput.name,
-                    price: args.productInput.price,
-                    description: args.productInput.description,
-                    sku: args.productInput.sku,
+                const newShop = new Shop({
+                    name: args.shopInput.name,
+                    address: args.shopInput.address,
                 });
-                const result = yield newProduct.save();
-                return result;
+                const shop = yield newShop.save();
+                return shop;
             });
-        },
-    },
+        }
+    }
 };

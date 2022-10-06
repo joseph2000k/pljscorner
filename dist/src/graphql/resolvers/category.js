@@ -9,28 +9,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const User = require('../../models/User');
-const bcyrpt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const config = require('config');
+const Category = require("../../models/Category");
 module.exports = {
+    Query: {
+        getCategory: () => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                const category = yield Category.find();
+                return category;
+            }
+            catch (err) {
+                throw err;
+            }
+        }),
+    },
     Mutation: {
-        register(_, args) {
+        addCategory(_, args) {
             return __awaiter(this, void 0, void 0, function* () {
-                const password = yield bcyrpt.hash(args.registerInput.password, 12);
-                const newUser = new User({
-                    username: args.registerInput.username,
-                    email: args.registerInput.email,
-                    password,
-                    createdAt: new Date().toISOString(),
+                const newCategory = new Category({
+                    categoryName: args.categoryInput.categoryName,
                 });
-                const res = yield newUser.save();
-                const token = jwt.sign({
-                    id: res._id,
-                    username: res.username,
-                    email: res.email,
-                }, config.get('jwtSecret'), { expiresIn: '1h' });
-                return Object.assign(Object.assign({}, res._doc), { id: res._id, token });
+                const result = yield newCategory.save();
+                return result;
             });
         },
     },

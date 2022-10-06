@@ -11,6 +11,14 @@ const UserSchema = new mongoose_1.Schema({
     email: {
         type: String,
     },
+    cart: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'Cart',
+    },
+    role: {
+        type: String,
+        default: "user",
+    },
     createdAt: {
         type: String,
     },
