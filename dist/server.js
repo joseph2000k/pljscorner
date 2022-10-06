@@ -14,5 +14,5 @@ connectDB()
     return server.listen({ PORT });
   })
   .then(() => {
-    console.log(`Server is running on port http://localhost:${port}/`);
+    console.log(`Server is running on port http://localhost:${PORT}/`);
   });
