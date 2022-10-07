@@ -30,6 +30,16 @@ const resolvers = require('./graphql/resolvers');
 function startApolloServer(typeDefs, resolvers) {
     return __awaiter(this, void 0, void 0, function* () {
         const app = (0, express_1.default)();
+        //serve static assets in production
+        console.log('This is from server.js NODE_ENV: ', process.env.NODE_ENV);
+        if (process.env.NODE_ENV === 'production') {
+            console.log("production");
+            //set static folder
+            app.use(express_1.default.static('client/build'));
+            app.get('*', (req, res) => {
+                res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+            });
+        }
         app.use((0, cors_1.default)());
         app.use(graphqlUploadExpress());
         const httpServer = http_1.default.createServer(app);
@@ -55,23 +65,14 @@ function startApolloServer(typeDefs, resolvers) {
         });
         yield server.start();
         server.applyMiddleware({ app });
-        //serve static assets in production
-        /*  if(process.env.NODE_ENV === 'production') {
-          //set static folder
-          app.use(express.static('client/build'));
-        
-          app.get('*', (req, res) => {
-            res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-          });
-        }  */
         //connect to Database
-        const port = process.env.PORT || 5000;
+        const PORT = process.env.PORT || 5000;
         connectDB()
             .then(() => {
-            return httpServer.listen({ port });
+            return httpServer.listen({ PORT });
         })
             .then(() => {
-            console.log(`Server is running on port http://localhost:${port}${server.graphqlPath}/`);
+            console.log(`Server is running on PORT http://localhost:${PORT}${server.graphqlPath}/`);
         });
     });
 }
