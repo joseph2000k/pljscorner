@@ -55,7 +55,6 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 //serve static assets in production
  if(process.env.NODE_ENV === 'production') {
   //set static folder
-  console.log("Production mode", process.env.NODE_ENV);
   app.use(express.static('client/build'));
 
   app.get('*', (req, res) => {
