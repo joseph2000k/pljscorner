@@ -64,13 +64,13 @@ function startApolloServer(typeDefs, resolvers) {
             });
         }
         //connect to Database
-        const PORT = process.env.PORT || 5000;
+        const port = process.env.port || 5000;
         connectDB()
             .then(() => {
-            return httpServer.listen({ PORT });
+            return httpServer.listen({ port });
         })
             .then(() => {
-            console.log(`Server is running on PORT http://localhost:${PORT}${server.graphqlPath}/`);
+            console.log(`Server is running on port http://localhost:${port}${server.graphqlPath}/`);
         });
     });
 }
