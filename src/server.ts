@@ -18,7 +18,20 @@ const resolvers = require('./graphql/resolvers');
   
 
 async function startApolloServer(typeDefs: any, resolvers: any) {
+
+  
   const app = express();
+
+  //serve static assets in production
+ if(process.env.NODE_ENV === 'production') {
+  console.log("production");
+  //set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+} 
 
   app.use(cors());
   app.use(graphqlUploadExpress());
@@ -33,15 +46,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     }
   ))
 
-  //serve static assets in production
- if(process.env.NODE_ENV === 'development') {
-  //set static folder
-  app.use(express.static('client/build'));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
-} 
+  
 
   /* app.use(function (err: any, req: JWtRequest, res: any, next: Function) {
   if (err.name === "UnauthorizedError") {
