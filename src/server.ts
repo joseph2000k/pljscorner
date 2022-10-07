@@ -1,4 +1,4 @@
-import { ApolloServer } from 'apollo-server-express';
+const { ApolloServer } = require('apollo-server');
 import { applyMiddleware } from 'graphql-middleware';
 import cors from 'cors';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
@@ -44,6 +44,8 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   const server = new ApolloServer({
     schema: applyMiddleware(makeExecutableSchema({ typeDefs, resolvers }), permissions),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    introspection: true,
+    playground: true,
     context: ({ req }: any) => {
       const user = req.auth || null
       return { user };

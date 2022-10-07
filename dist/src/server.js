@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const apollo_server_express_1 = require("apollo-server-express");
+const { ApolloServer } = require('apollo-server');
 const graphql_middleware_1 = require("graphql-middleware");
 const cors_1 = __importDefault(require("cors"));
 const apollo_server_core_1 = require("apollo-server-core");
@@ -45,9 +45,11 @@ function startApolloServer(typeDefs, resolvers) {
           next(err);
         }
       }); */
-        const server = new apollo_server_express_1.ApolloServer({
+        const server = new ApolloServer({
             schema: (0, graphql_middleware_1.applyMiddleware)((0, schema_1.makeExecutableSchema)({ typeDefs, resolvers }), permissions_1.permissions),
             plugins: [(0, apollo_server_core_1.ApolloServerPluginDrainHttpServer)({ httpServer })],
+            introspection: true,
+            playground: true,
             context: ({ req }) => {
                 const user = req.auth || null;
                 return { user };
