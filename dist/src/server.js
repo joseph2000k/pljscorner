@@ -46,8 +46,9 @@ function startApolloServer(typeDefs, resolvers) {
         }
       }); */
         const server = new apollo_server_express_1.ApolloServer({
+            csrfPrevention: true,
             schema: (0, graphql_middleware_1.applyMiddleware)((0, schema_1.makeExecutableSchema)({ typeDefs, resolvers }), permissions_1.permissions),
-            plugins: [(0, apollo_server_core_1.ApolloServerPluginDrainHttpServer)({ httpServer })],
+            plugins: [(0, apollo_server_core_1.ApolloServerPluginDrainHttpServer)({ httpServer }), (0, apollo_server_core_1.ApolloServerPluginLandingPageGraphQLPlayground)()],
             introspection: true,
             context: ({ req }) => {
                 const user = req.auth || null;

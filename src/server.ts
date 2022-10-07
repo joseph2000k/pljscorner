@@ -1,7 +1,7 @@
 import { ApolloServer } from 'apollo-server-express';
 import { applyMiddleware } from 'graphql-middleware';
 import cors from 'cors';
-import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+import { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import express from 'express';
 import http from 'http';
@@ -42,8 +42,9 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 }); */
 
   const server = new ApolloServer({
+    csrfPrevention: true,
     schema: applyMiddleware(makeExecutableSchema({ typeDefs, resolvers }), permissions),
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer }), ApolloServerPluginLandingPageGraphQLPlayground()],
     introspection: true,
     context: ({ req }: any) => {
       const user = req.auth || null
