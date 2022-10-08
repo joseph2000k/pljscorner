@@ -2,8 +2,10 @@ import { ApolloClient, InMemoryCache, from } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
 
+const port = process.env.PORT || 5000;
+
 const uploadLink = createUploadLink({
-  uri: "http://localhost:5000/graphql",
+  uri: `http://localhost:${port}/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => {
