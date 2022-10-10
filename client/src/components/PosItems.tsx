@@ -223,11 +223,13 @@ export default function PosItems({ items, discountedItems }: any) {
           <ImageListItem key={item._id}>
             <ButtonBase
               onClick={() => handleAddToCartWithDiscount(item._id)}
-              disabled={addDiscountedItemToCartLoading || removeFromCartLoading}
+              disabled={
+                addDiscountedItemToCartLoading || removeFromCartDiscountLoading
+              }
               disableRipple
             >
               <Box marginTop="15px" marginBottom="15px">
-                {loading ? (
+                {addDiscountedItemToCartLoading ? (
                   <Skeleton
                     variant="rectangular"
                     width={imageSize ? "50px" : "100px"}
@@ -270,7 +272,10 @@ export default function PosItems({ items, discountedItems }: any) {
                           variant="outlined"
                           size="small"
                           onClick={() => handleRemoveFromCartDiscount(item._id)}
-                          disabled={loading || removeFromCartLoading}
+                          disabled={
+                            addDiscountedItemToCartLoading ||
+                            removeFromCartDiscountLoading
+                          }
                         >
                           Remove One
                         </Button>
