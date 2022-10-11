@@ -9,6 +9,9 @@ const GET_RECEIPTS = gql`
       change
       receiptnumber
       time
+      paymentmethod {
+        name
+      }
       items {
         item
         quantity

@@ -21,10 +21,9 @@ export default function Dashboard() {
   //sum total
   const sum = total.reduce((a: any, b: any) => a + b, 0);
 
-
   //select total in each receipt where payment method is cash
   const cash = data.receipts
-    .filter((receipt: any) => receipt.paymentmethod.name === "Cash")
+    .filter((receipt: any) => receipt.paymentmethod?.name === "Cash")
     .map((receipt: any) => {
       return receipt.total;
     });
@@ -33,7 +32,7 @@ export default function Dashboard() {
   const cashSum = cash.reduce((a: any, b: any) => a + b, 0);
 
   const card = data.receipts
-    .filter((receipt: any) => receipt.paymentmethod.name === "Gcash")
+    .filter((receipt: any) => receipt.paymentmethod?.name === "Gcash")
     .map((receipt: any) => {
       return receipt.total;
     });
@@ -41,8 +40,11 @@ export default function Dashboard() {
   const cardSum = card.reduce((a: any, b: any) => a + b, 0);
 
   const cashToday = data.receipts
-    .filter((receipt: any) => receipt.paymentmethod.name === "Cash" &&
-    new Date(receipt.time).getDate() === new Date().getDate())
+    .filter(
+      (receipt: any) =>
+        receipt.paymentmethod?.name === "Cash" &&
+        new Date(receipt.time).getDate() === new Date().getDate()
+    )
     .map((receipt: any) => {
       return receipt.total;
     });
@@ -50,19 +52,21 @@ export default function Dashboard() {
   const cashSumToday = cashToday.reduce((a: any, b: any) => a + b, 0);
 
   const cardToday = data.receipts
-    .filter((receipt: any) => receipt.paymentmethod.name === "Gcash" &&
-    new Date(receipt.time).getDate() === new Date().getDate())
+    .filter(
+      (receipt: any) =>
+        receipt.paymentmethod?.name === "Gcash" &&
+        new Date(receipt.time).getDate() === new Date().getDate()
+    )
     .map((receipt: any) => {
       return receipt.total;
     });
 
   const cardSumToday = cardToday.reduce((a: any, b: any) => a + b, 0);
-  
 
   return (
     <Grid style={{ marginTop: "100px" }}>
       <Grid
-      container
+        container
         item
         xs={12}
         style={{
@@ -117,7 +121,6 @@ export default function Dashboard() {
         >
           <h1>Total GCash Sales</h1>
           <h2>{cardSum}</h2>
-          
         </Paper>
 
         <Paper
@@ -134,7 +137,6 @@ export default function Dashboard() {
         >
           <h1>Total Cash for Today</h1>
           <h2>{cashSumToday}</h2>
-          
         </Paper>
 
         <Paper
@@ -151,7 +153,6 @@ export default function Dashboard() {
         >
           <h1>Total GCash for Today</h1>
           <h2>{cardSumToday}</h2>
-          
         </Paper>
         <Paper
           elevation={2}
@@ -167,7 +168,6 @@ export default function Dashboard() {
         >
           <h1>Total for Today</h1>
           <h2>{cardSumToday + cashSumToday}</h2>
-          
         </Paper>
       </Grid>
     </Grid>

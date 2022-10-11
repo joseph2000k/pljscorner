@@ -15,6 +15,7 @@ import { Link as RouterLink } from "react-router-dom";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import CategoryIcon from "@mui/icons-material/Category";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 
 type Anchor = "left";
 
@@ -54,6 +55,14 @@ export default function LeftDrawer() {
               <PointOfSaleIcon />
             </ListItemIcon>
             <ListItemText primary="Sales" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton component={RouterLink} to="/dashboard">
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
