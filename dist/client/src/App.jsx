@@ -12,6 +12,7 @@ const PrivateRoute_1 = __importDefault(require("./components/routing/PrivateRout
 const Items_1 = __importDefault(require("./pages/Items"));
 const Category_1 = __importDefault(require("./pages/Category"));
 const ReceiptPage_1 = __importDefault(require("./pages/ReceiptPage"));
+const Dashboard_1 = __importDefault(require("./pages/Dashboard"));
 function App() {
     return (<>
       <Navbar_1.default />
@@ -21,6 +22,7 @@ function App() {
           <react_router_dom_1.Route path="/items" element={<Items_1.default />}/>
           <react_router_dom_1.Route path="/category" element={<Category_1.default />}/>
           <react_router_dom_1.Route path="/receipts" element={<ReceiptPage_1.default />}/>
+          <react_router_dom_1.Route path="/dashboard" element={<Dashboard_1.default />}/>
         </react_router_dom_1.Route>
         <react_router_dom_1.Route path="/login" element={<LoginPage_1.default />}/>
       </react_router_dom_1.Routes>

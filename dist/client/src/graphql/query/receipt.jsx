@@ -11,6 +11,9 @@ const GET_RECEIPTS = (0, client_1.gql) `
       change
       receiptnumber
       time
+      paymentmethod {
+        name
+      }
       items {
         item
         quantity

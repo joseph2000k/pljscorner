@@ -43,6 +43,7 @@ const react_router_dom_1 = require("react-router-dom");
 const PointOfSale_1 = __importDefault(require("@mui/icons-material/PointOfSale"));
 const Category_1 = __importDefault(require("@mui/icons-material/Category"));
 const FormatListBulleted_1 = __importDefault(require("@mui/icons-material/FormatListBulleted"));
+const Dashboard_1 = __importDefault(require("@mui/icons-material/Dashboard"));
 function LeftDrawer() {
     const [state, setState] = React.useState({
         top: false,
@@ -66,6 +67,14 @@ function LeftDrawer() {
               <PointOfSale_1.default />
             </ListItemIcon_1.default>
             <ListItemText_1.default primary="Sales"/>
+          </ListItemButton_1.default>
+        </ListItem_1.default>
+        <ListItem_1.default disablePadding>
+          <ListItemButton_1.default component={react_router_dom_1.Link} to="/dashboard">
+            <ListItemIcon_1.default>
+              <Dashboard_1.default />
+            </ListItemIcon_1.default>
+            <ListItemText_1.default primary="Dashboard"/>
           </ListItemButton_1.default>
         </ListItem_1.default>
         <ListItem_1.default disablePadding>

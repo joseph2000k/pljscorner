@@ -18,10 +18,10 @@ module.exports = {
             try {
                 const role = yield User.findById(user.id).select('role');
                 if (role.role === 'admin') {
-                    return yield Receipt.find().sort({ date: -1 }).populate('cashier', 'username');
+                    return yield Receipt.find().sort({ date: -1 }).populate('cashier', 'username').populate('paymentmethod', 'name');
                 }
                 else {
-                    return yield Receipt.find({ cashier: user.id }).sort({ date: -1 }).populate('cashier', 'username');
+                    return yield Receipt.find({ cashier: user.id }).sort({ date: -1 }).populate('cashier', 'username').populate('paymentmethod', 'name');
                 }
             }
             catch (err) {
