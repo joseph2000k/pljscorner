@@ -55,10 +55,10 @@ function POS() {
               </Grid_1.default>
             </Grid_1.default>
             <Receipt>
-              <Grid_1.default item xs={12} sm={4} md={5} component={Paper_1.default} elevation={2} square minWidth="50vh" maxHeight={{ lg: "70vh", md: "50vh", sm: "70vh", xs: "70vh" }} overflow="auto" position="fixed">
+              <Grid_1.default item xs={12} sm={4} md={5} component={Paper_1.default} elevation={2} square minWidth="50vh" maxHeight={{ lg: "70vh", md: "60vh", sm: "70vh", xs: "70vh" }} overflow="auto" position="fixed">
                 <PosCart_1.default />
               </Grid_1.default>
-              <Grid_1.default item xs={12} sm={4} md={5} component={Paper_1.default} elevation={2} square minWidth="70vh" marginTop={{ lg: "70vh", md: "50vh", sm: "70vh", xs: "70vh" }} minHeight={{ lg: "25vh", md: "45vh", sm: "25vh", xs: "25vh" }} position="fixed">
+              <Grid_1.default item xs={12} sm={4} md={5} component={Paper_1.default} elevation={2} square minWidth="70vh" marginTop={{ lg: "70vh", md: "60vh", sm: "70vh", xs: "70vh" }} minHeight={{ lg: "25vh", md: "45vh", sm: "25vh", xs: "25vh" }} position="fixed">
                 <Payment_1.default />
               </Grid_1.default>
             </Receipt>

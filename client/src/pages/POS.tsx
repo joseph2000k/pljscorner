@@ -65,7 +65,7 @@ function POS() {
                 elevation={2}
                 square
                 minWidth="50vh"
-                maxHeight= {{lg: "70vh", md: "50vh", sm: "70vh", xs: "70vh"}}
+                maxHeight= {{lg: "70vh", md: "60vh", sm: "70vh", xs: "70vh"}}
                 overflow= "auto" 
                 position="fixed"
               >
@@ -80,7 +80,7 @@ function POS() {
                 elevation={2}
                 square
                 minWidth="70vh"
-                marginTop= {{lg: "70vh", md: "50vh", sm: "70vh", xs: "70vh"}}
+                marginTop= {{lg: "70vh", md: "60vh", sm: "70vh", xs: "70vh"}}
                 minHeight= {{lg: "25vh", md: "45vh", sm: "25vh", xs: "25vh"}}
                 position="fixed"
               >
