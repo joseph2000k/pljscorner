@@ -2,8 +2,11 @@ import { ApolloClient, InMemoryCache, from } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
 
+const uri =
+  "http://localhost:5000/graphql" || `https://pljscorner.herokuapp.com/graphql`;
+
 const uploadLink = createUploadLink({
-  uri: "http://localhost:5000/graphql",
+  uri,
 });
 
 const authLink = setContext((_, { headers }) => {

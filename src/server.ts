@@ -1,12 +1,13 @@
 import { ApolloServer } from 'apollo-server-express';
 import { applyMiddleware } from 'graphql-middleware';
 import cors from 'cors';
-import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+import { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import express from 'express';
 import http from 'http';
 import { expressjwt, Request as JWtRequest } from 'express-jwt';
 import {permissions} from './permissions';
+const path = require('path');
 
 const { graphqlUploadExpress } = require("graphql-upload-minimal");
 const config = require('config');
@@ -41,8 +42,10 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 }); */
 
   const server = new ApolloServer({
+    csrfPrevention: true,
     schema: applyMiddleware(makeExecutableSchema({ typeDefs, resolvers }), permissions),
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer }), ApolloServerPluginLandingPageGraphQLPlayground()],
+    introspection: true,
     context: ({ req }: any) => {
       const user = req.auth || null
       return { user };
@@ -50,6 +53,16 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   });
   await server.start();
   server.applyMiddleware({ app });
+
+//serve static assets in production
+ if(process.env.NODE_ENV === 'production') {
+  //set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+} 
 
 //connect to Database
 const port = process.env.PORT || 5000
