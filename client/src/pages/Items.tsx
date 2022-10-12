@@ -41,20 +41,20 @@ import moment from "moment";
 
 function Items() {
   //For Date (From)
-  const [valueFrom, setValueFrom] = React.useState<Moment | null>(
-    moment().startOf("day")
+  const [valueFrom, setValueFrom] = React.useState<Dayjs | null>(
+    dayjs().startOf("day")
   );
 
-  const handleChangeDatePickerFrom = (newValue: Moment | null) => {
+  const handleChangeDatePickerFrom = (newValue: Dayjs | null) => {
     setValueFrom(newValue);
   };
 
   //For Date Pickers (To)
-  const [valueTo, setValueTo] = React.useState<Moment | null>(
-    moment().endOf("day")
+  const [valueTo, setValueTo] = React.useState<Dayjs | null>(
+    dayjs().endOf("day")
   );
 
-  const handleChangeDatePickerTo = (newValue: Moment | null) => {
+  const handleChangeDatePickerTo = (newValue: Dayjs | null) => {
     setValueTo(newValue);
   };
   //Modal Transition
