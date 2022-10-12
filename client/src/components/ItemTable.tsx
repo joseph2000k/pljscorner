@@ -9,7 +9,25 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Grow from "@mui/material/Grow";
 
-export default function ItemTable({ items }: any) {
+import { GET_RECEIPTS } from "../graphql/query/receipt";
+import { useQuery } from "@apollo/client";
+
+export default function ItemTable({ items, from, to }: any) {
+  const { loading, error, data, refetch } = useQuery(GET_RECEIPTS);
+  if (loading) return <p>Loading...</p>;
+
+  //find the receipts that are within the date range
+  const receipts = data.receipts.filter((receipt: any) => {
+    const receiptDate = new Date(receipt.time);
+    return receiptDate >= from && receiptDate <= to;
+  });
+  //filter receipts to get the items that are within the date range
+  const filteredItems = receipts.map((receipt: any) => {
+    return receipt.items;
+  });
+  //flatten the array
+  const flattenedItems = filteredItems.flat();
+
   function createData(
     _id: string,
     name: string,
@@ -46,6 +64,7 @@ export default function ItemTable({ items }: any) {
               <TableCell align="right">Price</TableCell>
               <TableCell align="right">Sku</TableCell>
               <TableCell align="right">Stock</TableCell>
+              <TableCell align="right">Sold</TableCell>
               <TableCell align="right"></TableCell>
             </TableRow>
           </TableHead>
@@ -70,6 +89,15 @@ export default function ItemTable({ items }: any) {
                 <TableCell align="right">{row.price} Php</TableCell>
                 <TableCell align="right">{row.sku}</TableCell>
                 <TableCell align="right">{row.stock}</TableCell>
+                <TableCell align="right">
+                  {
+                    //find all the items that are sold in flattenedItems and sum the quantity of the item that match the row._id
+                    flattenedItems
+                      .filter((item: any) => item.itemId === row._id)
+                      .map((item: any) => item.quantity)
+                      .reduce((a: number, b: number) => a + b, 0)
+                  }
+                </TableCell>
                 <TableCell align="right">
                   <Button>Edit</Button>
                 </TableCell>

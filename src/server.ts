@@ -44,7 +44,9 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   const server = new ApolloServer({
     csrfPrevention: true,
     schema: applyMiddleware(makeExecutableSchema({ typeDefs, resolvers }), permissions),
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer }), ApolloServerPluginLandingPageGraphQLPlayground()],
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer }), 
+      ApolloServerPluginLandingPageGraphQLPlayground()
+    ],
     introspection: true,
     context: ({ req }: any) => {
       const user = req.auth || null

@@ -54,7 +54,7 @@ export default function Products() {
 
   console.log(discountedItems);
 
-  const categories = data.getCategory?.map((category: any) => {
+  const categories = data?.getCategory?.map((category: any) => {
     return createData(category._id, category.categoryName);
   });
 

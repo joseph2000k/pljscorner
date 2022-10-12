@@ -26,8 +26,37 @@ import CreateIcon from "@mui/icons-material/Create";
 import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import Fade from "@mui/material/Fade";
+//For Date Picker
+import dayjs, { Dayjs } from "dayjs";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import { Moment } from "moment";
+import moment from "moment";
 
 function Items() {
+  //For Date (From)
+  const [valueFrom, setValueFrom] = React.useState<Moment | null>(
+    moment().startOf("day")
+  );
+
+  const handleChangeDatePickerFrom = (newValue: Moment | null) => {
+    setValueFrom(newValue);
+  };
+
+  //For Date Pickers (To)
+  const [valueTo, setValueTo] = React.useState<Moment | null>(
+    moment().endOf("day")
+  );
+
+  const handleChangeDatePickerTo = (newValue: Moment | null) => {
+    setValueTo(newValue);
+  };
   //Modal Transition
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -107,6 +136,32 @@ function Items() {
                     Items
                   </Typography>
                 </Box>
+                <Box>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <Stack spacing={3}>
+                      <MobileDatePicker
+                        label="Sold Item From:"
+                        inputFormat="MM/DD/YYYY"
+                        value={valueFrom}
+                        onChange={handleChangeDatePickerFrom}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </Stack>
+                  </LocalizationProvider>
+                </Box>
+                <Box>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <Stack spacing={3}>
+                      <MobileDatePicker
+                        label="Sold Item To:"
+                        inputFormat="MM/DD/YYYY"
+                        value={valueTo}
+                        onChange={handleChangeDatePickerTo}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </Stack>
+                  </LocalizationProvider>
+                </Box>
                 <Box sx={{ width: 200 }}>
                   <FormControl fullWidth>
                     <InputLabel id="category-select-label">
@@ -131,7 +186,7 @@ function Items() {
                 </Box>
               </Box>
 
-              {<ItemTable items={items} />}
+              {<ItemTable items={items} from={valueFrom} to={valueTo} />}
             </div>
           </Box>
         </Container>
