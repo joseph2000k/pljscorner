@@ -1,175 +1,79 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
-import { GET_RECEIPTS } from "../graphql/query/receipt";
+import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import DashboardContent from "../components/DashboardContent";
 
-export default function Dashboard() {
-  const { loading, error, data, refetch } = useQuery(GET_RECEIPTS);
+//For Date Picker
+import dayjs, { Dayjs } from "dayjs";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+function Dashboard() {
+  //For Date (From)
+  const [valueFrom, setValueFrom] = React.useState<Dayjs | null>(
+    dayjs().startOf("day")
+  );
 
-  refetch();
+  const handleChangeDatePickerFrom = (newValue: Dayjs | null) => {
+    setValueFrom(newValue);
+  };
 
-  //select total in each receipt
-  const total = data.receipts.map((receipt: any) => {
-    return receipt.total;
-  });
+  //For Date Pickers (To)
+  const [valueTo, setValueTo] = React.useState<Dayjs | null>(
+    dayjs().endOf("day")
+  );
 
-  //sum total
-  const sum = total.reduce((a: any, b: any) => a + b, 0);
-
-  //select total in each receipt where payment method is cash
-  const cash = data.receipts
-    .filter((receipt: any) => receipt.paymentmethod?.name === "Cash")
-    .map((receipt: any) => {
-      return receipt.total;
-    });
-
-  //sum cash
-  const cashSum = cash.reduce((a: any, b: any) => a + b, 0);
-
-  const card = data.receipts
-    .filter((receipt: any) => receipt.paymentmethod?.name === "Gcash")
-    .map((receipt: any) => {
-      return receipt.total;
-    });
-
-  const cardSum = card.reduce((a: any, b: any) => a + b, 0);
-
-  const cashToday = data.receipts
-    .filter(
-      (receipt: any) =>
-        receipt.paymentmethod?.name === "Cash" &&
-        new Date(receipt.time).getDate() === new Date().getDate()
-    )
-    .map((receipt: any) => {
-      return receipt.total;
-    });
-
-  const cashSumToday = cashToday.reduce((a: any, b: any) => a + b, 0);
-
-  const cardToday = data.receipts
-    .filter(
-      (receipt: any) =>
-        receipt.paymentmethod?.name === "Gcash" &&
-        new Date(receipt.time).getDate() === new Date().getDate()
-    )
-    .map((receipt: any) => {
-      return receipt.total;
-    });
-
-  const cardSumToday = cardToday.reduce((a: any, b: any) => a + b, 0);
+  const handleChangeDatePickerTo = (newValue: Dayjs | null) => {
+    setValueTo(newValue);
+  };
 
   return (
-    <Grid style={{ marginTop: "100px" }}>
+    <Container>
       <Grid
-        container
-        item
-        xs={12}
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        marginTop="80px"
       >
-        <Paper
-          elevation={2}
-          sx={{
-            marginTop: "20px",
-            minWidth: "300px",
-            minHeight: "200px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <h1>Total Sales</h1>
-          <h2>{sum}</h2>
-        </Paper>
-
-        <Paper
-          elevation={2}
-          sx={{
-            minWidth: "300px",
-            minHeight: "200px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            marginLeft: "20px",
-          }}
-        >
-          <h1>Total Cash Sales</h1>
-          <h2>{cashSum}</h2>
-        </Paper>
-
-        <Paper
-          elevation={2}
-          sx={{
-            minWidth: "300px",
-            minHeight: "200px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            marginLeft: "20px",
-          }}
-        >
-          <h1>Total GCash Sales</h1>
-          <h2>{cardSum}</h2>
-        </Paper>
-
-        <Paper
-          elevation={2}
-          sx={{
-            minWidth: "300px",
-            minHeight: "200px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            marginLeft: "20px",
-          }}
-        >
-          <h1>Total Cash for Today</h1>
-          <h2>{cashSumToday}</h2>
-        </Paper>
-
-        <Paper
-          elevation={2}
-          sx={{
-            minWidth: "300px",
-            minHeight: "200px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            marginLeft: "20px",
-          }}
-        >
-          <h1>Total GCash for Today</h1>
-          <h2>{cardSumToday}</h2>
-        </Paper>
-        <Paper
-          elevation={2}
-          sx={{
-            minWidth: "300px",
-            minHeight: "200px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            marginLeft: "20px",
-          }}
-        >
-          <h1>Total for Today</h1>
-          <h2>{cardSumToday + cashSumToday}</h2>
-        </Paper>
+        <Box margin="20px">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Stack spacing={3}>
+              <MobileDatePicker
+                label="Sold Item From:"
+                inputFormat="MM/DD/YYYY"
+                value={valueFrom}
+                onChange={handleChangeDatePickerFrom}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </Stack>
+          </LocalizationProvider>
+        </Box>
+        <Box margin="20px">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Stack spacing={3}>
+              <MobileDatePicker
+                label="Sold Item To:"
+                inputFormat="MM/DD/YYYY"
+                value={valueTo}
+                onChange={handleChangeDatePickerTo}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </Stack>
+          </LocalizationProvider>
+        </Box>
       </Grid>
-    </Grid>
+      <Grid>
+        <DashboardContent from={valueFrom} to={valueTo} />
+      </Grid>
+    </Container>
   );
 }
+
+export default Dashboard;
