@@ -181,6 +181,7 @@ module.exports = gql`
     getCategory: [Category]
     getItems: [Item]
     getItemsByCategory(categoryId: ID!): [Item]
+    getItem(itemId: ID!): Item
     user(id: ID!): User
     viewer: User!
     paymentMethods: [PaymentMethod]

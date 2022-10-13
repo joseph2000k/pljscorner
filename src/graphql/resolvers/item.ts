@@ -20,6 +20,15 @@ module.exports = {
                 throw err;
             }
         },
+        //get item by ID
+        getItem: async (_: void, args: {itemId: string}) => {
+            try {
+                const item = await Item.findById(args.itemId).populate('category');
+                return item;
+            } catch (err) {
+                throw err;
+            }
+        }
     },
     Mutation: {
         async addItem (_: void, args: {itemInput: ItemType})  {

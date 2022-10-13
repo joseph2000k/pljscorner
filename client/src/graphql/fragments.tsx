@@ -5,6 +5,7 @@ const ITEM_DETAILS = gql`
     _id
     name
     price
+    barcode
     cost
     sku
     stock

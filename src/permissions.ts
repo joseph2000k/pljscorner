@@ -23,6 +23,7 @@ export const permissions = shield({
         shops: or(isAdmin, isUser),
         getItems: or(isAdmin, isUser),
         getItemsByCategory: or(isAdmin, isUser),
+        getItem: or(isAdmin, isUser),
         getCategory: or(isAdmin, isUser),
         hello: allow,
         getCart: or(isAdmin, isUser),
