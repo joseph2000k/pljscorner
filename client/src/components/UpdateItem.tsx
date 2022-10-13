@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -22,9 +23,16 @@ import { useMutation } from "@apollo/react-hooks";
 import { useForm } from "../utility/hooks";
 import { GET_CATEGORIES } from "../graphql/query/CategoryQuery";
 import { GET_ITEM_BY_ID } from "../graphql/query/ItemQuery";
+import { UPDATE_ITEM } from "../graphql/mutation/addItem";
+import {
+  GET_ALL_ITEMS,
+  GET_ITEMS_BY_CATEGORY,
+} from "../graphql/query/ItemQuery";
 
-export default function UpdateItem({ itemId }: any) {
+export default function UpdateItem({ itemId, displayedCategory }: any) {
   const theme = useTheme();
+
+  const [category, setCategory] = useState("");
 
   const { error, data } = useQuery(GET_CATEGORIES);
   const {
@@ -44,11 +52,11 @@ export default function UpdateItem({ itemId }: any) {
     barcode: string;
   };
 
-  function editItemCallback() {
-    //editItem();
+  function updateItemCallback() {
+    updateItem();
   }
 
-  const { handleChange, handleSubmit, formData } = useForm(editItemCallback, {
+  const { handleChange, handleSubmit, formData } = useForm(updateItemCallback, {
     name: "",
     price: 0,
     cost: 0,
@@ -59,7 +67,48 @@ export default function UpdateItem({ itemId }: any) {
 
   const { name, price, cost, sku, stock, barcode } = formData as Item;
 
+  const [updateItem, { loading }] = useMutation(UPDATE_ITEM, {
+    variables: {
+      itemInput: {
+        name,
+        price,
+        cost,
+        sku,
+        stock,
+        barcode,
+      },
+    },
+    update(cache, { data: { updateItem } }) {
+      const { getItems }: any = cache.readQuery({ query: GET_ALL_ITEMS });
+      cache.writeQuery({
+        query: GET_ALL_ITEMS,
+        data: { getItems: [...getItems, updateItem] },
+      });
+
+      if (displayedCategory !== "All Items") {
+        const { getItemsByCategory }: any = cache.readQuery({
+          query: GET_ITEMS_BY_CATEGORY,
+          variables: { categoryId: category },
+        });
+        cache.writeQuery({
+          query: GET_ITEMS_BY_CATEGORY,
+          variables: { categoryId: category },
+          data: { getItemsByCategory: [...getItemsByCategory, updateItem] },
+        });
+      }
+    },
+    onError(err) {
+      console.log(err);
+    },
+  });
+
+  if (error) return <p>Something Went Wrong...</p>;
+
   if (loadingItem) return <div>Loading...</div>;
+
+  const handleChangeCategory = (event: SelectChangeEvent) => {
+    setCategory(event.target.value as string);
+  };
 
   return (
     <>
@@ -116,8 +165,8 @@ export default function UpdateItem({ itemId }: any) {
                     name="category"
                     value={dataItem.getItem.category._id}
                     label="Categories"
-                    //onChange={handleChangeCategory}
-                    defaultValue="Categories"
+                    onChange={handleChangeCategory}
+                    //defaultValue={}
                   >
                     {data.getCategory.map((category: any) => (
                       <MenuItem key={category._id} value={category._id}>

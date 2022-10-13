@@ -20,7 +20,7 @@ import Fade from "@mui/material/Fade";
 import { GET_RECEIPTS } from "../graphql/query/receipt";
 import { useQuery } from "@apollo/client";
 
-export default function ItemTable({ items, from, to }: any) {
+export default function ItemTable({ items, from, to, displayedCategory }: any) {
   const [itemId, setItemId] = useState("");
 
   //Modal Transition
@@ -158,7 +158,14 @@ export default function ItemTable({ items, from, to }: any) {
           }}
         >
           <Fade in={open}>
-            <Box sx={style}>{<UpdateItem itemId={itemId} />}</Box>
+            <Box sx={style}>
+              {
+                <UpdateItem
+                  itemId={itemId}
+                  displayedCategory={displayedCategory}
+                />
+              }
+            </Box>
           </Fade>
         </Modal>
       </div>

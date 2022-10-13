@@ -202,6 +202,7 @@ module.exports = gql`
     register(registerInput: RegisterInput): User!
     addCategory(categoryInput: CategoryInput): Category!
     addItem(itemInput: ItemInput): Item!
+    updateItem(itemId: ID!, itemInput: ItemInput): Item!
     login(loginInput: LoginInput): User
     addPaymentMethod(paymentMethodInput: PaymentMethodInput): PaymentMethod
     addShop(shopInput: ShopInput): Shop

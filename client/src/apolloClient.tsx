@@ -5,8 +5,8 @@ import { createUploadLink } from "apollo-upload-client";
 const uri: string = "http://localhost:5000/graphql";
 
 const uploadLink = createUploadLink({
-  //uri,
-  uri: `https://pljscorner.herokuapp.com/graphql`,
+  uri,
+  //uri: `https://pljscorner.herokuapp.com/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => {

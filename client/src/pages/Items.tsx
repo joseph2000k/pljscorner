@@ -186,7 +186,14 @@ function Items() {
                 </Box>
               </Box>
 
-              {<ItemTable items={items} from={valueFrom} to={valueTo} />}
+              {
+                <ItemTable
+                  items={items}
+                  from={valueFrom}
+                  to={valueTo}
+                  displayedCategory={category}
+                />
+              }
             </div>
           </Box>
         </Container>

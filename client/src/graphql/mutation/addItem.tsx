@@ -17,4 +17,21 @@ const ADD_ITEM = gql`
   }
 `;
 
-export { ADD_ITEM };
+const UPDATE_ITEM = gql`
+  mutation updateItem($itemId: ID!, $itemInput: ItemInput) {
+    updateItem(itemId: $itemId, itemInput: $itemInput) {
+      _id
+      name
+      price
+      cost
+      sku
+      stock
+      image
+      category {
+        categoryName
+      }
+    }
+  }
+`;
+
+export { ADD_ITEM, UPDATE_ITEM };

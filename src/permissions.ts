@@ -41,6 +41,7 @@ export const permissions = shield({
         addPaymentMethod: isAdmin,
         addShop: isAdmin,
         addItem: isAdmin,
+        updateItem: isAdmin,
         singleUpload: isAdmin,
         receipt: or(isAdmin, isUser),
         addToCart: or(isAdmin, isUser),

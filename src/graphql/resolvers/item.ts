@@ -45,7 +45,25 @@ module.exports = {
             const item = await newItem.save();
             const result = await Item.findById(item._id).populate('category');
             return result;
-        }
+        },
+        async updateItem (_: void, args: {itemId: string, itemInput: ItemType})  {
+            const item = await Item.findById(args.itemId
+            ).populate('category');
+            if (item) {
+                item.category = args.itemInput.category;
+                item.name = args.itemInput.name;
+                item.price = args.itemInput.price;
+                item.cost = args.itemInput.cost;
+                item.sku = args.itemInput.sku;
+                item.barcode = args.itemInput.barcode;
+                item.stock = args.itemInput.stock;
+                item.image = args.itemInput.image;
+                await item.save();
+                return item;
+            } else {
+                throw new Error('Item not found');
+            }
+        },
     }
 }
 
