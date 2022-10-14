@@ -45,7 +45,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     csrfPrevention: true,
     schema: applyMiddleware(makeExecutableSchema({ typeDefs, resolvers }), permissions),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer }), 
-      //ApolloServerPluginLandingPageGraphQLPlayground()
+      ApolloServerPluginLandingPageGraphQLPlayground()
     ],
     introspection: true,
     context: ({ req }: any) => {

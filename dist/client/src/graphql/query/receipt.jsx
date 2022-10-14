@@ -15,6 +15,7 @@ const GET_RECEIPTS = (0, client_1.gql) `
         name
       }
       items {
+        itemId
         item
         quantity
         price

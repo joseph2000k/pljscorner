@@ -7,6 +7,7 @@ const ITEM_DETAILS = (0, client_1.gql) `
     _id
     name
     price
+    barcode
     cost
     sku
     stock

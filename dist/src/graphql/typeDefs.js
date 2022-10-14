@@ -182,6 +182,7 @@ module.exports = (0, apollo_server_express_1.gql) `
     getCategory: [Category]
     getItems: [Item]
     getItemsByCategory(categoryId: ID!): [Item]
+    getItem(itemId: ID!): Item
     user(id: ID!): User
     viewer: User!
     paymentMethods: [PaymentMethod]
@@ -202,6 +203,7 @@ module.exports = (0, apollo_server_express_1.gql) `
     register(registerInput: RegisterInput): User!
     addCategory(categoryInput: CategoryInput): Category!
     addItem(itemInput: ItemInput): Item!
+    updateItem(itemId: ID!, itemInput: ItemInput): Item!
     login(loginInput: LoginInput): User
     addPaymentMethod(paymentMethodInput: PaymentMethodInput): PaymentMethod
     addShop(shopInput: ShopInput): Shop

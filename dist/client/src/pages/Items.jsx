@@ -27,7 +27,24 @@ const Create_1 = __importDefault(require("@mui/icons-material/Create"));
 const Modal_1 = __importDefault(require("@mui/material/Modal"));
 const Backdrop_1 = __importDefault(require("@mui/material/Backdrop"));
 const Fade_1 = __importDefault(require("@mui/material/Fade"));
+//For Date Picker
+const dayjs_1 = __importDefault(require("dayjs"));
+const Stack_1 = __importDefault(require("@mui/material/Stack"));
+const TextField_1 = __importDefault(require("@mui/material/TextField"));
+const LocalizationProvider_1 = require("@mui/x-date-pickers/LocalizationProvider");
+const AdapterDayjs_1 = require("@mui/x-date-pickers/AdapterDayjs");
+const MobileDatePicker_1 = require("@mui/x-date-pickers/MobileDatePicker");
 function Items() {
+    //For Date (From)
+    const [valueFrom, setValueFrom] = react_1.default.useState((0, dayjs_1.default)().startOf("day"));
+    const handleChangeDatePickerFrom = (newValue) => {
+        setValueFrom(newValue);
+    };
+    //For Date Pickers (To)
+    const [valueTo, setValueTo] = react_1.default.useState((0, dayjs_1.default)().endOf("day"));
+    const handleChangeDatePickerTo = (newValue) => {
+        setValueTo(newValue);
+    };
     //Modal Transition
     const [open, setOpen] = (0, react_2.useState)(false);
     const handleOpen = () => setOpen(true);
@@ -91,6 +108,20 @@ function Items() {
                     Items
                   </Typography_1.default>
                 </Box_1.default>
+                <Box_1.default>
+                  <LocalizationProvider_1.LocalizationProvider dateAdapter={AdapterDayjs_1.AdapterDayjs}>
+                    <Stack_1.default spacing={3}>
+                      <MobileDatePicker_1.MobileDatePicker label="Sold Item From:" inputFormat="MM/DD/YYYY" value={valueFrom} onChange={handleChangeDatePickerFrom} renderInput={(params) => <TextField_1.default {...params}/>}/>
+                    </Stack_1.default>
+                  </LocalizationProvider_1.LocalizationProvider>
+                </Box_1.default>
+                <Box_1.default>
+                  <LocalizationProvider_1.LocalizationProvider dateAdapter={AdapterDayjs_1.AdapterDayjs}>
+                    <Stack_1.default spacing={3}>
+                      <MobileDatePicker_1.MobileDatePicker label="Sold Item To:" inputFormat="MM/DD/YYYY" value={valueTo} onChange={handleChangeDatePickerTo} renderInput={(params) => <TextField_1.default {...params}/>}/>
+                    </Stack_1.default>
+                  </LocalizationProvider_1.LocalizationProvider>
+                </Box_1.default>
                 <Box_1.default sx={{ width: 200 }}>
                   <FormControl_1.default fullWidth>
                     <InputLabel_1.default id="category-select-label">
@@ -106,7 +137,7 @@ function Items() {
                 </Box_1.default>
               </Box_1.default>
 
-              {<ItemTable_1.default items={items}/>}
+              {<ItemTable_1.default items={items} from={valueFrom} to={valueTo} displayedCategory={category}/>}
             </div>
           </Box_1.default>
         </Container_1.default>)}

@@ -31,6 +31,16 @@ module.exports = {
                 throw err;
             }
         }),
+        //get item by ID
+        getItem: (_, args) => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                const item = yield Item.findById(args.itemId).populate('category');
+                return item;
+            }
+            catch (err) {
+                throw err;
+            }
+        })
     },
     Mutation: {
         addItem(_, args) {
@@ -49,6 +59,26 @@ module.exports = {
                 const result = yield Item.findById(item._id).populate('category');
                 return result;
             });
-        }
+        },
+        updateItem(_, args) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const item = yield Item.findById(args.itemId).populate('category');
+                if (item) {
+                    item.category = args.itemInput.category;
+                    item.name = args.itemInput.name;
+                    item.price = args.itemInput.price;
+                    item.cost = args.itemInput.cost;
+                    item.sku = args.itemInput.sku;
+                    item.barcode = args.itemInput.barcode;
+                    item.stock = args.itemInput.stock;
+                    item.image = args.itemInput.image;
+                    yield item.save();
+                    return item;
+                }
+                else {
+                    throw new Error('Item not found');
+                }
+            });
+        },
     }
 };

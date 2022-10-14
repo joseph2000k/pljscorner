@@ -70,7 +70,7 @@ function Products() {
         discountedItems = getDiscount.data.getSMDiscounts;
     }
     console.log(discountedItems);
-    const categories = (_a = data.getCategory) === null || _a === void 0 ? void 0 : _a.map((category) => {
+    const categories = (_a = data === null || data === void 0 ? void 0 : data.getCategory) === null || _a === void 0 ? void 0 : _a.map((category) => {
         return createData(category._id, category.categoryName);
     });
     const handleChange = (event, newValue) => {
