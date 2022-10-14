@@ -94,7 +94,6 @@ function ItemTable({ items, from, to, displayedCategory }) {
                 <TableCell_1.default align="right">Category</TableCell_1.default>
                 <TableCell_1.default align="right">Price</TableCell_1.default>
                 <TableCell_1.default align="right">Sku</TableCell_1.default>
-                <TableCell_1.default align="right">Initial Stock</TableCell_1.default>
                 <TableCell_1.default align="right">Current Stock</TableCell_1.default>
                 <TableCell_1.default align="right">Sold</TableCell_1.default>
                 <TableCell_1.default align="right"></TableCell_1.default>

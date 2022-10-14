@@ -92,7 +92,6 @@ export default function ItemTable({ items, from, to, displayedCategory }: any) {
                 <TableCell align="right">Category</TableCell>
                 <TableCell align="right">Price</TableCell>
                 <TableCell align="right">Sku</TableCell>
-                <TableCell align="right">Initial Stock</TableCell>
                 <TableCell align="right">Current Stock</TableCell>
                 <TableCell align="right">Sold</TableCell>
                 <TableCell align="right"></TableCell>
