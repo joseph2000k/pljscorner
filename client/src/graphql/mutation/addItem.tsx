@@ -27,7 +27,9 @@ const UPDATE_ITEM = gql`
       sku
       stock
       image
+      barcode
       category {
+        _id
         categoryName
       }
     }

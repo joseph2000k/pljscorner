@@ -40,6 +40,7 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
     stock: 0,
     barcode: "",
     image: "",
+    category: "",
   });
 
   const [category, setCategory] = useState("");
@@ -61,6 +62,7 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
     stock: number;
     barcode: string;
     image: string;
+    category: string;
   };
 
   useEffect(() => {
@@ -72,25 +74,11 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
       stock: !dataItem?.getItem.stock ? "" : dataItem?.getItem.stock,
       barcode: !dataItem?.getItem.barcode ? "" : dataItem?.getItem.barcode,
       image: !dataItem?.getItem.image ? "" : dataItem?.getItem.image,
+      category: !dataItem?.getItem.category._id ? "" : dataItem?.getItem.category._id,
     });
   }, [dataItem]);
 
-  const { name, price, cost, sku, stock, barcode, image } = formData;
-
-  /*  function updateItemCallback() {
-    updateItem();
-  }
-
-  const { handleChange, handleSubmit, formData } = useForm(updateItemCallback, {
-    name: "",
-    price: 0,
-    cost: 0,
-    sku: "",
-    stock: 0,
-    barcode: "",
-  });
-
-  const { name, price, cost, sku, stock, barcode } = formData as Item; */
+  const { name, price, cost, sku, stock, barcode, image } = formData as Item;
 
   console.log(category);
 
@@ -98,14 +86,15 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
     variables: {
       itemId: itemId,
       itemInput: {
+        category: dataItem?.getItem.category._id,
         name,
         price,
         cost,
         sku,
-        stock,
         barcode,
-        image,
-      },
+        stock,
+        image
+      }
     },
     update(cache, { data: { updateItem } }) {
       const { getItems }: any = cache.readQuery({ query: GET_ALL_ITEMS });
@@ -131,8 +120,14 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
     },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e: any) => {
+    setFormData({
+      ...formData,
+      [e.target.name]:
+        e.target.type === "number"
+          ? parseFloat(e.target.value)
+          : e.target.value,
+    });
   };
 
   if (error) return <p>Something Went Wrong...</p>;
@@ -140,13 +135,13 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
   if (loadingItem || loading) return <div>Loading...</div>;
 
   const handleChangeCategory = (event: SelectChangeEvent) => {
-    setCategory(event.target.value as string);
+    setCategory(event.target.value);
   };
 
   const handleUpdateItem = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     updateItem();
-    console.log(itemId);
+    console.log(dataItem.getItem.category._id)
   };
 
   return (
