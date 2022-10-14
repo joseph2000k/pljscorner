@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -32,6 +32,16 @@ import {
 export default function UpdateItem({ itemId, displayedCategory }: any) {
   const theme = useTheme();
 
+  const [formData, setFormData] = React.useState({
+    name: "",
+    price: 0,
+    cost: 0,
+    sku: "",
+    stock: 0,
+    barcode: "",
+    image: "",
+  });
+
   const [category, setCategory] = useState("");
 
   const { error, data } = useQuery(GET_CATEGORIES);
@@ -50,9 +60,24 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
     sku: string;
     stock: number;
     barcode: string;
+    image: string;
   };
 
-  function updateItemCallback() {
+  useEffect(() => {
+    setFormData({
+      name: !dataItem?.getItem.name ? "" : dataItem?.getItem.name,
+      price: !dataItem?.getItem.price ? "" : dataItem?.getItem.price,
+      cost: !dataItem?.getItem.cost ? "" : dataItem?.getItem.cost,
+      sku: !dataItem?.getItem.sku ? "" : dataItem?.getItem.sku,
+      stock: !dataItem?.getItem.stock ? "" : dataItem?.getItem.stock,
+      barcode: !dataItem?.getItem.barcode ? "" : dataItem?.getItem.barcode,
+      image: !dataItem?.getItem.image ? "" : dataItem?.getItem.image,
+    });
+  }, [dataItem]);
+
+  const { name, price, cost, sku, stock, barcode, image } = formData;
+
+  /*  function updateItemCallback() {
     updateItem();
   }
 
@@ -65,10 +90,13 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
     barcode: "",
   });
 
-  const { name, price, cost, sku, stock, barcode } = formData as Item;
+  const { name, price, cost, sku, stock, barcode } = formData as Item; */
+
+  console.log(category);
 
   const [updateItem, { loading }] = useMutation(UPDATE_ITEM, {
     variables: {
+      itemId: itemId,
       itemInput: {
         name,
         price,
@@ -76,6 +104,7 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
         sku,
         stock,
         barcode,
+        image,
       },
     },
     update(cache, { data: { updateItem } }) {
@@ -102,12 +131,22 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
     },
   });
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   if (error) return <p>Something Went Wrong...</p>;
 
-  if (loadingItem) return <div>Loading...</div>;
+  if (loadingItem || loading) return <div>Loading...</div>;
 
   const handleChangeCategory = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
+  };
+
+  const handleUpdateItem = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    updateItem();
+    console.log(itemId);
   };
 
   return (
@@ -121,7 +160,7 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
             flexDirection: "column",
             alignItems: "center",
           }}
-          onSubmit={handleSubmit}
+          onSubmit={handleUpdateItem}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <CreateIcon />
@@ -151,7 +190,7 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
                   fullWidth
                   autoComplete="given-name"
                   variant="standard"
-                  value={dataItem.getItem.name}
+                  value={name}
                   onChange={handleChange}
                 />
               </Grid>
@@ -187,7 +226,7 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
                   fullWidth
                   autoComplete="given-name"
                   variant="standard"
-                  value={dataItem.getItem.price}
+                  value={price}
                   onChange={handleChange}
                 />
               </Grid>
@@ -200,7 +239,7 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
                   fullWidth
                   autoComplete="family-name"
                   variant="standard"
-                  value={dataItem.getItem.cost}
+                  value={cost}
                   onChange={handleChange}
                 />
               </Grid>
@@ -213,7 +252,7 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
                   fullWidth
                   autoComplete="given-name"
                   variant="standard"
-                  value={dataItem.getItem.sku}
+                  value={sku}
                   onChange={handleChange}
                 />
               </Grid>
@@ -225,7 +264,7 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
                   fullWidth
                   autoComplete="family-name"
                   variant="standard"
-                  value={dataItem.getItem.barcode}
+                  value={barcode}
                   onChange={handleChange}
                 />
               </Grid>
@@ -246,7 +285,7 @@ export default function UpdateItem({ itemId, displayedCategory }: any) {
                   fullWidth
                   autoComplete="family-name"
                   variant="standard"
-                  value={dataItem.getItem.stock}
+                  value={stock}
                   onChange={handleChange}
                 />
               </Grid>
